@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="|${processName} - ${logType} Logs|">Process Logs</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .log-content {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            max-height: 70vh;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .log-toolbar {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .process-info {
+            background-color: #f8f9fa;
+            border-radius: 0.375rem;
+        }
+        .auto-refresh {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/logs">
+                    <i class="bi bi-arrow-left"></i> Back to Processes
+                </a>
+                <div class="navbar-nav">
+                    <span class="navbar-text">
+                        <i class="bi bi-journal-text"></i> 
+                        <span th:text="${processName}">Process</span> - 
+                        <span th:text="${logType}">stdout</span>
+                    </span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Process Info -->
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="process-info p-3">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <strong>Process:</strong> <span th:text="${processName}">-</span>
+                        </div>
+                        <div class="col-md-2">
+                            <strong>Status:</strong> 
+                            <span th:if="${processInfo.pid != null}" class="badge bg-success">
+                                <i class="bi bi-play-circle"></i> Running
+                            </span>
+                            <span th:if="${processInfo.pid == null}" class="badge bg-secondary">
+                                <i class="bi bi-stop-circle"></i> Stopped
+                            </span>
+                        </div>
+                        <div class="col-md-2">
+                            <strong>PID:</strong> 
+                            <span th:if="${processInfo.pid != null}" th:text="${processInfo.pid}">-</span>
+                            <span th:if="${processInfo.pid == null}" class="text-muted">Not running</span>
+                        </div>
+                        <div class="col-md-3">
+                            <strong>Log File:</strong> <span th:text="${logFile}">-</span>
+                        </div>
+                        <div class="col-md-2">
+                            <strong>Started:</strong> 
+                            <span th:if="${processInfo.startTime != null}" 
+                                  th:text="${#temporals.format(processInfo.startTime, 'HH:mm:ss')}">-</span>
+                            <span th:if="${processInfo.startTime == null}" class="text-muted">Never</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Log Controls -->
+        <div class="row mt-3">
+            <div class="col-12">
+                <div class="log-toolbar p-3">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <div class="btn-group" role="group">
+                                <a th:href="@{/logs/{name}(name=${processName}, type='stdout', lines=${lines})}"
+                                   th:class="${logType == 'stdout' ? 'btn btn-primary' : 'btn btn-outline-primary'}">
+                                    <i class="bi bi-file-text"></i> stdout
+                                </a>
+                                <a th:href="@{/logs/{name}(name=${processName}, type='stderr', lines=${lines})}"
+                                   th:class="${logType == 'stderr' ? 'btn btn-danger' : 'btn btn-outline-danger'}">
+                                    <i class="bi bi-exclamation-triangle"></i> stderr
+                                </a>
+                            </div>
+                            
+                            <div class="btn-group ms-3" role="group">
+                                <a th:href="@{/logs/{name}(name=${processName}, type=${logType}, lines=50)}"
+                                   th:class="${lines == 50 ? 'btn btn-secondary' : 'btn btn-outline-secondary'}">
+                                    50 lines
+                                </a>
+                                <a th:href="@{/logs/{name}(name=${processName}, type=${logType}, lines=100)}"
+                                   th:class="${lines == 100 ? 'btn btn-secondary' : 'btn btn-outline-secondary'}">
+                                    100 lines
+                                </a>
+                                <a th:href="@{/logs/{name}(name=${processName}, type=${logType}, lines=500)}"
+                                   th:class="${lines == 500 ? 'btn btn-secondary' : 'btn btn-outline-secondary'}">
+                                    500 lines
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <button class="btn btn-outline-success" onclick="location.reload()">
+                                <i class="bi bi-arrow-clockwise"></i> Refresh
+                            </button>
+                            <div class="form-check form-switch d-inline-block ms-3">
+                                <input class="form-check-input auto-refresh" type="checkbox" id="autoRefresh">
+                                <label class="form-check-label" for="autoRefresh">
+                                    Auto-refresh (5s)
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Log Content -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">
+                            <i th:class="${logType == 'stderr' ? 'bi bi-exclamation-triangle text-danger' : 'bi bi-file-text text-primary'}"></i>
+                            <span th:text="|${processName} - ${logType} (last ${lines} lines)|">Log Content</span>
+                        </h6>
+                    </div>
+                    <div class="card-body p-0">
+                        <pre class="log-content p-3 mb-0" id="logContent" th:text="${logContent}">
+Log content will appear here...
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Auto-refresh functionality
+        let autoRefreshInterval;
+        const autoRefreshCheckbox = document.getElementById('autoRefresh');
+        
+        autoRefreshCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                autoRefreshInterval = setInterval(function() {
+                    location.reload();
+                }, 5000);
+            } else {
+                clearInterval(autoRefreshInterval);
+            }
+        });
+        
+        // Auto-scroll to bottom
+        const logContent = document.getElementById('logContent');
+        logContent.scrollTop = logContent.scrollHeight;
+    </script>
+</body>
+</html>

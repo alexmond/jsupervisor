@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Process Log</title>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/font-awesome/css/all.min.css}" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <i class="fas fa-leaf"></i> Thymeleaf Demo
+        </a>
+        <div class="navbar-nav">
+            <a class="nav-link" href="/">Dashboard</a>
+            <a class="nav-link active" href="/proc">Processes</a>
+            <a class="nav-link" href="/products">Products</a>
+            <a class="nav-link" href="/forms/demo">Forms</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4" th:text="${title}">Process Log</h1>
+
+            <div class="mb-3">
+                <a href="/proc" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Processes
+                </a>
+
+                <a th:if="${procName != null}"
+                   th:href="@{/proc/detail/{name}(name=${proc.name})}"
+                   class="btn btn-info">
+                    <i class="fas fa-info-circle"></i> Process Details
+                </a>
+
+                <button onclick="scrollToBottom()" class="btn btn-secondary float-end">
+                    <i class="fas fa-arrow-down"></i> Scroll to Bottom
+                </button>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Process Info</h5>
+                </div>
+                <div class="col-md-6">
+                    <!-- Reserved space for future process/config info if needed -->
+                </div>
+            </div>
+
+            <div class="card mt-4" style="height: calc(100vh - 250px); width: 100%;">
+                <div class="card-header">
+                    <i class="fas fa-align-left"></i> STDOUT Log
+                </div>
+                <div id="logContent" class="card-body p-0" style="overflow-y: auto;">
+                        <pre class="mb-0"
+                             style="background: #212529; color: #f8f9fa; padding: 1em; min-height: 200px; border-radius: 0;">
+                            <span th:text="${stdoutContents}">No output available.</span>
+                        </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:fragment="scripts">
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script>
+        function scrollToBottom() {
+            const logContent = document.getElementById('logContent');
+            logContent.scrollTop = logContent.scrollHeight;
+        }
+    </script>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,60 @@
+server:
+  port: 8086
+spring:
+  application:
+    name: simple-boot-supervisor
+  task:
+    execution:
+      thread-name-prefix: "process-pool-"
+      pool:
+        core-size: 8
+        max-size: 20
+        queue-capacity: 25
+
+process:
+  name: test
+  command: "java"
+  working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/spring-boot-supervisor/work"
+  stdout-logfile: ${process.working-directory}/stdout.log
+  stderr-logfile: ${process.working-directory}/error.log
+  args:
+    - "-version"
+
+logging:
+  level:
+    root: info
+    sun:
+      rmi: info
+    javax:
+      management:
+        remote:
+          rmi: info
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+
+supervisor:
+  node-name: local
+  process:
+    test:
+      command: "java"
+      working-directory: "work"
+      stdout-logfile: test-stdout.log
+      stderr-logfile: test-stderr.log
+      args:
+      - "-version"
+      shutdown-timeout: 1m
+    sleep:
+      command: "sleep"
+      working-directory: "work"
+      stdout-logfile: sleep-stdout.log
+      stderr-logfile: sleep-stderr.log
+      args:
+        - "10"
+
+
+
+

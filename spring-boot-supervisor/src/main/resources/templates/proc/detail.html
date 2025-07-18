@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">User Details</title>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/font-awesome/css/all.min.css}" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-leaf"></i> Thymeleaf Demo
+            </a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="/">Dashboard</a>
+                <a class="nav-link active" href="/proc">Processes</a>
+                <a class="nav-link" href="/products">Products</a>
+                <a class="nav-link" href="/forms/demo">Forms</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4" th:text="${title}">Process Details</h1>
+                
+                <div class="mb-3">
+                    <a href="/proc" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Processes
+                    </a>
+                    <a th:href="@{/proc/edit/{name}(name=${proc.name})}" class="btn btn-warning">
+                        <i class="fas fa-edit"></i> Edit Process Configuration
+                    </a>
+                </div>
+
+                <div th:if="${proc}" class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Process Information</h5>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td><strong>Name:</strong></td>
+                                        <td th:text="${proc.name}">Process Name</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>PID:</strong></td>
+                                        <td th:text="${proc.pid}">123</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Status:</strong></td>
+                                        <td>
+                                            <span th:if="${proc.isAlive()}" class="badge bg-success">Running</span>
+                                            <span th:unless="${proc.isAlive()}" class="badge bg-secondary">Stopped</span>
+                                        </td>
+                                    </tr>
+<!--                                    <tr>-->
+<!--                                        <td><strong>CPU:</strong></td>-->
+<!--                                        <td th:text="${proc.cpu} + '%'">0.0%</td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td><strong>Memory:</strong></td>-->
+<!--                                        <td th:text="${proc.memory} + ' MB'">0 MB</td>-->
+<!--                                    </tr>-->
+                                    <tr>
+                                        <td><strong>Start Time:</strong></td>
+                                        <td th:text="${proc.startTime}">Start Time</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>End Time:</strong></td>
+                                        <td th:text="${proc.endTime}">Start Time</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Exit Code:</strong></td>
+                                        <td th:text="${proc.exitCode}">Start Time</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <h5>Process Configuration</h5>
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <td><strong>Command:</strong></td>
+                                        <td th:text="${proc.processConfig.command}">Process Name</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Working Directory:</strong></td>
+                                        <td th:text="${proc.processConfig.workingDirectory}">Working Directory</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Arguments:</strong></td>
+                                        <td th:text="${proc.processConfig.args}">Arguments</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Environment Variables:</strong></td>
+                                        <td th:text="${proc.processConfig.env}">Environment Variables</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Standard Output File:</strong></td>
+                                        <td th:text="${proc.processConfig.stdoutLogfile}">Standard Output</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Standard Error File:</strong></td>
+                                        <td th:text="${proc.processConfig.stderrLogfile}">Standard Error</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Whatever to redirect stderr to stdout</strong></td>
+                                        <td th:text="${proc.processConfig.redirectErrorStream}">true</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Append to or overnight log file:</strong></td>
+                                        <td th:text="${proc.processConfig.appendLog}">false</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Shutdown Timeout duration before forcible shutdown:</strong></td>
+                                        <td th:text="${proc.processConfig.shutdownTimeout.toSeconds()}">0</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div th:unless="${proc}" class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i> Process not found.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:fragment="scripts">
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</th:block>
+</body>
+</html>

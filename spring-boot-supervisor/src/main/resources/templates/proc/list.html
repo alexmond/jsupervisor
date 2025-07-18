@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">User List</title>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/webjars/font-awesome/css/all.min.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                Supervisor
+            </a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="/">Dashboard</a>
+                <a class="nav-link active" href="/proc">Processes</a>
+                <a class="nav-link" href="/products">Products</a>
+                <a class="nav-link" href="/forms/demo">Forms</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="mb-4" th:text="${title}">Process Management</h1>
+                
+                <div class="mb-3">
+                    <a href="/proc/refresh" class="btn btn-primary">
+                        Refresh
+                    </a>
+                    <a href="/proc/startAll" class="btn btn-success">
+                        Start All Processes
+                    </a>
+                    <a href="/proc/stopAll" class="btn btn-danger">
+                        Stop All Processes
+                    </a>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div th:if="${#lists.isEmpty(processes)}" class="alert alert-info">
+                            <i class="fas fa-info-circle"></i> No users found.
+                        </div>
+                        
+                        <div th:unless="${#lists.isEmpty(processes)}">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Status</th>
+                                        <th>Process ID</th>
+                                        <th>Up time</th>
+                                        <th>Exit code</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="pr : ${processes}">
+                                        <td th:text="${pr.name}">WEB-TEST</td>
+                                        <td>
+                                            <span th:text="${pr.status}" class="badge bg-success">WEB-TEST</span>
+                                        </td>
+                                        <td th:text="${pr.pid}">WEB-TEST</td>
+<!--                                        <td th:text="${#temporals.format(pr.startTime, 'dd-MM-yyyy HH:mm')}">WEB-TEST</td>-->
+                                        <td th:text="${pr.processUptime}">WEB-TEST</td>
+                                        <td th:text="${pr.exitCode}">WEB-TEST</td>
+                                        <td>
+                                            <a th:unless="${pr.isAlive()}" th:href="@{/proc/start/{id}(id=${pr.name})}" class="btn btn-success btn-sm">Start</a>
+                                            <a th:if="${pr.isAlive()}" th:href="@{/proc/stop/{id}(id=${pr.name})}" class="btn btn-danger btn-sm">Stop</a>
+                                            <a th:href="@{/proc/log/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Log</a>
+                                            <a th:href="@{/proc/details/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Details</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                            <div class="mt-3">
+                                <small class="text-muted">
+                                    Total users: <span th:text="${#lists.size(processes)}">0</span>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <th:block th:fragment="scripts">
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</th:block>
+</body>
+</html>

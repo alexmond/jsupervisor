@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Thymeleaf Demo</title>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/webjars/font-awesome/css/all.min.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                 Supervisor
+            </a>
+            <div class="navbar-nav">
+                <a class="nav-link active" href="/">Dashboard</a>
+                <a class="nav-link" href="/proc">Processes</a>
+                <a class="nav-link" href="/products">Products</a>
+                <a class="nav-link" href="/logs">Logs</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="jumbotron bg-light p-5 rounded">
+                    <h1 class="display-4" th:text="${title}">Welcome</h1>
+                    <p class="lead" th:text="${message}">Welcome message</p>
+                    <hr class="my-4">
+                    <p>This application demonstrates various Thymeleaf features including:</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success"></i> Text interpolation and expressions</li>
+                        <li><i class="fas fa-check text-success"></i> Conditional rendering</li>
+                        <li><i class="fas fa-check text-success"></i> Iteration and loops</li>
+                        <li><i class="fas fa-check text-success"></i> Form handling</li>
+                        <li><i class="fas fa-check text-success"></i> Template layouts</li>
+                        <li><i class="fas fa-check text-success"></i> Internationalization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-users"></i> User Management
+                        </h5>
+                        <p class="card-text">Explore adminUser CRUD operations with Thymeleaf forms and conditional rendering.</p>
+                        <a href="/users" class="btn btn-primary">View Users</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-shopping-cart"></i> Product Catalog
+                        </h5>
+                        <p class="card-text">Browse products with filtering, iteration, and conditional display features.</p>
+                        <a href="/products" class="btn btn-primary">View Products</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-edit"></i> Form Demo
+                        </h5>
+                        <p class="card-text">Test various form elements and validation with Thymeleaf.</p>
+                        <a href="/forms/demo" class="btn btn-primary">Try Forms</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h4 class="alert-heading">
+                        <i class="fas fa-info-circle"></i> Current Date & Time
+                    </h4>
+                    <p>Current server time: <span th:text="${#temporals.format(#temporals.createNow(), 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <th:block th:fragment="scripts">
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    </th:block>
+</body>
+</html>
