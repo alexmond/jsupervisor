@@ -16,6 +16,24 @@
     <properties>
         <spring-boot-admin.version>3.2.3</spring-boot-admin.version>
     </properties>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Alex Mondshain</name>
+            <email>alexmond@users.noreply.github.com</email>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git@github.com:alexmond/spring-boot-supervisor.git</connection>
+        <developerConnection>scm:git:git@github.com:alexmond/spring-boot-supervisor.git</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://github.com/alexmond/spring-boot-actuator-extensions</url>
+    </scm>
     <modules>
         <module>spring-boot-supervisor</module>
         <module>spring-boot-test-app</module>
