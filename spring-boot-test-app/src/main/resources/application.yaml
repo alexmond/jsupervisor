@@ -1,3 +1,31 @@
 spring:
   application:
     name: spring-boot-sample
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+---
+spring:
+  config:
+    activate:
+      on-profile: srv1
+server:
+  port: 8081
+
+---
+spring:
+  config:
+    activate:
+      on-profile: srv2
+server:
+  port: 8082

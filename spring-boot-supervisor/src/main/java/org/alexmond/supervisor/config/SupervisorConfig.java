@@ -20,7 +20,8 @@ import java.util.Map;
 @Data
 public class SupervisorConfig {
 
-    String nodeName = "supervisor";
+    private String nodeName = "supervisor";
+    private String description = "";
 
     /**
      * Collection of process configurations to be supervised
