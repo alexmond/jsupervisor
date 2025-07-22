@@ -11,15 +11,6 @@ spring:
         max-size: 20
         queue-capacity: 25
 
-process:
-  name: test
-  command: "java"
-  working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/spring-boot-supervisor/work"
-  stdout-logfile: ${process.working-directory}/stdout.log
-  stderr-logfile: ${process.working-directory}/error.log
-  args:
-    - "-version"
-
 logging:
   level:
     root: info

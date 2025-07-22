@@ -12,13 +12,14 @@ import org.alexmond.supervisor.repository.ProcessRepository;
 import org.alexmond.supervisor.service.ProcessManager;
 import org.alexmond.supervisor.service.ProcessManagerBulk;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Tag(name = "User Services", description = "User API")
+@Tag(name = "Supervisor", description = "Process API")
 @RestController
 @RequestMapping("/api/v1")
 public class RestProcessController {
@@ -39,8 +40,33 @@ public class RestProcessController {
     }
 
     @PostMapping("/startAll")
+    @Operation(summary = "Start all configured processes")
+    @ApiResponse(responseCode = "200", description = "All processes started successfully")
     public void startAllProcess() throws IOException {
         processManagerBulk.startAll();
+    }
+
+    @PostMapping("/stop/{name}")
+    @Operation(summary = "Stop a specific process")
+    @ApiResponse(responseCode = "200", description = "Process stopped successfully")
+    public void stopProcess(@PathVariable String name) {
+        processManager.stopProcess(name);
+    }
+
+    @PostMapping("/start/{name}")
+    @Operation(summary = "Start a specific process")
+    @ApiResponse(responseCode = "200", description = "Process started successfully")
+    public void startProcess(@PathVariable String name) {
+        processManager.startProcess(name);
+    }
+
+    @PostMapping("/details/{name}")
+    @Operation(summary = "Return the details for a specific process")
+    @ApiResponse(responseCode = "200", description = "Details returned successfully",
+            content = @Content(mediaType = "application/json",
+                    schema = @Schema(implementation = ProcessStatusRest.class)))
+    public ProcessStatusRest processesDetails(@PathVariable String name) {
+        return new ProcessStatusRest(name, processRepository.getRunningProcess(name));
     }
 
 
