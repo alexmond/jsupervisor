@@ -10,47 +10,78 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/">
-            <i class="fas fa-leaf"></i> Thymeleaf Demo
-        </a>
+        <a class="navbar-brand" href="/">Supervisor</a>
         <div class="navbar-nav">
             <a class="nav-link" href="/">Dashboard</a>
             <a class="nav-link active" href="/proc">Processes</a>
             <a class="nav-link" href="/products">Products</a>
-            <a class="nav-link" href="/forms/demo">Forms</a>
+            <a class="nav-link" href="/logs">Logs</a>
         </div>
     </div>
 </nav>
 
-<div class="container mt-4">
+<div class="container-fluid mt-4">
     <div class="row">
         <div class="col-12">
             <h1 class="mb-4" th:text="${title}">Process Log</h1>
-
-            <div class="mb-3">
-                <a href="/proc" class="btn btn-secondary">
-                    <i class="fas fa-arrow-left"></i> Back to Processes
-                </a>
-
-                <a th:if="${procName != null}"
-                   th:href="@{/proc/detail/{name}(name=${proc.name})}"
-                   class="btn btn-info">
-                    <i class="fas fa-info-circle"></i> Process Details
-                </a>
-
-                <button onclick="scrollToBottom()" class="btn btn-secondary float-end">
-                    <i class="fas fa-arrow-down"></i> Scroll to Bottom
-                </button>
-            </div>
 
             <div class="row">
                 <div class="col-md-6">
                     <h5>Process Info</h5>
                 </div>
                 <div class="col-md-6">
-                    <!-- Reserved space for future process/config info if needed -->
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Process ID</th>
+                            <th>Up time</th>
+                            <th>Exit code</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td th:text="${pr.name}">WEB-TEST</td>
+                            <td>
+                                <span th:text="${pr.status}" class="badge bg-success">WEB-TEST</span>
+                            </td>
+                            <td th:text="${pr.pid}">WEB-TEST</td>
+                            <!--                                        <td th:text="${#temporals.format(pr.startTime, 'dd-MM-yyyy HH:mm')}">WEB-TEST</td>-->
+                            <td th:text="${pr.processUptime}">WEB-TEST</td>
+                            <td th:text="${pr.exitCode}">WEB-TEST</td>
+                            <td>
+                                <a th:unless="${pr.isAlive()}" th:href="@{/proc/start/{id}(id=${pr.name})}" class="btn btn-success btn-sm">Start</a>
+                                <a th:if="${pr.isAlive()}" th:href="@{/proc/stop/{id}(id=${pr.name})}" class="btn btn-danger btn-sm">Stop</a>
+                                <a th:if="${pr.isAlive()}" th:href="@{/proc/restart/{id}(id=${pr.name})}" class="btn btn-danger btn-sm">Restart</a>
+                                <a th:href="@{/proc/log/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Log</a>
+                                <a th:href="@{/proc/details/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Details</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+
+            <div class="mb-3">
+                <a href="/proc" class="btn-sm btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Processes
+                </a>
+
+                <a th:if="${procName != null}"
+                   th:href="@{/proc/detail/{name}(name=${proc.name})}"
+                   class="btn-sm btn-info">
+                    <i class="fas fa-info-circle"></i> Process Details
+                </a>
+                <button class="btn-sm btn-secondary float-end" onclick="location.reload()">
+                    <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                </button>
+                <button onclick="scrollToBottom()" class="btn-sm btn-secondary float-end">
+                    <i class="fas fa-arrow-down"></i> Scroll to Bottom
+                </button>
+            </div>
+
 
             <div class="card mt-4" style="height: calc(100vh - 250px); width: 100%;">
                 <div class="card-header">

@@ -45,14 +45,15 @@ public class WebProcessController {
         return "redirect:/proc";
     }
 
-    @GetMapping("/refresh")
-    public String refresh() throws IOException {
-        return "redirect:/proc";
-    }
-
     @GetMapping("/stop/{name}")
     public String stopProcess(@PathVariable String name) {
         processManager.stopProcess(name);
+        return "redirect:/proc";
+    }
+
+    @GetMapping("/restart/{name}")
+    public String restartProcess(@PathVariable String name) {
+        processManager.restartProcess(name);
         return "redirect:/proc";
     }
 
@@ -84,9 +85,15 @@ public class WebProcessController {
             stdoutContents = Files.readString(runningProcess.getStdout().toPath());
         }
         ProcessStatusRest proc = new ProcessStatusRest(name,processRepository.getRunningProcess(name));
-        model.addAttribute("proc", proc);
+        model.addAttribute("pr", proc);
         model.addAttribute("stdoutContents", stdoutContents);
         model.addAttribute("title", "Process Log");
         return "proc/process-log";
     }
+
+    @GetMapping("/refresh")
+    public String refresh() throws IOException {
+        return "redirect:/proc";
+    }
+
 }

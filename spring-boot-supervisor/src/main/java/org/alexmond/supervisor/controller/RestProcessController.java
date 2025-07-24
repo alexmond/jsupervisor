@@ -60,6 +60,14 @@ public class RestProcessController {
         processManager.startProcess(name);
     }
 
+    @PostMapping("/restart/{name}")
+    @Operation(summary = "Restart a specific process")
+    @ApiResponse(responseCode = "200", description = "Process started successfully")
+    @GetMapping("/restart/{name}")
+    public void restartProcess(@PathVariable String name) {
+        processManager.restartProcess(name);
+    }
+
     @PostMapping("/details/{name}")
     @Operation(summary = "Return the details for a specific process")
     @ApiResponse(responseCode = "200", description = "Details returned successfully",

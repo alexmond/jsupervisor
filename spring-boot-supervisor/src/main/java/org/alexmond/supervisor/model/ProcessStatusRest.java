@@ -1,5 +1,6 @@
 package org.alexmond.supervisor.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.alexmond.supervisor.config.ProcessConfig;
 
@@ -11,33 +12,34 @@ import java.time.LocalDateTime;
  * Implements Identifiable interface for consistent ID handling.
  */
 @Data
+@Schema(description = "Represents process status information")
 public class ProcessStatusRest {
 
+    @Schema(description = "Name of the process", example = "myapp")
     private String name;
 
-    /**
-     * Current status of the process (e.g., running, stopped, failed)
-     */
+    @Schema(description = "Current status of the process (e.g., running, stopped, failed)")
     private ProcessStatus status;
-    /**
-     * Process ID assigned by the operating system
-     */
+
+    @Schema(description = "Process ID assigned by the operating system", example = "1234")
     private Long pid;
 
-    /**
-     * Timestamp when the process was started
-     */
+    @Schema(description = "Timestamp when the process was started")
     private LocalDateTime startTime;
-    /**
-     * Configuration settings for the process
-     */
+
+    @Schema(description = "Timestamp when the process ended")
     private LocalDateTime endTime;
+
+    @Schema(description = "Process exit code", example = "0")
     private Integer exitCode;
 
+    @Schema(description = "Process runtime duration", format = "duration")
     private Duration processRuntime;
 
+    @Schema(description = "Formatted process uptime", example = "2d 5h 30m")
     private String processUptime;
 
+    @Schema(description = "Process configuration settings")
     private ProcessConfig processConfig;
 
     public boolean isAlive() {

@@ -29,6 +29,12 @@ public class ProcessManager {
     }
 
     @Async
+    public void restartProcess(String name) {
+        stopProcess(name);
+        startProcess(name);
+    }
+
+    @Async
     public void startProcess(String name){
         ProcessConfig processConfig = processRepository.getRunningProcess(name).getProcessConfig();
         if (processConfig == null) {

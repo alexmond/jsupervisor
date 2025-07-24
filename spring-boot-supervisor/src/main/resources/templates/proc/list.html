@@ -28,9 +28,9 @@
                 <h1 class="mb-4" th:text="${title}">Process Management</h1>
                 
                 <div class="mb-3">
-                    <a href="/proc/refresh" class="btn btn-primary">
-                        Refresh
-                    </a>
+                    <button class="btn  btn-outline-primary" onclick="location.reload()">
+                        <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                    </button>
                     <a href="/proc/startAll" class="btn btn-success">
                         Start All Processes
                     </a>
@@ -42,7 +42,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div th:if="${#lists.isEmpty(processes)}" class="alert alert-info">
-                            <i class="fas fa-info-circle"></i> No users found.
+                            <i class="fas fa-info-circle"></i> No processes found.
                         </div>
                         
                         <div th:unless="${#lists.isEmpty(processes)}">
@@ -70,6 +70,7 @@
                                         <td>
                                             <a th:unless="${pr.isAlive()}" th:href="@{/proc/start/{id}(id=${pr.name})}" class="btn btn-success btn-sm">Start</a>
                                             <a th:if="${pr.isAlive()}" th:href="@{/proc/stop/{id}(id=${pr.name})}" class="btn btn-danger btn-sm">Stop</a>
+                                            <a th:if="${pr.isAlive()}" th:href="@{/proc/restart/{id}(id=${pr.name})}" class="btn btn-danger btn-sm">Restart</a>
                                             <a th:href="@{/proc/log/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Log</a>
                                             <a th:href="@{/proc/details/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Details</a>
                                         </td>
