@@ -7,12 +7,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.alexmond.supervisor.config.SupervisorConfig;
 import org.alexmond.supervisor.model.ProcessStatusRest;
-import org.alexmond.supervisor.model.RunningProcess;
 import org.alexmond.supervisor.repository.ProcessRepository;
 import org.alexmond.supervisor.service.ProcessManager;
 import org.alexmond.supervisor.service.ProcessManagerBulk;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -78,36 +76,15 @@ public class RestProcessController {
     }
 
 
-    @GetMapping("/users")
-    @Operation(summary = "Returns all users", tags = {"User"})
-    @ApiResponse(responseCode = "200", description = "Returns all users",
+    @GetMapping("/allProcesses")
+    @Operation(summary = "Get all configured processes")
+    @ApiResponse(responseCode = "200", description = "List of all processes retrieved successfully",
             content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = RunningProcess.class)))
-    public Collection<ProcessStatusRest> getAll() {
-        return processRepository.findAllProcessStatusRest();
+                    schema = @Schema(implementation = ProcessStatusRest.class)))
+    public Collection<ProcessStatusRest> getAllProcesses() {
+         return processRepository.findAllProcessStatusRest();
     }
 
-//    @PostMapping("/users")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    @Operation(summary = "Register a new user")
-//    @ApiResponse(responseCode = "201", description = "User successfully created",
-//            content = @Content(mediaType = "application/json",
-//                    schema = @Schema(implementation = Process.class)))
-//    public Process register(@RequestParam(defaultValue = "Stranger") String name) {
-//        Process newProcess = new Process(counter.incrementAndGet(), name);
-//        return processRepository.addUser(newProcess);
-//    }
-
-//    @PutMapping("/users/{id}")
-//    @Operation(summary = "Update a user's name")
-//    @ApiResponse(responseCode = "200", description = "User successfully updated",
-//            content = @Content(mediaType = "application/json",
-//                    schema = @Schema(implementation = Process.class)))
-//    public Process updateUser(@PathVariable int id, @RequestParam String newName) {
-//        return processRepository.updateUser(id, newName)
-//                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
-//    }
-//
 //    @DeleteMapping("/users/{id}")
 //    @Operation(summary = "Delete a user")
 //    @ApiResponse(responseCode = "200", description = "User successfully deleted",

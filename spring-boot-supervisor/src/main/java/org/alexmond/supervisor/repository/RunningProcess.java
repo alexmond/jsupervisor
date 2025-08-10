@@ -1,38 +1,62 @@
-package org.alexmond.supervisor.model;
+package org.alexmond.supervisor.repository;
 
 import lombok.Data;
-import lombok.experimental.Delegate;
 import org.alexmond.supervisor.config.ProcessConfig;
+import org.alexmond.supervisor.healthcheck.ActuatorHealthCheck;
+import org.alexmond.supervisor.healthcheck.HealthCheck;
+import org.alexmond.supervisor.healthcheck.HealthCheckFactory;
+import org.alexmond.supervisor.model.ProcessStatus;
 
 import java.io.File;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledFuture;
 
 /**
  * Represents a user entity in the system.
  * Implements Identifiable interface for consistent ID handling.
  */
+
 @Data
 public class RunningProcess {
 
-    @Delegate private ProcessConfig processConfig;
+    private ProcessConfig processConfig;
+    private String processName;
+    private HealthCheck healthCheck;
     private Process process = null;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Integer exitCode;
     private File stdout;
     private File stderr = null;
-
-    public RunningProcess(ProcessConfig processConfig) {
-        this.processConfig = processConfig;
-        if (!processConfig.getRedirectErrorStream()) {
-            stderr =  new File(processConfig.getStderrLogfile());
-        }
-        stdout = new File(processConfig.getStdoutLogfile());
-    }
-
     private CompletableFuture<Void> completableFuture = null;
+    private ScheduledFuture<?> scheduledFuture = null;
+    private String stdoutLogfile;
+    private String stderrLogfile;
+
+    public RunningProcess(String processName,ProcessConfig processConfig) {
+        this.processName = processName;
+        this.processConfig = processConfig;
+
+        if (!processConfig.getRedirectErrorStream()) {
+            if (processConfig.getStderrLogfile() != null) {
+                stderrLogfile = processConfig.getStderrLogfile();
+            }else{
+                stderrLogfile = processName+"-stderr.log";
+            }
+            stderr =  new File(stderrLogfile);
+        }
+
+        if (processConfig.getStdoutLogfile() != null) {
+            stdoutLogfile = processConfig.getStdoutLogfile();
+        } else {
+            stdoutLogfile = processName + "-stdout.log";
+        }
+
+        stdout = new File(processConfig.getStdoutLogfile());
+        healthCheck = HealthCheckFactory.getHealthCheck(processConfig);
+    }
 
     public boolean isProcessRunning() {
         return process != null && process.isAlive();
@@ -46,19 +70,19 @@ public class RunningProcess {
 
     public ProcessStatus getProcessStatus() {
         if (process == null && startTime == null) {
-            return ProcessStatus.NOT_STARTED;
+            return ProcessStatus.not_started;
         } else if (process != null && process.isAlive()) {
-            return ProcessStatus.RUNNING;
+            return ProcessStatus.running;
         } else if (endTime != null) {
             return switch (exitCode) {
-                case 0 -> ProcessStatus.FINISHED;
-                case 1 -> ProcessStatus.FAILED;
-                case 143 -> ProcessStatus.STOPPED;
-                case 137 -> ProcessStatus.ABORTED;
-                default -> ProcessStatus.UNKNOWN;
+                case 0 -> ProcessStatus.finished;
+                case 1 -> ProcessStatus.failed;
+                case 143 -> ProcessStatus.stopped;
+                case 137 -> ProcessStatus.aborted;
+                default -> ProcessStatus.unknown;
             };
         } else {
-            return ProcessStatus.UNKNOWN;
+            return ProcessStatus.unknown;
         }
     }
 

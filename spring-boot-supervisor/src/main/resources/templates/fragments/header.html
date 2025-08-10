@@ -1,0 +1,12 @@
+<div th:fragment="header(title)">
+    <head th:fragment="pageHead(title)">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" type="image/jpg" href="/images/gear-wide-connected.jpg">
+        <title th:text="${title}">Default Title</title>
+        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+        <link th:href="@{/webjars/font-awesome/css/all.min.css}" rel="stylesheet">
+        <link th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css}" rel="stylesheet">
+      </head>
+</div>
+

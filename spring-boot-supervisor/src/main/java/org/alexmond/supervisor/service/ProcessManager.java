@@ -4,12 +4,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.alexmond.supervisor.config.ProcessConfig;
 import org.alexmond.supervisor.config.SupervisorConfig;
 import org.alexmond.supervisor.repository.ProcessRepository;
+import org.alexmond.supervisor.repository.RunningProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -20,6 +23,9 @@ public class ProcessManager {
     private final SupervisorConfig supervisorConfig;
     private final ProcessRepository processRepository;
     private final ProcessManagerMonitor processManagerMonitor;
+    private final
+    @Autowired
+    ThreadPoolTaskScheduler threadPoolTaskScheduler;
 
     @Autowired
     public ProcessManager(SupervisorConfig supervisorConfig, ProcessRepository processRepository,ProcessManagerMonitor processManagerMonitor) {
@@ -36,17 +42,18 @@ public class ProcessManager {
 
     @Async
     public void startProcess(String name){
-        ProcessConfig processConfig = processRepository.getRunningProcess(name).getProcessConfig();
+        var runningProcess = processRepository.getRunningProcess(name);
+        ProcessConfig processConfig = runningProcess.getProcessConfig();
         if (processConfig == null) {
             throw new IllegalArgumentException("No process config found for: " + name);
         }
 
-        if (processRepository.getRunningProcess(name).getProcess() != null) {
-            log.error("Process {} is already running with pid {}",name,processRepository.getRunningProcess(name).getProcess().pid());
+        if (runningProcess.getProcess() != null) {
+            log.error("Process {} is already running with pid {}",name,runningProcess.getProcess().pid());
             return;
         }
 
-        processRepository.getRunningProcess(name).reset();
+        runningProcess.reset();
 
         try {
             List<String> command = new ArrayList<>();
@@ -62,15 +69,15 @@ public class ProcessManager {
             } else {
                 if(processConfig.getAppendLog())
                     processBuilder.redirectError(
-                            ProcessBuilder.Redirect.appendTo(processRepository.getRunningProcess(name).getStderr()));
+                            ProcessBuilder.Redirect.appendTo(runningProcess.getStderr()));
                 else
-                    processBuilder.redirectError( processRepository.getRunningProcess(name).getStderr());
+                    processBuilder.redirectError( runningProcess.getStderr());
             }
             if(processConfig.getAppendLog())
                 processBuilder.redirectOutput(
-                        ProcessBuilder.Redirect.appendTo(processRepository.getRunningProcess(name).getStdout()));
+                        ProcessBuilder.Redirect.appendTo(runningProcess.getStdout()));
             else
-                processBuilder.redirectOutput( processRepository.getRunningProcess(name).getStdout());
+                processBuilder.redirectOutput( runningProcess.getStdout());
 
             Map<String, String> environment = processBuilder.environment();
             environment.putAll(processConfig.getEnv());
@@ -80,21 +87,27 @@ public class ProcessManager {
             
             // Record start time
             LocalDateTime startTime = LocalDateTime.now();
-            processRepository.getRunningProcess(name).setStartTime(startTime);
+            runningProcess.setStartTime(startTime);
             
             // Store process references
-            processRepository.getRunningProcess(name).setProcess(proc);
-            processRepository.getRunningProcess(name).setStartTime(startTime);
+            runningProcess.setProcess(proc);
+            runningProcess.setStartTime(startTime);
             
             log.info("Process '{}' started with PID: {} at {}", name, proc.pid(), startTime);
+
+            if(runningProcess.getHealthCheck() != null) {
+                runningProcess.setScheduledFuture(
+                        threadPoolTaskScheduler.
+                                scheduleAtFixedRate(runningProcess.getHealthCheck(), Duration.ofSeconds(30)));
+            }
             
             // Monitor process completion asynchronously using Spring's thread pool
             CompletableFuture<Void> future = processManagerMonitor.monitorProcessCompletion(name, proc, startTime);
-            processRepository.getRunningProcess(name).setCompletableFuture(future);
+            runningProcess.setCompletableFuture(future);
             
         } catch (IOException e) {
             log.error("Failed to start process: {}", name, e);
-            processRepository.getRunningProcess(name).setProcess(null);
+            runningProcess.setProcess(null);
         }
     }
 
@@ -104,6 +117,10 @@ public class ProcessManager {
         if (process != null) {
             log.info("Stopping process: {}", name);
             // Try graceful shutdown first
+            if (processRepository.getRunningProcess(name).getScheduledFuture() != null) {
+                log.info("Stopping Health check for: {}", name);
+                processRepository.getRunningProcess(name).getScheduledFuture().cancel(true);
+            }
             process.destroy();
             try {
                 boolean exited = process.waitFor( processRepository.getRunningProcess(name).getProcessConfig().getShutdownTimeout().toSeconds(), java.util.concurrent.TimeUnit.SECONDS);

@@ -2,10 +2,8 @@ package org.alexmond.supervisor.repository;
 
 import org.alexmond.supervisor.config.SupervisorConfig;
 import org.alexmond.supervisor.model.ProcessStatusRest;
-import org.alexmond.supervisor.model.RunningProcess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -18,7 +16,7 @@ public class ProcessRepository {
     @Autowired
     public ProcessRepository(SupervisorConfig supervisorConfig) {
         for(var processConfig : supervisorConfig.getProcess().entrySet()){
-            runningProcesses.put(processConfig.getKey(),new RunningProcess(processConfig.getValue()));
+            runningProcesses.put(processConfig.getKey(),new RunningProcess(processConfig.getKey(),processConfig.getValue()));
         }
     }
 

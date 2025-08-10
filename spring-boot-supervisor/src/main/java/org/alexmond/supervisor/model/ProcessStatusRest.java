@@ -3,6 +3,7 @@ package org.alexmond.supervisor.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.alexmond.supervisor.config.ProcessConfig;
+import org.alexmond.supervisor.repository.RunningProcess;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -42,12 +43,18 @@ public class ProcessStatusRest {
     @Schema(description = "Process configuration settings")
     private ProcessConfig processConfig;
 
+    @Schema(description = "File path where the standard output (stdout) of the process will be logged. If not specified, stdout will be inherited from the parent process.")
+    private String stdoutLogfile;
+
+    @Schema(description = "File path where the standard error (stderr) of the process will be logged. If not specified, stderr will be inherited from the parent process.")
+    private String stderrLogfile;
+
     public boolean isAlive() {
         return pid != null;
     }
 
 
-    public ProcessStatusRest(String name,RunningProcess runningProcess) {
+    public ProcessStatusRest(String name, RunningProcess runningProcess) {
         this.name = name;
         this.startTime= runningProcess.getStartTime();
         this.endTime = runningProcess.getEndTime();
@@ -55,6 +62,9 @@ public class ProcessStatusRest {
         processConfig = runningProcess.getProcessConfig();
         processRuntime = runningProcess.getProcessRuntime();
         processUptime = runningProcess.getProcessRuntimeFormatted();
+        stdoutLogfile = runningProcess.getStdoutLogfile();
+        stderrLogfile = runningProcess.getStderrLogfile();
+
         if (runningProcess.getProcess() != null) {
             pid = runningProcess.getProcess().pid();
         }

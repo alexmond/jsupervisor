@@ -1,12 +1,15 @@
 package org.alexmond.supervisor.model;
 
 public enum ProcessStatus {
-    NOT_STARTED,
-    RUNNING,
-    FINISHED,
-    UNKNOWN,
-    FAILED,
-    STOPPED,
-    ABORTED,
-    STARTING
+    not_started,
+    running,
+    finished,
+    unknown,
+    failed,
+    failed_to_start,
+    stopped,
+    aborted,
+    starting,
+    healthy,
+    unhealthy
 }

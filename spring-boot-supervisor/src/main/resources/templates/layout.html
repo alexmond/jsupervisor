@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--<html xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">-->
+<head th:replace="~{fragments/header :: header(${title})}"></head>
+<body>
+    <header>
+        <div th:replace="~{fragments/navbar :: navbar}"></div>
+        <!-- Theme switcher control -->
+<!--        <div style="margin: 1rem;">-->
+<!--            <label for="themeSwitch" style="cursor:pointer;">-->
+<!--                <input type="checkbox" id="themeSwitch" style="vertical-align:middle;margin-right:0.5em;">-->
+<!--                Light Theme-->
+<!--            </label>-->
+<!--        </div>-->
+    </header>
+    <main>
+        <div th:replace="${content}"></div>
+    </main>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+
+<!--    <script>-->
+<!--    // Function to switch theme-->
+<!--    function setBsTheme(theme) {-->
+<!--        document.documentElement.setAttribute("data-bs-theme", theme);-->
+<!--        localStorage.setItem("bsTheme", theme);-->
+<!--    }-->
+
+<!--    // On page load, set the correct theme and switch state-->
+<!--    document.addEventListener("DOMContentLoaded", function() {-->
+<!--        const switcher = document.getElementById("themeSwitch");-->
+<!--        const storedTheme = localStorage.getItem("bsTheme") || "dark";-->
+<!--        setBsTheme(storedTheme);-->
+<!--        switcher.checked = storedTheme === "light";-->
+
+<!--        switcher.addEventListener("change", function() {-->
+<!--            setBsTheme(this.checked ? "light" : "dark");-->
+<!--        });-->
+<!--    });-->
+<!--    </script>-->
+</body>
+</html>

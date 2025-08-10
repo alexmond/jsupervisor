@@ -1,37 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${title}">User Details</title>
-    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/webjars/font-awesome/css/all.min.css}" rel="stylesheet">
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                <i class="fas fa-leaf"></i> Thymeleaf Demo
-            </a>
-            <div class="navbar-nav">
-                <a class="nav-link" href="/">Dashboard</a>
-                <a class="nav-link active" href="/proc">Processes</a>
-                <a class="nav-link" href="/products">Products</a>
-                <a class="nav-link" href="/forms/demo">Forms</a>
-            </div>
-        </div>
-    </nav>
-
     <div class="container mt-4">
         <div class="row">
             <div class="col-12">
                 <h1 class="mb-4" th:text="${title}">Process Details</h1>
                 
                 <div class="mb-3">
-                    <a href="/proc" class="btn btn-secondary">
+                    <a href="/" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Back to Processes
                     </a>
-                    <a th:href="@{/proc/edit/{name}(name=${proc.name})}" class="btn btn-warning">
+                    <a th:href="@{/edit/{name}(name=${proc.name})}" class="btn btn-warning">
                         <i class="fas fa-edit"></i> Edit Process Configuration
                     </a>
                 </div>

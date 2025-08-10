@@ -1,26 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${title}">User List</title>
-    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
-    <link th:href="@{/webjars/font-awesome/css/all.min.css}" rel="stylesheet" type="text/css">
-</head>
-<body>
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/">
-                Supervisor
-            </a>
-            <div class="navbar-nav">
-                <a class="nav-link" href="/">Dashboard</a>
-                <a class="nav-link active" href="/proc">Processes</a>
-                <a class="nav-link" href="/products">Products</a>
-                <a class="nav-link" href="/forms/demo">Forms</a>
-            </div>
-        </div>
-    </nav>
 
     <div class="container mt-4">
         <div class="row">
@@ -31,10 +10,10 @@
                     <button class="btn  btn-outline-primary" onclick="location.reload()">
                         <i class="fa-solid fa-arrows-rotate"></i> Refresh
                     </button>
-                    <a href="/proc/startAll" class="btn btn-success">
+                    <a href="/startAll" class="btn btn-success">
                         Start All Processes
                     </a>
-                    <a href="/proc/stopAll" class="btn btn-danger">
+                    <a href="/stopAll" class="btn btn-danger">
                         Stop All Processes
                     </a>
                 </div>
@@ -61,18 +40,19 @@
                                     <tr th:each="pr : ${processes}">
                                         <td th:text="${pr.name}">WEB-TEST</td>
                                         <td>
-                                            <span th:text="${pr.status}" class="badge bg-success">WEB-TEST</span>
+                                            <span th:text="${pr.status}"
+                                                  class="badge " th:classappend="${uiconfig.uiStatusClass[pr.status]}" >WEB-TEST</span>
                                         </td>
                                         <td th:text="${pr.pid}">WEB-TEST</td>
 <!--                                        <td th:text="${#temporals.format(pr.startTime, 'dd-MM-yyyy HH:mm')}">WEB-TEST</td>-->
                                         <td th:text="${pr.processUptime}">WEB-TEST</td>
                                         <td th:text="${pr.exitCode}">WEB-TEST</td>
                                         <td>
-                                            <a th:unless="${pr.isAlive()}" th:href="@{/proc/start/{id}(id=${pr.name})}" class="btn btn-success btn-sm">Start</a>
-                                            <a th:if="${pr.isAlive()}" th:href="@{/proc/stop/{id}(id=${pr.name})}" class="btn btn-danger btn-sm">Stop</a>
-                                            <a th:if="${pr.isAlive()}" th:href="@{/proc/restart/{id}(id=${pr.name})}" class="btn btn-danger btn-sm">Restart</a>
-                                            <a th:href="@{/proc/log/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Log</a>
-                                            <a th:href="@{/proc/details/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Details</a>
+                                            <a th:unless="${pr.isAlive()}" th:href="@{/start/{id}(id=${pr.name})}" class="btn btn-success btn-sm">Start</a>
+                                            <a th:if="${pr.isAlive()}" th:href="@{/stop/{id}(id=${pr.name})}" class="btn btn-danger btn-sm">Stop</a>
+                                            <a th:if="${pr.isAlive()}" th:href="@{/restart/{id}(id=${pr.name})}" class="btn btn-danger btn-sm">Restart</a>
+                                            <a th:href="@{/log/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Log</a>
+                                            <a th:href="@{/details/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Details</a>
                                         </td>
                                     </tr>
                                 </tbody>

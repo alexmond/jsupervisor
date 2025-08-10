@@ -1,31 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${title}">Process Log</title>
-    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/webjars/font-awesome/css/all.min.css}" rel="stylesheet">
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">Supervisor</a>
-        <div class="navbar-nav">
-            <a class="nav-link" href="/">Dashboard</a>
-            <a class="nav-link active" href="/proc">Processes</a>
-            <a class="nav-link" href="/products">Products</a>
-            <a class="nav-link" href="/logs">Logs</a>
-        </div>
-    </div>
-</nav>
 
 <div class="container-fluid mt-4">
     <div class="row">
         <div class="col-12">
             <h1 class="mb-4" th:text="${title}">Process Log</h1>
 
-            <div class="row">
+            <div>
                 <div class="col-md-6">
                     <h5>Process Info</h5>
                 </div>
@@ -45,18 +26,18 @@
                         <tr>
                             <td th:text="${pr.name}">WEB-TEST</td>
                             <td>
-                                <span th:text="${pr.status}" class="badge bg-success">WEB-TEST</span>
+                                <span th:text="${pr.status}" class="badge " th:classappend="${uiconfig.uiStatusClass[pr.status]}" >WEB-TEST</span>
                             </td>
                             <td th:text="${pr.pid}">WEB-TEST</td>
                             <!--                                        <td th:text="${#temporals.format(pr.startTime, 'dd-MM-yyyy HH:mm')}">WEB-TEST</td>-->
                             <td th:text="${pr.processUptime}">WEB-TEST</td>
                             <td th:text="${pr.exitCode}">WEB-TEST</td>
                             <td>
-                                <a th:unless="${pr.isAlive()}" th:href="@{/proc/start/{id}(id=${pr.name})}" class="btn btn-success btn-sm">Start</a>
-                                <a th:if="${pr.isAlive()}" th:href="@{/proc/stop/{id}(id=${pr.name})}" class="btn btn-danger btn-sm">Stop</a>
-                                <a th:if="${pr.isAlive()}" th:href="@{/proc/restart/{id}(id=${pr.name})}" class="btn btn-danger btn-sm">Restart</a>
-                                <a th:href="@{/proc/log/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Log</a>
-                                <a th:href="@{/proc/details/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Details</a>
+                                <a th:unless="${pr.isAlive()}" th:href="@{/start/{id}(id=${pr.name})}" class="btn btn-success btn-sm">Start</a>
+                                <a th:if="${pr.isAlive()}" th:href="@{/stop/{id}(id=${pr.name})}" class="btn btn-danger btn-sm">Stop</a>
+                                <a th:if="${pr.isAlive()}" th:href="@{/restart/{id}(id=${pr.name})}" class="btn btn-danger btn-sm">Restart</a>
+                                <a th:href="@{/log/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Log</a>
+                                <a th:href="@{/details/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Details</a>
                             </td>
                         </tr>
                         </tbody>
@@ -65,12 +46,12 @@
             </div>
 
             <div class="mb-3">
-                <a href="/proc" class="btn-sm btn-secondary">
+                <a href="/" class="btn btn-secondary">
                     <i class="fas fa-arrow-left"></i> Back to Processes
                 </a>
 
                 <a th:if="${procName != null}"
-                   th:href="@{/proc/detail/{name}(name=${proc.name})}"
+                   th:href="@{/detail/{name}(name=${proc.name})}"
                    class="btn-sm btn-info">
                     <i class="fas fa-info-circle"></i> Process Details
                 </a>
