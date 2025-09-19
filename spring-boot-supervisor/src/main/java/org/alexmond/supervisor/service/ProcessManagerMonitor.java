@@ -1,6 +1,9 @@
 package org.alexmond.supervisor.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alexmond.supervisor.model.ProcessEvent;
+import org.alexmond.supervisor.model.ProcessStatus;
+import org.alexmond.supervisor.repository.EventRepository;
 import org.alexmond.supervisor.repository.ProcessRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -19,6 +22,8 @@ public class ProcessManagerMonitor {
         this.processRepository = processRepository;
     }
 
+    @Autowired
+    private EventRepository eventRepository;
 
     @Async
     public CompletableFuture<Void> monitorProcessCompletion(String name, Process proc, LocalDateTime startTime) {
@@ -27,7 +32,16 @@ public class ProcessManagerMonitor {
             LocalDateTime endTime = LocalDateTime.now();
             processRepository.getRunningProcess(name).setEndTime(endTime);
             processRepository.getRunningProcess(name).setExitCode(exitCode);
-
+            ProcessStatus newStatus;
+          switch (exitCode) {
+                case 0 -> newStatus = ProcessStatus.finished;
+                case 1 -> newStatus = ProcessStatus.failed;
+                case 143 -> newStatus = ProcessStatus.stopped;
+                case 137 ->  newStatus = ProcessStatus.aborted;
+                default -> newStatus = ProcessStatus.unknown;
+            };
+            eventRepository.save(new ProcessEvent(processRepository.getRunningProcess(name), newStatus));
+            processRepository.getRunningProcess(name).setProcessStatus(newStatus);
             log.info("Process '{}' ended with exit code: {} after running for: {}", 
                     name, exitCode, processRepository.getRunningProcess(name).getProcessRuntimeFormatted());
             

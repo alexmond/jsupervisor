@@ -30,6 +30,7 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Status</th>
+                                        <th>URL</th>
                                         <th>Process ID</th>
                                         <th>Up time</th>
                                         <th>Exit code</th>
@@ -42,6 +43,12 @@
                                         <td>
                                             <span th:text="${pr.status}"
                                                   class="badge " th:classappend="${uiconfig.uiStatusClass[pr.status]}" >WEB-TEST</span>
+                                        </td>
+                                        <td>
+                                            <a th:if="${!#strings.isEmpty(pr.getProcessConfig().getUrl())}"
+                                               th:href="${pr.getProcessConfig().getUrl()}"
+                                               th:text="${pr.getProcessConfig().getUrl()}" target="_blank">WEB-TEST</a>
+                                            <span th:if="${#strings.isEmpty(pr.getProcessConfig().getUrl())}">-</span>
                                         </td>
                                         <td th:text="${pr.pid}">WEB-TEST</td>
 <!--                                        <td th:text="${#temporals.format(pr.startTime, 'dd-MM-yyyy HH:mm')}">WEB-TEST</td>-->
@@ -60,7 +67,7 @@
                             
                             <div class="mt-3">
                                 <small class="text-muted">
-                                    Total users: <span th:text="${#lists.size(processes)}">0</span>
+                                    Total processes: <span th:text="${#lists.size(processes)}">0</span>
                                 </small>
                             </div>
                         </div>

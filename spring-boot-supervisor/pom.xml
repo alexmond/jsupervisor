@@ -38,6 +38,7 @@
         <font-awesome.version>6.5.1</font-awesome.version>
         <bootstrap-icons.version>1.13.1</bootstrap-icons.version>
         <commons-io.version>2.20.0</commons-io.version>
+        <spring-boot-config-json-schema.version>1.0.2</spring-boot-config-json-schema.version>
     </properties>
     <dependencies>
         <dependency>
@@ -86,6 +87,16 @@
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5</artifactId>
         </dependency>
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>${spring-boot-admin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.alexmond</groupId>
+            <artifactId>spring-boot-config-json-schema-starter</artifactId>
+            <version>${spring-boot-config-json-schema.version}</version>
+        </dependency>
 
         <!-- WebJars Dependencies -->
         <dependency>
@@ -106,11 +117,6 @@
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>webjars-locator-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
-            <version>${spring-boot-admin.version}</version>
         </dependency>
     </dependencies>
 

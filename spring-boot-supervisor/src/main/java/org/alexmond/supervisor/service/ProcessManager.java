@@ -3,6 +3,9 @@ package org.alexmond.supervisor.service;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.supervisor.config.ProcessConfig;
 import org.alexmond.supervisor.config.SupervisorConfig;
+import org.alexmond.supervisor.model.ProcessEvent;
+import org.alexmond.supervisor.model.ProcessStatus;
+import org.alexmond.supervisor.repository.EventRepository;
 import org.alexmond.supervisor.repository.ProcessRepository;
 import org.alexmond.supervisor.repository.RunningProcess;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +26,16 @@ public class ProcessManager {
     private final SupervisorConfig supervisorConfig;
     private final ProcessRepository processRepository;
     private final ProcessManagerMonitor processManagerMonitor;
-    private final
-    @Autowired
-    ThreadPoolTaskScheduler threadPoolTaskScheduler;
+    private final ThreadPoolTaskScheduler threadPoolTaskScheduler;
+    private final EventRepository eventRepository;
 
     @Autowired
-    public ProcessManager(SupervisorConfig supervisorConfig, ProcessRepository processRepository,ProcessManagerMonitor processManagerMonitor) {
+    public ProcessManager(SupervisorConfig supervisorConfig, ProcessRepository processRepository, ProcessManagerMonitor processManagerMonitor, ThreadPoolTaskScheduler threadPoolTaskScheduler, EventRepository eventRepository) {
         this.supervisorConfig = supervisorConfig;
         this.processRepository = processRepository;
         this.processManagerMonitor = processManagerMonitor;
+        this.threadPoolTaskScheduler = threadPoolTaskScheduler;
+        this.eventRepository = eventRepository;
     }
 
     @Async
@@ -52,8 +56,9 @@ public class ProcessManager {
             log.error("Process {} is already running with pid {}",name,runningProcess.getProcess().pid());
             return;
         }
-
         runningProcess.reset();
+        eventRepository.save(new ProcessEvent(runningProcess,ProcessStatus.starting));
+        runningProcess.setProcessStatus(ProcessStatus.starting);
 
         try {
             List<String> command = new ArrayList<>();
@@ -92,6 +97,8 @@ public class ProcessManager {
             // Store process references
             runningProcess.setProcess(proc);
             runningProcess.setStartTime(startTime);
+            eventRepository.save(new ProcessEvent(runningProcess,ProcessStatus.running));
+            runningProcess.setProcessStatus(ProcessStatus.running);
             
             log.info("Process '{}' started with PID: {} at {}", name, proc.pid(), startTime);
 
@@ -108,34 +115,46 @@ public class ProcessManager {
         } catch (IOException e) {
             log.error("Failed to start process: {}", name, e);
             runningProcess.setProcess(null);
+            eventRepository.save(new ProcessEvent(runningProcess,ProcessStatus.failed));
+            runningProcess.setProcessStatus(ProcessStatus.failed);
         }
     }
 
     @Async
     public void stopProcess(String name) {
-        Process process = processRepository.getRunningProcess(name).getProcess();
+        RunningProcess runningProcess = processRepository.getRunningProcess(name);
+        Process process = runningProcess.getProcess();
         if (process != null) {
             log.info("Stopping process: {}", name);
+            eventRepository.save(new ProcessEvent(runningProcess,ProcessStatus.stopping));
+            runningProcess.setProcessStatus(ProcessStatus.stopping);
             // Try graceful shutdown first
-            if (processRepository.getRunningProcess(name).getScheduledFuture() != null) {
+            if (runningProcess.getScheduledFuture() != null) {
                 log.info("Stopping Health check for: {}", name);
-                processRepository.getRunningProcess(name).getScheduledFuture().cancel(true);
+                runningProcess.getScheduledFuture().cancel(true);
             }
             process.destroy();
             try {
-                boolean exited = process.waitFor( processRepository.getRunningProcess(name).getProcessConfig().getShutdownTimeout().toSeconds(), java.util.concurrent.TimeUnit.SECONDS);
+                boolean exited = process.waitFor( runningProcess.getProcessConfig().getShutdownTimeout().toSeconds(), java.util.concurrent.TimeUnit.SECONDS);
                 if (!exited) {
                     log.warn("Process {} did not exit gracefully, force killing...", name);
                     process.destroyForcibly();
+                    eventRepository.save(new ProcessEvent(runningProcess,ProcessStatus.aborted));
+                    runningProcess.setProcessStatus(ProcessStatus.aborted);
+                }else{
+                    eventRepository.save(new ProcessEvent(runningProcess,ProcessStatus.stopped));
+                    runningProcess.setProcessStatus(ProcessStatus.stopped);
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 log.warn("Interrupted while waiting for process to stop: {}", name);
+                eventRepository.save(new ProcessEvent(runningProcess,ProcessStatus.unknown));
+                runningProcess.setProcessStatus(ProcessStatus.unknown);
             }
 
             // Clean up
-            processRepository.getRunningProcess(name).setProcess(null);
-            processRepository.getRunningProcess(name).setCompletableFuture(null);
+            runningProcess.setProcess(null);
+            runningProcess.setCompletableFuture(null);
         }
     }
 

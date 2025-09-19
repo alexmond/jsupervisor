@@ -3,6 +3,7 @@ package org.alexmond.supervisor.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.supervisor.config.SupervisorConfig;
 import org.alexmond.supervisor.model.ProcessStatusRest;
+import org.alexmond.supervisor.repository.EventRepository;
 import org.alexmond.supervisor.repository.RunningProcess;
 import org.alexmond.supervisor.repository.ProcessRepository;
 import org.alexmond.supervisor.service.ProcessManager;
@@ -26,13 +27,15 @@ public class WebProcessController {
     private final ProcessManager processManager;
     private final ProcessManagerBulk processManagerBulk;
     private final SupervisorConfig supervisorConfig;
+    private final EventRepository eventRepository;
 
     public WebProcessController(ProcessRepository processRepository, ProcessManager processManager,
-                                ProcessManagerBulk processManagerBulk, SupervisorConfig supervisorConfig) {
+                                ProcessManagerBulk processManagerBulk, SupervisorConfig supervisorConfig, EventRepository eventRepository) {
         this.processRepository = processRepository;
         this.processManager = processManager;
         this.processManagerBulk = processManagerBulk;
         this.supervisorConfig = supervisorConfig;
+        this.eventRepository = eventRepository;
     }
 
     @GetMapping({"/","/index"})
@@ -109,6 +112,16 @@ public class WebProcessController {
         model.addAttribute("content", "proc/process-log");
         model.addAttribute("uiconfig", supervisorConfig.getUiConfig());
         return "layout";
+    }
+
+    @GetMapping("/events")
+    public String getEvents(Model model) throws IOException {
+        model.addAttribute("events", eventRepository.findAll());
+        model.addAttribute("title", "Events");
+        model.addAttribute("content", "proc/events");
+        model.addAttribute("uiconfig", supervisorConfig.getUiConfig());
+        return "layout";
+//        return "proc/events";
     }
 
 }

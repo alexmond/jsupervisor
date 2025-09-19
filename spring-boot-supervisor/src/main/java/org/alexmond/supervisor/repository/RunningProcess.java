@@ -1,6 +1,10 @@
 package org.alexmond.supervisor.repository;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.Synchronized;
+import lombok.extern.slf4j.Slf4j;
 import org.alexmond.supervisor.config.ProcessConfig;
 import org.alexmond.supervisor.healthcheck.ActuatorHealthCheck;
 import org.alexmond.supervisor.healthcheck.HealthCheck;
@@ -19,8 +23,10 @@ import java.util.concurrent.ScheduledFuture;
  */
 
 @Data
+@Slf4j
 public class RunningProcess {
 
+    private RunningProcess runningProcess;
     private ProcessConfig processConfig;
     private String processName;
     private HealthCheck healthCheck;
@@ -34,6 +40,43 @@ public class RunningProcess {
     private ScheduledFuture<?> scheduledFuture = null;
     private String stdoutLogfile;
     private String stderrLogfile;
+    private ProcessStatus processStatus = ProcessStatus.not_started;
+
+    @Synchronized
+    public void setProcess(Process process) {
+        this.process = process;
+    }
+
+    @Synchronized
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    @Synchronized
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    @Synchronized
+    public void setExitCode(Integer exitCode) {
+        this.exitCode = exitCode;
+    }
+
+    @Synchronized
+    public void setProcessStatus(ProcessStatus processStatus) {
+        log.info("setProcessStatus {}", processStatus);
+        this.processStatus = processStatus;
+    }
+    @Synchronized
+    public void setCompletableFuture(CompletableFuture<Void> completableFuture) {
+        this.completableFuture = completableFuture;
+    }
+    @Synchronized
+    public void setScheduledFuture(ScheduledFuture<?> scheduledFuture) {
+        this.scheduledFuture = scheduledFuture;
+    }
+
+
 
     public RunningProcess(String processName,ProcessConfig processConfig) {
         this.processName = processName;
@@ -62,29 +105,31 @@ public class RunningProcess {
         return process != null && process.isAlive();
     }
 
+    @Synchronized
     public void reset(){
         startTime = null;
         endTime = null;
         exitCode = null;
     };
 
-    public ProcessStatus getProcessStatus() {
-        if (process == null && startTime == null) {
-            return ProcessStatus.not_started;
-        } else if (process != null && process.isAlive()) {
-            return ProcessStatus.running;
-        } else if (endTime != null) {
-            return switch (exitCode) {
-                case 0 -> ProcessStatus.finished;
-                case 1 -> ProcessStatus.failed;
-                case 143 -> ProcessStatus.stopped;
-                case 137 -> ProcessStatus.aborted;
-                default -> ProcessStatus.unknown;
-            };
-        } else {
-            return ProcessStatus.unknown;
-        }
-    }
+
+//    public ProcessStatus getProcessStatus() {
+//        if (process == null && startTime == null) {
+//            return ProcessStatus.not_started;
+//        } else if (process != null && process.isAlive()) {
+//            return ProcessStatus.running;
+//        } else if (endTime != null) {
+//            return switch (exitCode) {
+//                case 0 -> ProcessStatus.finished;
+//                case 1 -> ProcessStatus.failed;
+//                case 143 -> ProcessStatus.stopped;
+//                case 137 -> ProcessStatus.aborted;
+//                default -> ProcessStatus.unknown;
+//            };
+//        } else {
+//            return ProcessStatus.unknown;
+//        }
+//    }
 
     public Duration getProcessRuntime() {
         if (startTime == null) {

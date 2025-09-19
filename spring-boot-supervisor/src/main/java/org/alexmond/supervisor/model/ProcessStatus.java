@@ -8,6 +8,7 @@ public enum ProcessStatus {
     failed,
     failed_to_start,
     stopped,
+    stopping,
     aborted,
     starting,
     healthy,

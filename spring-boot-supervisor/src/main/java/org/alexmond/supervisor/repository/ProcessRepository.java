@@ -6,12 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Configuration
 public class ProcessRepository {
 
 
-    private final Map<String,RunningProcess> runningProcesses = new HashMap<>();
+    private final Map<String,RunningProcess> runningProcesses = new ConcurrentHashMap<>();
 
     @Autowired
     public ProcessRepository(SupervisorConfig supervisorConfig) {

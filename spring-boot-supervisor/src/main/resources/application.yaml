@@ -21,6 +21,14 @@ logging:
         remote:
           rmi: info
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+json-config-schema:
+  description: ${spring.application.name}
+  title: JSupervisor configuration
 ---
 spring:
   config:
@@ -62,6 +70,7 @@ supervisor:
       running: bg-primary
       starting: bg-info
       stopped: bg-success
+      stopping: bg-info
       unknown: bg-info
       healthy: bg-success
       unhealthy: bg-warning
