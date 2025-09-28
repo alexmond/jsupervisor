@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="SupervisorApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
     <option name="ACTIVE_PROFILES" value="test" />
-    <module name="spring-boot-supervisor" />
+    <module name="jsupervisor" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="org.alexmond.supervisor.SupervisorApplication" />
     <option name="WORKING_DIRECTORY" value="file://$MODULE_WORKING_DIR$" />
     <extension name="coverage">

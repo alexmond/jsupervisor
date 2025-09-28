@@ -1,0 +1,6 @@
+name: spring-boot-config-json-schema-starter
+title: Spring boot config json schema starter
+version: 0.0.1
+prerelease: true
+nav:
+  - modules/ROOT/nav.adoc

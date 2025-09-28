@@ -3,15 +3,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.alexmond.boot-sample</groupId>
-        <artifactId>boot-sample-root</artifactId>
+        <groupId>org.alexmond</groupId>
+        <artifactId>jsupervisor-root</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <groupId>org.alexmond</groupId>
-    <artifactId>spring-boot-supervisor</artifactId>
+    <artifactId>jsupervisor</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring boot supervisor</name>
-    <description>spring boot based supervisor</description>
+    <name>jsupervisor</name>
+    <description>A Spring Boot-based process supervisor for managing and monitoring application processes</description>
     <url/>
     <licenses>
         <license>
@@ -22,23 +21,26 @@
         </license>
     </licenses>
     <developers>
-        <developer/>
+        <developer>
+            <name>Alex Mondshain</name>
+            <email>alex.mondshain@gmail.com</email>
+        </developer>
     </developers>
     <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
+        <connection>scm:git:git@github.com:alexmond/spring-boot-supervisor.git</connection>
+        <developerConnection>scm:git:git@github.com:alexmond/spring-boot-supervisor.git</developerConnection>
+        <tag>HEAD</tag>
+        <url>https://github.com/alexmond/spring-boot-supervisor</url>
     </scm>
     <properties>
-        <java.version>21</java.version>
+        <java.version>17</java.version>
         <springdoc-openapi.version>2.8.9</springdoc-openapi.version>
         <oshi-core.version>6.8.2</oshi-core.version>
         <bootstrap.version>5.3.3</bootstrap.version>
         <font-awesome.version>6.5.1</font-awesome.version>
         <bootstrap-icons.version>1.13.1</bootstrap-icons.version>
         <commons-io.version>2.20.0</commons-io.version>
-        <spring-boot-config-json-schema.version>1.0.2</spring-boot-config-json-schema.version>
+        <spring-boot-config-json-schema.version>1.0.4</spring-boot-config-json-schema.version>
     </properties>
     <dependencies>
         <dependency>
@@ -96,6 +98,11 @@
             <groupId>org.alexmond</groupId>
             <artifactId>spring-boot-config-json-schema-starter</artifactId>
             <version>${spring-boot-config-json-schema.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.alexmond</groupId>
+            <artifactId>spring-boot-actuator-sanitizer-starter</artifactId>
+            <version>1.0.0</version>
         </dependency>
 
         <!-- WebJars Dependencies -->

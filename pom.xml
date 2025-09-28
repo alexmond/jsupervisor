@@ -2,20 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.alexmond.boot-sample</groupId>
-    <version>0.0.1-SNAPSHOT</version>
-    <artifactId>boot-sample-root</artifactId>
-    <packaging>pom</packaging>
-    <name>Spring boot samples root</name>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.5.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <properties>
-        <spring-boot-admin.version>3.2.3</spring-boot-admin.version>
-    </properties>
+
+    <groupId>org.alexmond</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+    <artifactId>jsupervisor-root</artifactId>
+    <packaging>pom</packaging>
+    <name>jsupervisor root</name>
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -28,14 +26,17 @@
             <email>alex.mondshain@gmail.com</email>
         </developer>
     </developers>
+    <properties>
+        <spring-boot-admin.version>3.5.5</spring-boot-admin.version>
+    </properties>
     <scm>
         <connection>scm:git:git@github.com:alexmond/spring-boot-supervisor.git</connection>
         <developerConnection>scm:git:git@github.com:alexmond/spring-boot-supervisor.git</developerConnection>
         <tag>HEAD</tag>
-        <url>https://github.com/alexmond/spring-boot-actuator-extensions</url>
+        <url>https://github.com/alexmond/spring-boot-supervisor</url>
     </scm>
     <modules>
-        <module>spring-boot-supervisor</module>
+        <module>jsupervisor</module>
         <module>spring-boot-test-app</module>
     </modules>
 </project>
