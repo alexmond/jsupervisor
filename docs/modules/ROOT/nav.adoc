@@ -1,1 +1,1 @@
-* xref:index.adoc[Spring Boot Config JSON Schema Generator]
+* xref:index.adoc[JSupervisor]
