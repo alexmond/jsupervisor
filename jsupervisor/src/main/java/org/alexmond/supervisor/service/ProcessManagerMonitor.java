@@ -33,27 +33,27 @@ public class ProcessManagerMonitor {
             processRepository.getRunningProcess(name).setEndTime(endTime);
             processRepository.getRunningProcess(name).setExitCode(exitCode);
             ProcessStatus newStatus;
-          switch (exitCode) {
+            switch (exitCode) {
                 case 0 -> newStatus = ProcessStatus.finished;
                 case 1 -> newStatus = ProcessStatus.failed;
                 case 143 -> newStatus = ProcessStatus.stopped;
-                case 137 ->  newStatus = ProcessStatus.aborted;
+                case 137 -> newStatus = ProcessStatus.aborted;
                 default -> newStatus = ProcessStatus.unknown;
-            };
-            eventRepository.save(new ProcessEvent(processRepository.getRunningProcess(name), newStatus));
+            }
+            ;
             processRepository.getRunningProcess(name).setProcessStatus(newStatus);
-            log.info("Process '{}' ended with exit code: {} after running for: {}", 
+            log.info("Process '{}' ended with exit code: {} after running for: {}",
                     name, exitCode, processRepository.getRunningProcess(name).getProcessRuntimeFormatted());
-            
+
             // Clean up
             processRepository.getRunningProcess(name).setProcess(null);
             processRepository.getRunningProcess(name).setCompletableFuture(null);
-            
+
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             log.warn("Process monitoring interrupted for: {}", name);
         }
-        
+
         return CompletableFuture.completedFuture(null);
     }
 

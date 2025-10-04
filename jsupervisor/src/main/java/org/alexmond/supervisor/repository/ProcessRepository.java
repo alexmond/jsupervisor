@@ -14,10 +14,11 @@ public class ProcessRepository {
 
     private final Map<String,RunningProcess> runningProcesses = new ConcurrentHashMap<>();
 
+
     @Autowired
-    public ProcessRepository(SupervisorConfig supervisorConfig) {
+    public ProcessRepository(SupervisorConfig supervisorConfig,EventRepository eventRepository) {
         for(var processConfig : supervisorConfig.getProcess().entrySet()){
-            runningProcesses.put(processConfig.getKey(),new RunningProcess(processConfig.getKey(),processConfig.getValue()));
+            runningProcesses.put(processConfig.getKey(),new RunningProcess(processConfig.getKey(),processConfig.getValue(),eventRepository));
         }
     }
 

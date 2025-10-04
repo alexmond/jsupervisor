@@ -44,7 +44,4 @@ public class SupervisorConfig {
     @Schema(description = "Map of process configurations, where key is process name")
     Map<String, ProcessConfig> process = new HashMap<>();
 
-    @NestedConfigurationProperty
-    private UiConfig uiConfig = new UiConfig();
-
 }

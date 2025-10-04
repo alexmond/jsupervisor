@@ -1,15 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="SupervisorApplication localtest" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
-    <option name="ACTIVE_PROFILES" value="test" />
+  <configuration default="false" name="SupervisorApplication local" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <module name="jsupervisor" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="org.alexmond.supervisor.SupervisorApplication" />
-    <option name="WORKING_DIRECTORY" value="file://$MODULE_WORKING_DIR$/../workdir" />
-    <extension name="coverage">
-      <pattern>
-        <option name="PATTERN" value="org.alexmond.supervisor.*" />
-        <option name="ENABLED" value="true" />
-      </pattern>
-    </extension>
+    <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/workdir" />
     <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
       <option name="credential" />
       <option name="region" />

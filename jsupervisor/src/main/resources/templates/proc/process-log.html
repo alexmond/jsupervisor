@@ -26,7 +26,7 @@
                         <tr>
                             <td th:text="${pr.name}">WEB-TEST</td>
                             <td>
-                                <span th:text="${pr.status}" class="badge " th:classappend="${uiconfig.uiStatusClass[pr.status]}" >WEB-TEST</span>
+                                <span th:text="${pr.status}" class="badge " th:classappend="${uiconfig.uiStatusClass.get(pr.status)}" >WEB-TEST</span>
                             </td>
                             <td th:text="${pr.pid}">WEB-TEST</td>
                             <!--                                        <td th:text="${#temporals.format(pr.startTime, 'dd-MM-yyyy HH:mm')}">WEB-TEST</td>-->

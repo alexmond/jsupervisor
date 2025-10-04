@@ -1,7 +1,9 @@
 package org.alexmond.supervisor.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.supervisor.config.SupervisorConfig;
+import org.alexmond.supervisor.config.UiConfig;
 import org.alexmond.supervisor.model.ProcessStatusRest;
 import org.alexmond.supervisor.repository.EventRepository;
 import org.alexmond.supervisor.repository.RunningProcess;
@@ -21,6 +23,7 @@ import java.util.Collection;
 @Slf4j
 @Controller
 @RequestMapping("/")
+@RequiredArgsConstructor
 public class WebProcessController {
 
     private final ProcessRepository processRepository;
@@ -28,15 +31,8 @@ public class WebProcessController {
     private final ProcessManagerBulk processManagerBulk;
     private final SupervisorConfig supervisorConfig;
     private final EventRepository eventRepository;
+    private final UiConfig uiConfig;
 
-    public WebProcessController(ProcessRepository processRepository, ProcessManager processManager,
-                                ProcessManagerBulk processManagerBulk, SupervisorConfig supervisorConfig, EventRepository eventRepository) {
-        this.processRepository = processRepository;
-        this.processManager = processManager;
-        this.processManagerBulk = processManagerBulk;
-        this.supervisorConfig = supervisorConfig;
-        this.eventRepository = eventRepository;
-    }
 
     @GetMapping({"/","/index"})
     public String getAllProcesses(Model model) {
@@ -44,7 +40,6 @@ public class WebProcessController {
         model.addAttribute("processes", processes);
         model.addAttribute("title", "Process List");
         model.addAttribute("content", "proc/list");
-        model.addAttribute("uiconfig", supervisorConfig.getUiConfig());
         return "layout";
     }
 
@@ -54,7 +49,6 @@ public class WebProcessController {
         model.addAttribute("processes", processes);
         model.addAttribute("title", "Process List");
         model.addAttribute("content", "proc/list");
-        model.addAttribute("uiconfig", supervisorConfig.getUiConfig());
         return "proc/list";
     }
 
@@ -110,7 +104,6 @@ public class WebProcessController {
         model.addAttribute("stdoutContents", stdoutContents);
         model.addAttribute("title", "Process Log");
         model.addAttribute("content", "proc/process-log");
-        model.addAttribute("uiconfig", supervisorConfig.getUiConfig());
         return "layout";
     }
 
@@ -119,7 +112,6 @@ public class WebProcessController {
         model.addAttribute("events", eventRepository.findAll());
         model.addAttribute("title", "Events");
         model.addAttribute("content", "proc/events");
-        model.addAttribute("uiconfig", supervisorConfig.getUiConfig());
         return "layout";
 //        return "proc/events";
     }

@@ -31,8 +31,8 @@
                                     <tr>
                                         <td><strong>Status:</strong></td>
                                         <td>
-                                            <span th:if="${proc.isAlive()}" class="badge bg-success">Running</span>
-                                            <span th:unless="${proc.isAlive()}" class="badge bg-secondary">Stopped</span>
+                                            <span th:text="${proc.status}"
+                                            class="badge " th:classappend="${@uiconfig.uiStatusClass.get(proc.status)}">WEB-TEST</span>
                                         </td>
                                     </tr>
 <!--                                    <tr>-->

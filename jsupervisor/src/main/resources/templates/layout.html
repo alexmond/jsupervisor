@@ -14,7 +14,7 @@
 <!--        </div>-->
     </header>
     <main>
-        <div th:replace="${content}"></div>
+        <div th:replace="~{${content}}"></div>
     </main>
     <footer th:replace="~{fragments/footer :: footer}"></footer>
 

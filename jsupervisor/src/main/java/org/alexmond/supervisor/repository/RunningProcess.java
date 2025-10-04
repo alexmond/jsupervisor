@@ -1,14 +1,12 @@
 package org.alexmond.supervisor.repository;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.supervisor.config.ProcessConfig;
-import org.alexmond.supervisor.healthcheck.ActuatorHealthCheck;
 import org.alexmond.supervisor.healthcheck.HealthCheck;
 import org.alexmond.supervisor.healthcheck.HealthCheckFactory;
+import org.alexmond.supervisor.model.ProcessEvent;
 import org.alexmond.supervisor.model.ProcessStatus;
 
 import java.io.File;
@@ -27,6 +25,7 @@ import java.util.concurrent.ScheduledFuture;
 public class RunningProcess {
 
     private RunningProcess runningProcess;
+    private EventRepository eventRepository;
     private ProcessConfig processConfig;
     private String processName;
     private HealthCheck healthCheck;
@@ -65,6 +64,7 @@ public class RunningProcess {
     @Synchronized
     public void setProcessStatus(ProcessStatus processStatus) {
         log.info("setProcessStatus {}", processStatus);
+        eventRepository.save(new ProcessEvent(this,processStatus));
         this.processStatus = processStatus;
     }
     @Synchronized
@@ -78,9 +78,10 @@ public class RunningProcess {
 
 
 
-    public RunningProcess(String processName,ProcessConfig processConfig) {
+    public RunningProcess(String processName,ProcessConfig processConfig,EventRepository eventRepository) {
         this.processName = processName;
         this.processConfig = processConfig;
+        this.eventRepository = eventRepository;
 
         if (!processConfig.getRedirectErrorStream()) {
             if (processConfig.getStderrLogfile() != null) {
@@ -98,7 +99,7 @@ public class RunningProcess {
         }
 
         stdout = new File(processConfig.getStdoutLogfile());
-        healthCheck = HealthCheckFactory.getHealthCheck(processConfig);
+        healthCheck = HealthCheckFactory.getHealthCheck(processConfig,this);
     }
 
     public boolean isProcessRunning() {

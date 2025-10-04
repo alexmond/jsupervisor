@@ -2,6 +2,8 @@ package org.alexmond.supervisor.healthcheck;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.supervisor.config.PortHealthCheckConfig;
+import org.alexmond.supervisor.model.ProcessStatus;
+import org.alexmond.supervisor.repository.RunningProcess;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
@@ -13,11 +15,13 @@ import java.net.Socket;
 public class PortHealthCheck implements HealthCheck {
     private boolean cachedHealth = false;
     private PortHealthCheckConfig config;
-    private int consecutiveSuccesses = 0;
-    private int consecutiveFailures = 0;
+    private RunningProcess runningProcess;
+    private int successesCount = 0;
+    private int failureCount = 0;
 
-    public PortHealthCheck(PortHealthCheckConfig portHealthCheckConfig) {
+    public PortHealthCheck(PortHealthCheckConfig portHealthCheckConfig, RunningProcess runningProcess) {
         config = portHealthCheckConfig;
+        this.runningProcess = runningProcess;
     }
 
     @Override
@@ -31,18 +35,20 @@ public class PortHealthCheck implements HealthCheck {
             log.info("Performing health check");
             try (var socket = new Socket()) {
                 socket.connect(new InetSocketAddress(config.getHost(), config.getPort()), config.getTimeoutSeconds());
-                consecutiveSuccesses++;
-                consecutiveFailures = 0;
-                if (consecutiveSuccesses >= config.getSuccessThreshold()) {
+                successesCount++;
+                failureCount = 0;
+                if (successesCount >= config.getSuccessThreshold() && !cachedHealth) {
                     cachedHealth = true;
+                    runningProcess.setProcessStatus(ProcessStatus.healthy);
                 }
             }
         } catch (IOException ex) {
             log.error("Health check failed", ex);
-            consecutiveFailures++;
-            consecutiveSuccesses = 0;
-            if (consecutiveFailures >= config.getFailureThreshold()) {
+            failureCount++;
+            successesCount = 0;
+            if (failureCount >= config.getFailureThreshold() && cachedHealth) {
                 cachedHealth = false;
+                runningProcess.setProcessStatus(ProcessStatus.unhealthy);
             }
         }
     }

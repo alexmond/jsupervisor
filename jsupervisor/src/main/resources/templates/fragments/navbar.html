@@ -1,15 +1,10 @@
 <nav th:fragment="navbar" class="navbar navbar-expand-sm navbar-dark bg-dark">
-    <div class="container-fluid">
         <a class="navbar-brand" href="/">
             <i class="bi bi-gear-wide-connected"></i> JSuprvisor
         </a>
         <div class="navbar-nav">
-            <a class="nav-link" href="/">Processes</a>
-            <a class="nav-link" href="/events">Events</a>
+            <a class="nav-item nav-link" href="/">Processes</a>
+            <a class="nav-item nav-link" href="/events">Events</a>
 <!--            <a class="nav-link" href="/logs">Logs</a>-->
         </div>
-        <button class="btn btn-outline-light" onclick="location.reload()">
-            <i class="fa-solid fa-arrows-rotate"></i> Refresh
-        </button>
-    </div>
 </nav>

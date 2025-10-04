@@ -29,6 +29,20 @@ management:
 json-config-schema:
   description: ${spring.application.name}
   title: JSupervisor configuration
+
+ui-config:
+  ui-status-class:
+    aborted: bg-warning
+    failed: bg-danger
+    finished: bg-success
+    not-started: bg-secondary
+    running: bg-primary
+    starting: bg-info
+    stopped: bg-success
+    stopping: bg-info
+    unknown: bg-info
+    healthy: bg-success
+    unhealthy: bg-warning
 ---
 spring:
   config:
@@ -53,27 +67,19 @@ supervisor:
       stderr-logfile: sleep-stderr.log
       args:
         - "10"
-#  <span class="badge badge-primary">Primary</span>
-#  <span class="badge badge-secondary">Secondary</span>
-#  <span class="badge badge-success">Success</span>
-#  <span class="badge badge-danger">Danger</span>
-#  <span class="badge badge-warning">Warning</span>
-#  <span class="badge badge-info">Info</span>
-#  <span class="badge badge-light">Light</span>
-#  <span class="badge badge-dark">Dark</span>
-  ui-config:
-    ui-status-class:
-      aborted: bg-warning
-      failed: bg-danger
-      finished: bg-success
-      not-started: bg-secondary
-      running: bg-primary
-      starting: bg-info
-      stopped: bg-success
-      stopping: bg-info
-      unknown: bg-info
-      healthy: bg-success
-      unhealthy: bg-warning
+ui-config:
+  ui-status-class:
+    aborted: bg-warning
+    failed: bg-danger
+    finished: bg-success
+    not-started: bg-secondary
+    running: bg-primary
+    starting: bg-info
+    stopped: bg-success
+    stopping: bg-info
+    unknown: bg-info
+    healthy: bg-success
+    unhealthy: bg-warning
 
 
 

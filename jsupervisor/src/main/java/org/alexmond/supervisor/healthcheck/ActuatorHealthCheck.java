@@ -2,6 +2,8 @@ package org.alexmond.supervisor.healthcheck;
 
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.supervisor.config.ActuatorHealthCheckConfig;
+import org.alexmond.supervisor.model.ProcessStatus;
+import org.alexmond.supervisor.repository.RunningProcess;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
@@ -16,9 +18,11 @@ public class ActuatorHealthCheck implements HealthCheck {
     private int consecutiveSuccesses = 0;
     private int consecutiveFailures = 0;
     ActuatorHealthCheckConfig config;
+    private RunningProcess runningProcess;
 
-    public ActuatorHealthCheck(ActuatorHealthCheckConfig config) {
+    public ActuatorHealthCheck(ActuatorHealthCheckConfig config, RunningProcess runningProcess) {
         this.config = config;
+        this.runningProcess = runningProcess;
         HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
         clientHttpRequestFactory.setConnectTimeout(Duration.ofSeconds(config.getTimeoutSeconds()));
         clientHttpRequestFactory.setConnectionRequestTimeout(Duration.ofSeconds(config.getTimeoutSeconds()));
@@ -48,22 +52,25 @@ public class ActuatorHealthCheck implements HealthCheck {
             if (currentHealth) {
                 consecutiveSuccesses++;
                 consecutiveFailures = 0;
-                if (consecutiveSuccesses >= config.getSuccessThreshold()) {
+                if (consecutiveSuccesses >= config.getSuccessThreshold() && !cachedHealth) {
                     cachedHealth = true;
+                    runningProcess.setProcessStatus(ProcessStatus.healthy);
                 }
             } else {
                 consecutiveFailures++;
                 consecutiveSuccesses = 0;
-                if (consecutiveFailures >= config.getFailureThreshold()) {
+                if (consecutiveFailures >= config.getFailureThreshold() && cachedHealth) {
                     cachedHealth = false;
+                    runningProcess.setProcessStatus(ProcessStatus.unhealthy);
                 }
             }
         } catch (RestClientException ex) {
-            log.error("Health check failed", ex);
+            log.error("Health check failed {}", ex.toString());
             consecutiveFailures++;
             consecutiveSuccesses = 0;
-            if (consecutiveFailures >= config.getFailureThreshold()) {
+            if (consecutiveFailures >= config.getFailureThreshold() && cachedHealth) {
                 cachedHealth = false;
+                runningProcess.setProcessStatus(ProcessStatus.unhealthy);
             }
         }
     }

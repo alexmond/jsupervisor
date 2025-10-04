@@ -57,7 +57,6 @@ public class ProcessManager {
             return;
         }
         runningProcess.reset();
-        eventRepository.save(new ProcessEvent(runningProcess,ProcessStatus.starting));
         runningProcess.setProcessStatus(ProcessStatus.starting);
 
         try {
@@ -97,7 +96,6 @@ public class ProcessManager {
             // Store process references
             runningProcess.setProcess(proc);
             runningProcess.setStartTime(startTime);
-            eventRepository.save(new ProcessEvent(runningProcess,ProcessStatus.running));
             runningProcess.setProcessStatus(ProcessStatus.running);
             
             log.info("Process '{}' started with PID: {} at {}", name, proc.pid(), startTime);
@@ -114,9 +112,8 @@ public class ProcessManager {
             
         } catch (IOException e) {
             log.error("Failed to start process: {}", name, e);
-            runningProcess.setProcess(null);
-            eventRepository.save(new ProcessEvent(runningProcess,ProcessStatus.failed));
             runningProcess.setProcessStatus(ProcessStatus.failed);
+            runningProcess.setProcess(null);
         }
     }
 
@@ -126,7 +123,6 @@ public class ProcessManager {
         Process process = runningProcess.getProcess();
         if (process != null) {
             log.info("Stopping process: {}", name);
-            eventRepository.save(new ProcessEvent(runningProcess,ProcessStatus.stopping));
             runningProcess.setProcessStatus(ProcessStatus.stopping);
             // Try graceful shutdown first
             if (runningProcess.getScheduledFuture() != null) {
@@ -139,16 +135,13 @@ public class ProcessManager {
                 if (!exited) {
                     log.warn("Process {} did not exit gracefully, force killing...", name);
                     process.destroyForcibly();
-                    eventRepository.save(new ProcessEvent(runningProcess,ProcessStatus.aborted));
                     runningProcess.setProcessStatus(ProcessStatus.aborted);
                 }else{
-                    eventRepository.save(new ProcessEvent(runningProcess,ProcessStatus.stopped));
                     runningProcess.setProcessStatus(ProcessStatus.stopped);
                 }
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 log.warn("Interrupted while waiting for process to stop: {}", name);
-                eventRepository.save(new ProcessEvent(runningProcess,ProcessStatus.unknown));
                 runningProcess.setProcessStatus(ProcessStatus.unknown);
             }
 

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
+<body>
     <div class="container mt-4">
         <div class="row">
             <div class="col-12">
@@ -42,7 +42,7 @@
                                         <td th:text="${pr.name}">WEB-TEST</td>
                                         <td>
                                             <span th:text="${pr.status}"
-                                                  class="badge " th:classappend="${uiconfig.uiStatusClass[pr.status]}" >WEB-TEST</span>
+                                                  class="badge " th:classappend="${@uiconfig.uiStatusClass.get(pr.status)}">WEB-TEST</span>
                                         </td>
                                         <td>
                                             <a th:if="${!#strings.isEmpty(pr.getProcessConfig().getUrl())}"
