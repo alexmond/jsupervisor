@@ -30,7 +30,7 @@ public class HttpHealthCheck implements HealthCheck {
 
         this.restClient = RestClient.builder()
                 .requestFactory(clientHttpRequestFactory)
-                .baseUrl(config.getURL())
+                .baseUrl(config.getUrl())
                 .build();
     }
 

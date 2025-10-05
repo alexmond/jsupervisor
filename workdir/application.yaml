@@ -59,7 +59,7 @@ supervisor:
     testapp1:
       health-check-type: http
       http-health-check-config:
-        u-r-l: http://localhost:8081/
+        url: http://localhost:8081/
       command: "java"
       working-directory: "../spring-boot-test-app"
       stdout-logfile: testapp1-stdout.log
