@@ -26,18 +26,22 @@
                         <tr>
                             <td th:text="${pr.name}">WEB-TEST</td>
                             <td>
-                                <span th:text="${pr.status}" class="badge " th:classappend="${uiconfig.uiStatusClass.get(pr.status)}" >WEB-TEST</span>
+                                <span class="badge " th:classappend="${uiconfig.uiStatusClass.get(pr.status)}"
+                                      th:text="${pr.status}">WEB-TEST</span>
                             </td>
                             <td th:text="${pr.pid}">WEB-TEST</td>
                             <!--                                        <td th:text="${#temporals.format(pr.startTime, 'dd-MM-yyyy HH:mm')}">WEB-TEST</td>-->
                             <td th:text="${pr.processUptime}">WEB-TEST</td>
                             <td th:text="${pr.exitCode}">WEB-TEST</td>
                             <td>
-                                <a th:unless="${pr.isAlive()}" th:href="@{/start/{id}(id=${pr.name})}" class="btn btn-success btn-sm">Start</a>
-                                <a th:if="${pr.isAlive()}" th:href="@{/stop/{id}(id=${pr.name})}" class="btn btn-danger btn-sm">Stop</a>
-                                <a th:if="${pr.isAlive()}" th:href="@{/restart/{id}(id=${pr.name})}" class="btn btn-danger btn-sm">Restart</a>
-                                <a th:href="@{/log/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Log</a>
-                                <a th:href="@{/details/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Details</a>
+                                <a class="btn btn-success btn-sm" th:href="@{/start/{id}(id=${pr.name})}"
+                                   th:unless="${pr.isAlive()}">Start</a>
+                                <a class="btn btn-danger btn-sm" th:href="@{/stop/{id}(id=${pr.name})}"
+                                   th:if="${pr.isAlive()}">Stop</a>
+                                <a class="btn btn-danger btn-sm" th:href="@{/restart/{id}(id=${pr.name})}"
+                                   th:if="${pr.isAlive()}">Restart</a>
+                                <a class="btn btn-primary btn-sm" th:href="@{/log/{id}(id=${pr.name})}">Log</a>
+                                <a class="btn btn-primary btn-sm" th:href="@{/details/{id}(id=${pr.name})}">Details</a>
                             </td>
                         </tr>
                         </tbody>
@@ -46,19 +50,19 @@
             </div>
 
             <div class="mb-3">
-                <a href="/" class="btn btn-secondary">
+                <a class="btn btn-secondary" href="/">
                     <i class="fas fa-arrow-left"></i> Back to Processes
                 </a>
 
-                <a th:if="${procName != null}"
+                <a class="btn-sm btn-info"
                    th:href="@{/detail/{name}(name=${proc.name})}"
-                   class="btn-sm btn-info">
+                   th:if="${procName != null}">
                     <i class="fas fa-info-circle"></i> Process Details
                 </a>
                 <button class="btn-sm btn-secondary float-end" onclick="location.reload()">
                     <i class="fa-solid fa-arrows-rotate"></i> Refresh
                 </button>
-                <button onclick="scrollToBottom()" class="btn-sm btn-secondary float-end">
+                <button class="btn-sm btn-secondary float-end" onclick="scrollToBottom()">
                     <i class="fas fa-arrow-down"></i> Scroll to Bottom
                 </button>
             </div>
@@ -68,7 +72,7 @@
                 <div class="card-header">
                     <i class="fas fa-align-left"></i> STDOUT Log
                 </div>
-                <div id="logContent" class="card-body p-0" style="overflow-y: auto;">
+                <div class="card-body p-0" id="logContent" style="overflow-y: auto;">
                         <pre class="mb-0"
                              style="background: #212529; color: #f8f9fa; padding: 1em; min-height: 200px; border-radius: 0;">
                             <span th:text="${stdoutContents}">No output available.</span>

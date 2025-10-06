@@ -1,0 +1,257 @@
+= Process Configuration
+:toc: left
+:toclevels: 2
+
+== Overview
+
+Process configuration defines how each supervised process is executed, monitored, and managed.
+Each process is configured under the `supervisor.process` map, where the key is the process name and the value is the process configuration.
+
+== Configuration Structure
+
+[,yaml]
+----
+supervisor:
+  process:
+    <process-name>:
+      # Process configuration goes here
+----
+
+== Configuration Fields
+
+=== Core Execution Settings
+
+[cols="1,1,1,1,3"]
+|===
+|Field |Type |Required |Default |Description
+
+|command
+|string
+|Yes
+|—
+|Executable to run (absolute path or available in PATH)
+
+|working-directory
+|string
+|No
+|current directory
+|Directory to run the process in
+
+|args
+|list<string>
+|No
+|[]
+|Command-line arguments
+
+|env
+|map<string,string>
+|No
+|{}
+|Environment variables
+|===
+
+=== Logging Configuration
+
+[cols="1,1,1,1,3"]
+|===
+|Field |Type |Required |Default |Description
+
+|stdout-logfile
+|string
+|No
+|—
+|File path for standard output. If not specified, stdout is inherited from parent
+
+|stderr-logfile
+|string
+|No
+|—
+|File path for standard error. If not specified, stderr is inherited from parent
+
+|append-log
+|boolean
+|No
+|true
+|Append to log files instead of overwriting
+
+|redirect-error-stream
+|boolean
+|No
+|true
+|Merge stderr into stdout
+|===
+
+=== Shutdown Configuration
+
+[cols="1,1,1,1,3"]
+|===
+|Field |Type |Required |Default |Description
+
+|shutdown-timeout
+|duration
+|No
+|5s
+|Graceful stop timeout before force kill (e.g., 5s, 30s, 1m)
+
+|shutdown-url
+|string
+|No
+|—
+|Optional URL to call for graceful shutdown before force termination
+|===
+
+=== Metadata and Reference
+
+[cols="1,1,1,1,3"]
+|===
+|Field |Type |Required |Default |Description
+
+|url
+|string
+|No
+|—
+|Optional application URL (for UI/reference)
+
+|description
+|string
+|No
+|—
+|Human-readable description of the process
+|===
+
+=== Health Check Configuration
+
+[cols="1,1,1,1,3"]
+|===
+|Field |Type |Required |Default |Description
+
+|health-check-type
+|enum
+|No
+|none
+|Type of health check: none, http, actuator, port, cmd
+
+|http-health-check-config
+|object
+|No
+|—
+|HTTP health check configuration (when health-check-type=http)
+
+|actuator-health-check
+|object
+|No
+|—
+|Actuator health check configuration (when health-check-type=actuator)
+
+|port-health-check
+|object
+|No
+|—
+|Port health check configuration (when health-check-type=port)
+|===
+
+== Configuration Examples
+
+=== Basic Process
+
+[,yaml]
+----
+supervisor:
+  process:
+    my-app:
+      command: "java"
+      args: ["-jar", "app.jar"]
+      working-directory: "/path/to/app"
+      stdout-logfile: "logs/app.out"
+      stderr-logfile: "logs/app.err"
+----
+
+=== Process with Environment Variables
+
+[,yaml]
+----
+supervisor:
+  process:
+    web-service:
+      command: "java"
+      args: ["-jar", "service.jar"]
+      env:
+        JAVA_OPTS: "-Xms512m -Xmx1024m"
+        SPRING_PROFILES_ACTIVE: "production"
+        DATABASE_URL: "jdbc:mysql://localhost/mydb"
+----
+
+=== Process with Health Check
+
+[,yaml]
+----
+supervisor:
+  process:
+    api-server:
+      command: "java"
+      args: ["-jar", "api.jar"]
+      health-check-type: http
+      http-health-check-config:
+        url: "http://localhost:8080/health"
+        method: "GET"
+        return-code: "200"
+        period-seconds: 30
+      shutdown-url: "http://localhost:8080/actuator/shutdown"
+      shutdown-timeout: 30s
+----
+
+=== Process with Custom Shutdown
+
+[,yaml]
+----
+supervisor:
+  process:
+    background-worker:
+      command: "./worker"
+      working-directory: "/opt/worker"
+      shutdown-timeout: 60s
+      stdout-logfile: "worker.log"
+      append-log: true
+      description: "Background data processing worker"
+----
+
+== Field Details
+
+=== Duration Format
+
+Duration fields like `shutdown-timeout` accept values in the format:
+
+* `5s` - 5 seconds
+* `30s` - 30 seconds
+* `2m` - 2 minutes
+* `1h` - 1 hour
+
+=== File Paths
+
+* All file paths can be relative or absolute
+* Relative paths are resolved from the working directory
+* Log files are created if they don't exist
+* Parent directories must exist
+
+=== Environment Variables
+
+* Environment variables are inherited from the supervisor process
+* Custom `env` map entries override inherited variables
+* Values are always strings
+
+=== Command Execution
+
+* The `command` field specifies the executable
+* Use full path for executables not in PATH
+* Arguments are passed as separate list items in `args`
+* Arguments should not include the command itself
+
+== Best Practices
+
+1. **Use absolute paths** for commands when possible to avoid PATH issues
+2. **Set working-directory** to the application's base directory
+3. **Configure log files** to capture process output for debugging
+4. **Use health checks** for long-running services to monitor availability
+5. **Set appropriate shutdown-timeout** based on your application's shutdown time
+6. **Use shutdown-url** for graceful shutdown of web applications
+7. **Add descriptions** to document the purpose of each process

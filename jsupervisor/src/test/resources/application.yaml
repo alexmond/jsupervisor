@@ -14,7 +14,7 @@ spring:
 process:
   name: test
   command: "java"
-  working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/spring-boot-supervisor/work"
+  working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/jsupervisor/work"
   stdout-logfile: ${process.working-directory}/stdout.log
   stderr-logfile: ${process.working-directory}/error.log
   args:
@@ -40,35 +40,35 @@ supervisor:
   process:
     test:
       command: "java"
-      working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/spring-boot-supervisor/work"
+      working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/jsupervisor/work"
       stdout-logfile: ${process.working-directory}/stdout.log
       stderr-logfile: ${process.working-directory}/error.log
       args:
-      - "-version"
+        - "-version"
     test2:
       command: "java"
-      working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/spring-boot-supervisor/work"
+      working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/jsupervisor/work"
       stdout-logfile: ${process.working-directory}/stdout.log
       stderr-logfile: ${process.working-directory}/error.log
       args:
         - "-version"
     test3:
       command: "java"
-      working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/spring-boot-supervisor/work"
+      working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/jsupervisor/work"
       stdout-logfile: ${process.working-directory}/stdout.log
       stderr-logfile: ${process.working-directory}/error.log
       args:
         - "-version"
     test4:
       command: "java"
-      working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/spring-boot-supervisor/work"
+      working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/jsupervisor/work"
       stdout-logfile: ${process.working-directory}/stdout.log
       stderr-logfile: ${process.working-directory}/error.log
       args:
         - "-version"
     sleep:
       command: "sleep"
-      working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/spring-boot-supervisor/work"
+      working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/jsupervisor/work"
       stdout-logfile: ${process.working-directory}/stdout.log
       stderr-logfile: ${process.working-directory}/error.log
       args:

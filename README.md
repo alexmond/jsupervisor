@@ -1,4 +1,4 @@
-# spring-boot-supervisor
+# jsupervisor
 
 A Spring Boot implementation of a process supervisor system that allows monitoring and managing multiple processes in a
 Java environment.
@@ -14,7 +14,7 @@ This project provides a robust process supervision solution built with Spring Bo
 
 ## Modules
 
-- **spring-boot-supervisor**: Core supervisor implementation with process management capabilities
+- **jsupervisor**: Core supervisor implementation with process management capabilities
 - **spring-boot-test-app**: Test application for demonstrating supervisor functionality
 
 ## Technologies

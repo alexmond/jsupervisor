@@ -12,81 +12,16 @@ JSupervisor is a process management and supervision system that helps monitor an
 .JSupervisor UI Example
 image::jsupervisor1.png[JSupervisor UI,800,align="center"]
 
-== Process Status
+== Configuration 
 
-A process in JSupervisor can be in one of the following states:
+=== Configuration json Schemas
 
-* `not_started` - Process has not been started yet
-* `running` - Process is currently running
-* `finished` - Process completed successfully
-* `unknown` - Process state cannot be determined
-* `failed` - Process terminated with an error
-* `failed_to_start` - Process could not be started
-* `stopped` - Process was gracefully stopped
-* `stopping` - Process is in the process of stopping
-* `aborted` - Process was forcefully terminated
-* `starting` - Process is in the process of starting
-* `healthy` - Process is running and health checks pass
-* `unhealthy` - Process is running but health checks fail
+xref:attachment$jsupervisor-schema.json[jsupervisor-schema.json]
+xref:attachment$jsupervisor-schema.yaml[jsupervisor-schema.yaml]
 
-== Process Information
+=== Config Sample
 
-Each monitored process provides the following information:
-
-[cols="1,2"]
-|===
-|Field |Description
-
-|name
-|Name of the process
-
-|status
-|Current process status (see Process Status section)
-
-|pid
-|Process ID assigned by OS
-
-|startTime
-|Timestamp when process was started
-
-|endTime
-|Timestamp when process ended (if applicable)
-
-|exitCode
-|Process exit code (if process has ended)
-
-|processRuntime
-|Duration the process has been running
-
-|processUptime
-|Formatted uptime string (e.g. "2d 5h 30m")
-
-|stdoutLogfile
-|File path for process stdout logs
-
-|stderrLogfile
-|File path for process stderr logs
-|===
-
-== Process Events
-
-JSupervisor tracks process lifecycle events including:
-
-* Process start/stop
-* Status changes
-* Health check results
-* Exit codes
-
-Each event contains:
-
-* Event timestamp
-* Process name and PID
-* Old and new status
-* Start/end times
-* Exit code (if applicable)
-* Process uptime
-
-== Health Checks
-
-JSupervisor supports configurable health checks to monitor process health.
-Health check results affect the process status (healthy/unhealthy).
+[,yaml]
+----
+include::example$application.yaml[]
+----

@@ -1,0 +1,55 @@
+$schema: ./config-schema.yaml
+
+supervisor:
+  node-name: local
+  process:
+    test:
+      command: "java"
+      working-directory: "../work"
+      stdout-logfile: test-stdout.log
+      stderr-logfile: test-stderr.log
+      args:
+        - "-version"
+      shutdown-timeout: 1m
+    sleep:
+      command: "sleep"
+      working-directory: "../work"
+      stdout-logfile: sleep-stdout.log
+      stderr-logfile: sleep-stderr.log
+      args:
+        - "10"
+    testapp1:
+      health-check-type: http
+      http-health-check-config:
+        url: http://localhost:8081/
+      command: "java"
+      working-directory: "../spring-boot-test-app"
+      stdout-logfile: testapp1-stdout.log
+      stderr-logfile: testapp1-error.log
+      url: http://localhost:8081/
+      args:
+        - "-Dspring.profiles.active=srv1"
+        - "-Dspring.application.name=testapp1"
+        - "-jar"
+        - target/spring-boot-test-app-0.0.1-SNAPSHOT.jar
+    testapp2:
+      health-check-type: actuator
+      actuator-health-check:
+        actuator-health-url: http://localhost:8082/actuator/health
+      command: "java"
+      working-directory: "../spring-boot-test-app"
+      stdout-logfile: testapp2-stdout.log
+      stderr-logfile: testapp2-error.log
+      url: http://localhost:8082/
+      env:
+        SPRING_PROFILES_ACTIVE: srv2
+        SPRING_APPLICATION_NAME: testapp1
+      args:
+        - "-jar"
+        - target/spring-boot-test-app-0.0.1-SNAPSHOT.jar
+
+
+
+
+
+

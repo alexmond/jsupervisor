@@ -1,131 +1,132 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="mb-4" th:text="${title}">User Form</h1>
-                
-                <div class="mb-3">
-                    <a href="/users" class="btn btn-secondary">
-                        <i class="fas fa-arrow-left"></i> Back to Users
-                    </a>
-                </div>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4" th:text="${title}">User Form</h1>
 
-                <div class="card">
-                    <div class="card-body">
-                        <form th:action="${adminUser.id != null} ? @{/users/edit/{id}(id=${adminUser.id})} : @{/users/add}"
-                              method="post" th:object="${adminUser}">
-                            
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="firstName" class="form-label">First Name</label>
-                                        <input type="text" class="form-control" id="firstName" 
-                                               th:field="*{firstName}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="lastName" class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" id="lastName" 
-                                               th:field="*{lastName}" required>
-                                    </div>
+            <div class="mb-3">
+                <a class="btn btn-secondary" href="/users">
+                    <i class="fas fa-arrow-left"></i> Back to Users
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <form method="post"
+                          th:action="${adminUser.id != null} ? @{/users/edit/{id}(id=${adminUser.id})} : @{/users/add}" th:object="${adminUser}">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="firstName">First Name</label>
+                                    <input class="form-control" id="firstName" required
+                                           th:field="*{firstName}" type="text">
                                 </div>
                             </div>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="email" 
-                                               th:field="*{email}" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="birthDate" class="form-label">Birth Date</label>
-                                        <input type="date" class="form-control" id="birthDate" 
-                                               th:field="*{birthDate}">
-                                    </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="lastName">Last Name</label>
+                                    <input class="form-control" id="lastName" required
+                                           th:field="*{lastName}" type="text">
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="role" class="form-label">Role</label>
-                                        <select class="form-select" id="role" th:field="*{role}">
-                                            <option th:each="role : ${roles}" 
-                                                    th:value="${role}" 
-                                                    th:text="${role.displayName}">Role</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3 form-check">
-                                        <input type="checkbox" class="form-check-input" id="active" 
-                                               th:field="*{active}">
-                                        <label class="form-check-label" for="active">Active</label>
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="email">Email</label>
+                                    <input class="form-control" id="email" required
+                                           th:field="*{email}" type="email">
                                 </div>
                             </div>
-
-                            <h5>Address</h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="street" class="form-label">Street</label>
-                                        <input type="text" class="form-control" id="street" 
-                                               th:field="*{address.street}">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label for="city" class="form-label">City</label>
-                                        <input type="text" class="form-control" id="city" 
-                                               th:field="*{address.city}">
-                                    </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="birthDate">Birth Date</label>
+                                    <input class="form-control" id="birthDate" th:field="*{birthDate}"
+                                           type="date">
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="state" class="form-label">State</label>
-                                        <input type="text" class="form-control" id="state" 
-                                               th:field="*{address.state}">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="zipCode" class="form-label">ZIP Code</label>
-                                        <input type="text" class="form-control" id="zipCode" 
-                                               th:field="*{address.zipCode}">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label for="country" class="form-label">Country</label>
-                                        <input type="text" class="form-control" id="country" 
-                                               th:field="*{address.country}">
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="role">Role</label>
+                                    <select class="form-select" id="role" th:field="*{role}">
+                                        <option th:each="role : ${roles}"
+                                                th:text="${role.displayName}"
+                                                th:value="${role}">Role
+                                        </option>
+                                    </select>
                                 </div>
                             </div>
-
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <a href="/users" class="btn btn-secondary me-md-2">Cancel</a>
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save"></i> Save
-                                </button>
+                            <div class="col-md-6">
+                                <div class="mb-3 form-check">
+                                    <input class="form-check-input" id="active" th:field="*{active}"
+                                           type="checkbox">
+                                    <label class="form-check-label" for="active">Active</label>
+                                </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+
+                        <h5>Address</h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="street">Street</label>
+                                    <input class="form-control" id="street" th:field="*{address.street}"
+                                           type="text">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="city">City</label>
+                                    <input class="form-control" id="city" th:field="*{address.city}"
+                                           type="text">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label" for="state">State</label>
+                                    <input class="form-control" id="state" th:field="*{address.state}"
+                                           type="text">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label" for="zipCode">ZIP Code</label>
+                                    <input class="form-control" id="zipCode" th:field="*{address.zipCode}"
+                                           type="text">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label" for="country">Country</label>
+                                    <input class="form-control" id="country" th:field="*{address.country}"
+                                           type="text">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a class="btn btn-secondary me-md-2" href="/users">Cancel</a>
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-save"></i> Save
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <th:block th:fragment="scripts">
+<th:block th:fragment="scripts">
     <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </th:block>
 </body>

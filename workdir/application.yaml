@@ -15,7 +15,7 @@ spring:
 process:
   name: test
   command: "java"
-  working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/spring-boot-supervisor/work"
+  working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/jsupervisor/work"
   stdout-logfile: ${process.working-directory}/stdout.log
   stderr-logfile: ${process.working-directory}/error.log
   args:
@@ -47,7 +47,7 @@ supervisor:
       stdout-logfile: test-stdout.log
       stderr-logfile: test-stderr.log
       args:
-      - "-version"
+        - "-version"
       shutdown-timeout: 1m
     sleep:
       command: "sleep"

@@ -1,83 +1,88 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="mb-4" th:text="${title}">Process Management</h1>
-                
-                <div class="mb-3">
-                    <button class="btn  btn-outline-primary" onclick="location.reload()">
-                        <i class="fa-solid fa-arrows-rotate"></i> Refresh
-                    </button>
-                    <a href="/startAll" class="btn btn-success">
-                        Start All Processes
-                    </a>
-                    <a href="/stopAll" class="btn btn-danger">
-                        Stop All Processes
-                    </a>
-                </div>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4" th:text="${title}">Process Management</h1>
 
-                <div class="card">
-                    <div class="card-body">
-                        <div th:if="${#lists.isEmpty(processes)}" class="alert alert-info">
-                            <i class="fas fa-info-circle"></i> No processes found.
-                        </div>
-                        
-                        <div th:unless="${#lists.isEmpty(processes)}">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Status</th>
-                                        <th>URL</th>
-                                        <th>Process ID</th>
-                                        <th>Up time</th>
-                                        <th>Exit code</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr th:each="pr : ${processes}">
-                                        <td th:text="${pr.name}">WEB-TEST</td>
-                                        <td>
-                                            <span th:text="${pr.status}"
-                                                  class="badge " th:classappend="${@uiconfig.uiStatusClass.get(pr.status)}">WEB-TEST</span>
-                                        </td>
-                                        <td>
-                                            <a th:if="${!#strings.isEmpty(pr.getProcessConfig().getUrl())}"
-                                               th:href="${pr.getProcessConfig().getUrl()}"
-                                               th:text="${pr.getProcessConfig().getUrl()}" target="_blank">WEB-TEST</a>
-                                            <span th:if="${#strings.isEmpty(pr.getProcessConfig().getUrl())}">-</span>
-                                        </td>
-                                        <td th:text="${pr.pid}">WEB-TEST</td>
-<!--                                        <td th:text="${#temporals.format(pr.startTime, 'dd-MM-yyyy HH:mm')}">WEB-TEST</td>-->
-                                        <td th:text="${pr.processUptime}">WEB-TEST</td>
-                                        <td th:text="${pr.exitCode}">WEB-TEST</td>
-                                        <td>
-                                            <a th:unless="${pr.isAlive()}" th:href="@{/start/{id}(id=${pr.name})}" class="btn btn-success btn-sm">Start</a>
-                                            <a th:if="${pr.isAlive()}" th:href="@{/stop/{id}(id=${pr.name})}" class="btn btn-danger btn-sm">Stop</a>
-                                            <a th:if="${pr.isAlive()}" th:href="@{/restart/{id}(id=${pr.name})}" class="btn btn-danger btn-sm">Restart</a>
-                                            <a th:href="@{/log/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Log</a>
-                                            <a th:href="@{/details/{id}(id=${pr.name})}"  class="btn btn-primary btn-sm">Details</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            
-                            <div class="mt-3">
-                                <small class="text-muted">
-                                    Total processes: <span th:text="${#lists.size(processes)}">0</span>
-                                </small>
-                            </div>
+            <div class="mb-3">
+                <button class="btn  btn-outline-primary" onclick="location.reload()">
+                    <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                </button>
+                <a class="btn btn-success" href="/startAll">
+                    Start All Processes
+                </a>
+                <a class="btn btn-danger" href="/stopAll">
+                    Stop All Processes
+                </a>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="alert alert-info" th:if="${#lists.isEmpty(processes)}">
+                        <i class="fas fa-info-circle"></i> No processes found.
+                    </div>
+
+                    <div th:unless="${#lists.isEmpty(processes)}">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Status</th>
+                                <th>URL</th>
+                                <th>Process ID</th>
+                                <th>Up time</th>
+                                <th>Exit code</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="pr : ${processes}">
+                                <td th:text="${pr.name}">WEB-TEST</td>
+                                <td>
+                                            <span class="badge "
+                                                  th:classappend="${@uiconfig.uiStatusClass.get(pr.status)}"
+                                                  th:text="${pr.status}">WEB-TEST</span>
+                                </td>
+                                <td>
+                                    <a target="_blank"
+                                       th:href="${pr.getProcessConfig().getUrl()}"
+                                       th:if="${!#strings.isEmpty(pr.getProcessConfig().getUrl())}" th:text="${pr.getProcessConfig().getUrl()}">WEB-TEST</a>
+                                    <span th:if="${#strings.isEmpty(pr.getProcessConfig().getUrl())}">-</span>
+                                </td>
+                                <td th:text="${pr.pid}">WEB-TEST</td>
+                                <!--                                        <td th:text="${#temporals.format(pr.startTime, 'dd-MM-yyyy HH:mm')}">WEB-TEST</td>-->
+                                <td th:text="${pr.processUptime}">WEB-TEST</td>
+                                <td th:text="${pr.exitCode}">WEB-TEST</td>
+                                <td>
+                                    <a class="btn btn-success btn-sm" th:href="@{/start/{id}(id=${pr.name})}"
+                                       th:unless="${pr.isAlive()}">Start</a>
+                                    <a class="btn btn-danger btn-sm" th:href="@{/stop/{id}(id=${pr.name})}"
+                                       th:if="${pr.isAlive()}">Stop</a>
+                                    <a class="btn btn-danger btn-sm" th:href="@{/restart/{id}(id=${pr.name})}"
+                                       th:if="${pr.isAlive()}">Restart</a>
+                                    <a class="btn btn-primary btn-sm" th:href="@{/log/{id}(id=${pr.name})}">Log</a>
+                                    <a class="btn btn-primary btn-sm"
+                                       th:href="@{/details/{id}(id=${pr.name})}">Details</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-3">
+                            <small class="text-muted">
+                                Total processes: <span th:text="${#lists.size(processes)}">0</span>
+                            </small>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <th:block th:fragment="scripts">
+<th:block th:fragment="scripts">
     <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </th:block>
 </body>

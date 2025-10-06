@@ -27,12 +27,14 @@
                 <tr th:each="event : ${events}">
                     <td th:text="${event.processName}">Process Name</td>
                     <td>
-                        <span th:text="${event.newStatus}"
-                              class="badge " th:classappend="${@uiconfig.uiStatusClass.get(event.newStatus)}">WEB-TEST</span>
+                        <span class="badge "
+                              th:classappend="${@uiconfig.uiStatusClass.get(event.newStatus)}"
+                              th:text="${event.newStatus}">WEB-TEST</span>
                     </td>
                     <td>
-                        <span th:text="${event.oldStatus}"
-                              class="badge " th:classappend="${@uiconfig.uiStatusClass.get(event.oldStatus)}">WEB-TEST</span>
+                        <span class="badge "
+                              th:classappend="${@uiconfig.uiStatusClass.get(event.oldStatus)}"
+                              th:text="${event.oldStatus}">WEB-TEST</span>
                     </td>
                     <td th:text="${event.pid}">PID</td>
                     <td th:text="${#temporals.format(event.startTime, 'yyyy-MM-dd HH:mm:ss')}">Start Time</td>

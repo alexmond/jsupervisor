@@ -2784,10 +2784,10 @@ properties:
             properties:
               command:
                 type: "object"
-                properties: {}
+                properties: { }
               connectionpool:
                 type: "object"
-                properties: {}
+                properties: { }
           system:
             type: "object"
             properties:

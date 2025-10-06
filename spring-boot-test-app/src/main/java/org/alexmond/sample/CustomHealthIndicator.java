@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class CustomHealthIndicator implements HealthIndicator {
     boolean healthy = true;
+
     @Override
     public Health health() {
 

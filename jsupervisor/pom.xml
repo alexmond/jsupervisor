@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -11,7 +11,11 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>jsupervisor</name>
     <description>A Spring Boot-based process supervisor for managing and monitoring application processes</description>
-    <url/>
+    <url>https://alexmond.github.io/jsupervisor/current/index.html</url>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/alexmond/jsupervisor/issues</url>
+    </issueManagement>
     <licenses>
         <license>
             <name>Apache License, Version 2.0</name>
@@ -27,10 +31,10 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:git@github.com:alexmond/spring-boot-supervisor.git</connection>
-        <developerConnection>scm:git:git@github.com:alexmond/spring-boot-supervisor.git</developerConnection>
+        <connection>scm:git:git@github.com:alexmond/jsupervisor.git</connection>
+        <developerConnection>scm:git:git@github.com:alexmond/jsupervisor.git</developerConnection>
         <tag>HEAD</tag>
-        <url>https://github.com/alexmond/spring-boot-supervisor</url>
+        <url>https://github.com/alexmond/jsupervisor</url>
     </scm>
     <properties>
         <java.version>17</java.version>
