@@ -22644,9 +22644,11 @@ properties:
       description:
         type: "string"
         description: "Description of the supervisor node"
+        default: ""
       node-name:
         type: "string"
         description: "The name of the supervisor node"
+        default: "supervisor"
       process:
         type: "object"
         description: "Map of process configurations, where key is process name"
@@ -22655,6 +22657,7 @@ properties:
           properties:
             actuator-health-check:
               type: "object"
+              description: "Configuration for Spring Boot Actuator-based health checks"
               properties:
                 actuator-health-url:
                   type: "string"
@@ -22665,6 +22668,9 @@ properties:
                 \ If true, new log entries will be appended to existing log files.\
                 \ If false, existing log files will be overwritten when the process\
                 \ starts."
+            application-log:
+              type: "string"
+              description: "File path where the application log will be stored"
             args:
               type: "array"
               description: "Command-line arguments to be passed to the process. Each\
@@ -22701,6 +22707,7 @@ properties:
               - "NONE"
             http-health-check-config:
               type: "object"
+              description: "Configuration for URL-based health checks"
               properties:
                 headers:
                   type: "array"
@@ -22718,6 +22725,7 @@ properties:
                   description: "URL endpoint for health check"
             port-health-check:
               type: "object"
+              description: "Configuration for TCP port-based health checks"
               properties:
                 host:
                   type: "string"

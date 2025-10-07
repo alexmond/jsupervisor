@@ -34,6 +34,7 @@ public class WebProcessController {
     private final SupervisorConfig supervisorConfig;
     private final EventRepository eventRepository;
     private final UiConfig uiConfig;
+    private final boolean linkToPage = false;
 
 
     @GetMapping({"/", "/index"})
@@ -43,19 +44,9 @@ public class WebProcessController {
         model.addAttribute("title", "Process List");
         model.addAttribute("content", "proc/list");
         model.addAttribute("activePage", "processes");
+        if(linkToPage) return "proc/list";
         return "layout";
     }
-
-    @GetMapping("/zzz")
-    public String zzzgetAllProcesses(Model model) {
-        Collection<ProcessStatusRest> processes = processRepository.findAllProcessStatusRest();
-        model.addAttribute("processes", processes);
-        model.addAttribute("title", "Process List");
-        model.addAttribute("content", "proc/list");
-        model.addAttribute("activePage", "processes");
-        return "proc/list";
-    }
-
 
     @GetMapping("/start/{name}")
     public String startProcess(@PathVariable String name) {
@@ -93,19 +84,11 @@ public class WebProcessController {
         model.addAttribute("proc", proc);
         model.addAttribute("title", "Process Details");
         model.addAttribute("content", "proc/detail");
-        model.addAttribute("activePage", "processes"); // Details page is part of processes section
+        model.addAttribute("activePage", "processes");
+        if(linkToPage) return "proc/detail";
         return "layout";
     }
 
-    @GetMapping("/details/{name}/zzzz")
-    public String processesDetailsZ(@PathVariable String name, Model model) {
-        ProcessStatusRest proc = new ProcessStatusRest(name, processRepository.getRunningProcess(name));
-        model.addAttribute("proc", proc);
-        model.addAttribute("title", "Process Details");
-        model.addAttribute("content", "proc/detail");
-        model.addAttribute("activePage", "processes"); // Details page is part of processes section
-        return "proc/detail";
-    }
 
     @GetMapping("/log/{name}")
     public String processLog(@PathVariable String name,
@@ -133,6 +116,7 @@ public class WebProcessController {
         model.addAttribute("logType", type);
         model.addAttribute("logFile", logFile != null ? logFile.getName() : "N/A");
         model.addAttribute("lines", lines);
+        if(linkToPage) return "proc/process-log";
         return "layout";
     }
 
@@ -142,6 +126,7 @@ public class WebProcessController {
         model.addAttribute("title", "Events");
         model.addAttribute("content", "proc/events");
         model.addAttribute("activePage", "events");
+        if(linkToPage) return "proc/events";
         return "layout";
     }
 }

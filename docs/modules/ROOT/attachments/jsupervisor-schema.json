@@ -30102,11 +30102,13 @@
       "properties" : {
         "description" : {
           "type" : "string",
-          "description" : "Description of the supervisor node"
+          "description" : "Description of the supervisor node",
+          "default" : ""
         },
         "node-name" : {
           "type" : "string",
-          "description" : "The name of the supervisor node"
+          "description" : "The name of the supervisor node",
+          "default" : "supervisor"
         },
         "process" : {
           "type" : "object",
@@ -30116,6 +30118,7 @@
             "properties" : {
               "actuator-health-check" : {
                 "type" : "object",
+                "description" : "Configuration for Spring Boot Actuator-based health checks",
                 "properties" : {
                   "actuator-health-url" : {
                     "type" : "string",
@@ -30126,6 +30129,10 @@
               "append-log" : {
                 "type" : "boolean",
                 "description" : "Determines if log files should be appended to or overwritten. If true, new log entries will be appended to existing log files. If false, existing log files will be overwritten when the process starts."
+              },
+              "application-log" : {
+                "type" : "string",
+                "description" : "File path where the application log will be stored"
               },
               "args" : {
                 "type" : "array",
@@ -30156,6 +30163,7 @@
               },
               "http-health-check-config" : {
                 "type" : "object",
+                "description" : "Configuration for URL-based health checks",
                 "properties" : {
                   "headers" : {
                     "type" : "array",
@@ -30180,6 +30188,7 @@
               },
               "port-health-check" : {
                 "type" : "object",
+                "description" : "Configuration for TCP port-based health checks",
                 "properties" : {
                   "host" : {
                     "type" : "string",
