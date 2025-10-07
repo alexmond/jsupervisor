@@ -3,8 +3,12 @@
         <i class="bi bi-gear-wide-connected"></i> JSuprvisor
     </a>
     <div class="navbar-nav">
-        <a class="nav-item nav-link" href="/">Processes</a>
-        <a class="nav-item nav-link" href="/events">Events</a>
-        <!--            <a class="nav-link" href="/logs">Logs</a>-->
+        <a class="nav-item nav-link" 
+           th:classappend="${activePage == 'processes'} ? 'active' : ''"
+           href="/">Processes</a>
+        <a class="nav-item nav-link" 
+           th:classappend="${activePage == 'events'} ? 'active' : ''"
+           href="/events">Events</a>
+                    <a class="nav-link" href="/logs">Logs</a>
     </div>
 </nav>

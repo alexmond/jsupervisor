@@ -114,6 +114,7 @@ public class ProcessManager {
         } catch (IOException e) {
             log.error("Failed to start process: {}", name, e);
             runningProcess.setProcessStatus(ProcessStatus.failed);
+            runningProcess.setFailedErrorLog(e.getMessage());
             runningProcess.setProcess(null);
         }
     }

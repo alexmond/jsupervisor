@@ -12,15 +12,6 @@ spring:
         max-size: 20
         queue-capacity: 25
 
-process:
-  name: test
-  command: "java"
-  working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/jsupervisor/work"
-  stdout-logfile: ${process.working-directory}/stdout.log
-  stderr-logfile: ${process.working-directory}/error.log
-  args:
-    - "-version"
-
 management:
   endpoints:
     web:
@@ -61,6 +52,7 @@ supervisor:
       http-health-check-config:
         url: http://localhost:8081/
       command: "java"
+      redirect-error-stream: false
       working-directory: "../spring-boot-test-app"
       stdout-logfile: testapp1-stdout.log
       stderr-logfile: testapp1-error.log

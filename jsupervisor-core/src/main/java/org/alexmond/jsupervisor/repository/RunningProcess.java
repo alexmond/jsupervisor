@@ -40,6 +40,7 @@ public class RunningProcess {
     private String stdoutLogfile;
     private String stderrLogfile;
     private ProcessStatus processStatus = ProcessStatus.not_started;
+    private String failedErrorLog;
 
     public RunningProcess(String processName, ProcessConfig processConfig, EventRepository eventRepository) {
         this.processName = processName;

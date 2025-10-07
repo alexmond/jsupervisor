@@ -1,87 +1,137 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        .log-content {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            max-height: 70vh;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
 
+        .log-toolbar {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .process-info {
+            background-color: #f8f9fa;
+            border-radius: 0.375rem;
+        }
+
+        .auto-refresh {
+            cursor: pointer;
+        }
+    </style>
+</head>
 <div class="container-fluid mt-4">
     <div class="row">
         <div class="col-12">
-            <h1 class="mb-4" th:text="${title}">Process Log</h1>
-
-            <div>
-                <div class="col-md-6">
-                    <h5>Process Info</h5>
-                </div>
-                <div class="col-md-6">
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Status</th>
-                            <th>Process ID</th>
-                            <th>Up time</th>
-                            <th>Exit code</th>
-                            <th>Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td th:text="${pr.name}">WEB-TEST</td>
-                            <td>
-                                <span class="badge " th:classappend="${uiconfig.uiStatusClass.get(pr.status)}"
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Process ID</th>
+                    <th>Up time</th>
+                    <th>Exit code</th>
+                    <th>Log File</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="${pr.name}">WEB-TEST</td>
+                    <td>
+                                <span class="badge " th:classappend="${@uiconfig.uiStatusClass.get(pr.status)}"
                                       th:text="${pr.status}">WEB-TEST</span>
-                            </td>
-                            <td th:text="${pr.pid}">WEB-TEST</td>
-                            <!--                                        <td th:text="${#temporals.format(pr.startTime, 'dd-MM-yyyy HH:mm')}">WEB-TEST</td>-->
-                            <td th:text="${pr.processUptime}">WEB-TEST</td>
-                            <td th:text="${pr.exitCode}">WEB-TEST</td>
-                            <td>
-                                <a class="btn btn-success btn-sm" th:href="@{/start/{id}(id=${pr.name})}"
-                                   th:unless="${pr.isAlive()}">Start</a>
-                                <a class="btn btn-danger btn-sm" th:href="@{/stop/{id}(id=${pr.name})}"
-                                   th:if="${pr.isAlive()}">Stop</a>
-                                <a class="btn btn-danger btn-sm" th:href="@{/restart/{id}(id=${pr.name})}"
-                                   th:if="${pr.isAlive()}">Restart</a>
-                                <a class="btn btn-primary btn-sm" th:href="@{/log/{id}(id=${pr.name})}">Log</a>
-                                <a class="btn btn-primary btn-sm" th:href="@{/details/{id}(id=${pr.name})}">Details</a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    </td>
+                    <td th:text="${pr.pid}">WEB-TEST</td>
+                    <!--                                        <td th:text="${#temporals.format(pr.startTime, 'dd-MM-yyyy HH:mm')}">WEB-TEST</td>-->
+                    <td th:text="${pr.processUptime}">WEB-TEST</td>
+                    <td th:text="${pr.exitCode}">WEB-TEST</td>
+                    <td th:text="${logFile}">WEB-TEST</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="log-toolbar p-3">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <a class="btn btn-secondary" href="/">
+                            <i class="fas fa-arrow-left"></i> Back to Processes
+                        </a>
+
+                        <a class="btn-sm btn-info"
+                           th:href="@{/detail/{name}(name=${proc.name})}"
+                           th:if="${procName != null}">
+                            <i class="fas fa-info-circle"></i> Process Details
+                        </a>
+                        <div class="btn-group" role="group">
+                            <a th:class="${logType == 'stdout' ? 'btn btn-primary' : 'btn btn-outline-primary'}"
+                               th:href="@{/log/{name}(name=${pr.name}, type='stdout', lines=${lines})}">
+                                <i class="bi bi-file-text"></i> stdout
+                            </a>
+                            <a th:class="${logType == 'stderr' ? 'btn btn-danger' : 'btn btn-outline-danger'}"
+                               th:href="@{/log/{name}(name=${pr.name}, type='stderr', lines=${lines})}">
+                                <i class="bi bi-exclamation-triangle"></i> stderr
+                            </a>
+                        </div>
+
+                        <div class="btn-group ms-3" role="group">
+                            <a th:class="${lines == 50 ? 'btn btn-secondary' : 'btn btn-outline-secondary'}"
+                               th:href="@{/log/{name}(name=${pr.name}, type=${logType}, lines=50)}">
+                                50 lines
+                            </a>
+                            <a th:class="${lines == 100 ? 'btn btn-secondary' : 'btn btn-outline-secondary'}"
+                               th:href="@{/log/{name}(name=${pr.name}, type=${logType}, lines=100)}">
+                                100 lines
+                            </a>
+                            <a th:class="${lines == 500 ? 'btn btn-secondary' : 'btn btn-outline-secondary'}"
+                               th:href="@{/log/{name}(name=${pr.name}, type=${logType}, lines=500)}">
+                                500 lines
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <button class="btn btn-secondary" onclick="location.reload()">
+                            <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                        </button>
+                        <button class="btn btn-secondary" onclick="scrollToBottom()">
+                            <i class="fas fa-arrow-down"></i> Scroll to Bottom
+                        </button>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="mb-3">
-                <a class="btn btn-secondary" href="/">
-                    <i class="fas fa-arrow-left"></i> Back to Processes
-                </a>
-
-                <a class="btn-sm btn-info"
-                   th:href="@{/detail/{name}(name=${proc.name})}"
-                   th:if="${procName != null}">
-                    <i class="fas fa-info-circle"></i> Process Details
-                </a>
-                <button class="btn-sm btn-secondary float-end" onclick="location.reload()">
-                    <i class="fa-solid fa-arrows-rotate"></i> Refresh
-                </button>
-                <button class="btn-sm btn-secondary float-end" onclick="scrollToBottom()">
-                    <i class="fas fa-arrow-down"></i> Scroll to Bottom
-                </button>
-            </div>
-
-
-            <div class="card mt-4" style="height: calc(100vh - 250px); width: 100%;">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
                 <div class="card-header">
-                    <i class="fas fa-align-left"></i> STDOUT Log
+                    <h6 class="mb-0">
+                        <i th:class="${logType == 'stderr' ? 'bi bi-exclamation-triangle text-danger' : 'bi bi-file-text text-primary'}"></i>
+                        <span th:text="|${name} - ${logType} (last ${lines} lines)|">Log Content</span>
+                    </h6>
                 </div>
-                <div class="card-body p-0" id="logContent" style="overflow-y: auto;">
-                        <pre class="mb-0"
-                             style="background: #212529; color: #f8f9fa; padding: 1em; min-height: 200px; border-radius: 0;">
-                            <span th:text="${stdoutContents}">No output available.</span>
+                <div class="card-body p-0">
+                        <pre class="log-content p-3 mb-0" id="logContent" th:text="${logContent}">
+Log content will appear here...
                         </pre>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
 
 <th:block th:fragment="scripts">
     <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>

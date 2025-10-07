@@ -96,7 +96,7 @@
                     <div class="col-md-8">
                         <div class="btn-group" role="group">
                             <a th:class="${logType == 'stdout' ? 'btn btn-primary' : 'btn btn-outline-primary'}"
-                               th:href="@{/logs/{name}(name=${processName}, type='stdout', lines=${lines})}">
+                               th:href="@{/logs/{name}(name=${pr.name}, type='stdout', lines=${lines})}">
                                 <i class="bi bi-file-text"></i> stdout
                             </a>
                             <a th:class="${logType == 'stderr' ? 'btn btn-danger' : 'btn btn-outline-danger'}"

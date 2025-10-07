@@ -48,6 +48,8 @@ public class ProcessStatusRest {
 
     @Schema(description = "File path where the standard error (stderr) of the process will be logged. If not specified, stderr will be inherited from the parent process.")
     private String stderrLogfile;
+    @Schema(description = "Error log content when process failed to start")
+    private String failedErrorLog;
 
     public ProcessStatusRest(String name, RunningProcess runningProcess) {
         this.name = name;
@@ -59,6 +61,7 @@ public class ProcessStatusRest {
         processUptime = runningProcess.getProcessRuntimeFormatted();
         stdoutLogfile = runningProcess.getStdoutLogfile();
         stderrLogfile = runningProcess.getStderrLogfile();
+        failedErrorLog = runningProcess.getFailedErrorLog();
 
         if (runningProcess.getProcess() != null) {
             pid = runningProcess.getProcess().pid();

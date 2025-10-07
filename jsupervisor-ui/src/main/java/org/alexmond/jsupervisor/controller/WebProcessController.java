@@ -15,7 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Collection;
@@ -40,6 +42,7 @@ public class WebProcessController {
         model.addAttribute("processes", processes);
         model.addAttribute("title", "Process List");
         model.addAttribute("content", "proc/list");
+        model.addAttribute("activePage", "processes");
         return "layout";
     }
 
@@ -49,6 +52,7 @@ public class WebProcessController {
         model.addAttribute("processes", processes);
         model.addAttribute("title", "Process List");
         model.addAttribute("content", "proc/list");
+        model.addAttribute("activePage", "processes");
         return "proc/list";
     }
 
@@ -89,21 +93,46 @@ public class WebProcessController {
         model.addAttribute("proc", proc);
         model.addAttribute("title", "Process Details");
         model.addAttribute("content", "proc/detail");
+        model.addAttribute("activePage", "processes"); // Details page is part of processes section
         return "layout";
     }
 
+    @GetMapping("/details/{name}/zzzz")
+    public String processesDetailsZ(@PathVariable String name, Model model) {
+        ProcessStatusRest proc = new ProcessStatusRest(name, processRepository.getRunningProcess(name));
+        model.addAttribute("proc", proc);
+        model.addAttribute("title", "Process Details");
+        model.addAttribute("content", "proc/detail");
+        model.addAttribute("activePage", "processes"); // Details page is part of processes section
+        return "proc/detail";
+    }
+
     @GetMapping("/log/{name}")
-    public String processLog(@PathVariable String name, Model model) throws IOException {
+    public String processLog(@PathVariable String name,
+                             @RequestParam(defaultValue = "stdout") String type,
+                             @RequestParam(defaultValue = "100") int lines,
+                             Model model) throws IOException {
+
         RunningProcess runningProcess = processRepository.getRunningProcess(name);
-        String stdoutContents = "";
-        if (runningProcess != null && runningProcess.getStdout() != null && runningProcess.getStdout().exists()) {
-            stdoutContents = Files.readString(runningProcess.getStdout().toPath());
+        if (runningProcess == null) {
+            model.addAttribute("error", "Process not found: " + name);
+            return "logs/error";
+        }
+        File logFile = "stderr".equals(type) ? runningProcess.getStderr() : runningProcess.getStdout();
+
+        String logContent = "";
+        if (runningProcess.getStdout() != null && runningProcess.getStdout().exists()) {
+            logContent = Files.readString(runningProcess.getStdout().toPath());
         }
         ProcessStatusRest proc = new ProcessStatusRest(name, processRepository.getRunningProcess(name));
         model.addAttribute("pr", proc);
-        model.addAttribute("stdoutContents", stdoutContents);
+        model.addAttribute("logContent", logContent);
         model.addAttribute("title", "Process Log");
         model.addAttribute("content", "proc/process-log");
+        model.addAttribute("activePage", "processes");
+        model.addAttribute("logType", type);
+        model.addAttribute("logFile", logFile != null ? logFile.getName() : "N/A");
+        model.addAttribute("lines", lines);
         return "layout";
     }
 
@@ -112,8 +141,7 @@ public class WebProcessController {
         model.addAttribute("events", eventRepository.findAll());
         model.addAttribute("title", "Events");
         model.addAttribute("content", "proc/events");
+        model.addAttribute("activePage", "events");
         return "layout";
-//        return "proc/events";
     }
-
 }
