@@ -34,6 +34,8 @@ public class WebProcessController {
     private final EventRepository eventRepository;
     private final UiConfig uiConfig;
 
+    private boolean link = false;
+
 
     @GetMapping({"/", "/index"})
     public String getAllProcesses(Model model) {
@@ -41,6 +43,7 @@ public class WebProcessController {
         model.addAttribute("processes", processes);
         model.addAttribute("title", "Process List");
         model.addAttribute("content", "proc/list");
+        if (link) {return "proc/list";}
         return "layout";
     }
 
@@ -90,6 +93,7 @@ public class WebProcessController {
         model.addAttribute("proc", proc);
         model.addAttribute("title", "Process Details");
         model.addAttribute("content", "proc/detail");
+        if (link) {return "proc/detail";}
         return "layout";
     }
 

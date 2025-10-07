@@ -43,10 +43,10 @@ public class ActuatorHealthCheck implements HealthCheck {
     public void run() {
 
         try {
-            log.info("Performing health check");
+            log.debug("Performing health check");
             var response = restClient.get().retrieve().body(Map.class);
             String status = response != null && response.containsKey("status") ? response.get("status").toString() : "UNKNOWN";
-            log.info("Health check status: {}", status);
+            log.debug("Health check status: {}", status);
             boolean currentHealth = "UP".equalsIgnoreCase(status);
 
             if (currentHealth) {

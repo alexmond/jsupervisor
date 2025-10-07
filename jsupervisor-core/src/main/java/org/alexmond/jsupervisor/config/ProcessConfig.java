@@ -111,6 +111,13 @@ public class ProcessConfig {
     private String description;
 
     /**
+     * File path where the application log will be stored.
+     * Contains the main application log output.
+     */
+    @Schema(description = "File path where the application log will be stored", example = "/var/log/app.log")
+    private String applicationLog;
+
+    /**
      * Type of health check to be performed on the process.
      * Determines which method will be used to monitor process health.
      */
@@ -121,6 +128,7 @@ public class ProcessConfig {
      * Configuration for Spring Boot Actuator-based health checks.
      * Used when healthCheckType is set to ACTUATOR.
      */
+    @Schema(description = "Configuration for Spring Boot Actuator-based health checks")
     @NestedConfigurationProperty
     private ActuatorHealthCheckConfig actuatorHealthCheck;
 
@@ -128,6 +136,7 @@ public class ProcessConfig {
      * Configuration for URL-based health checks.
      * Used when healthCheckType is set to HTTP.
      */
+    @Schema(description = "Configuration for URL-based health checks")
     @NestedConfigurationProperty
     private HttpHealthCheckConfig httpHealthCheckConfig;
 
@@ -135,6 +144,7 @@ public class ProcessConfig {
      * Configuration for TCP port-based health checks.
      * Used when healthCheckType is set to TCP.
      */
+    @Schema(description = "Configuration for TCP port-based health checks")
     @NestedConfigurationProperty
     private PortHealthCheckConfig portHealthCheck;
 

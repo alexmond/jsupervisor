@@ -43,7 +43,7 @@ public class HttpHealthCheck implements HealthCheck {
     public void run() {
 
         try {
-            log.info("Performing health check");
+            log.debug("Performing health check");
             var status = restClient.get().retrieve().toBodilessEntity().getStatusCode();
             if (status.is2xxSuccessful()) {
                 successCount++;
