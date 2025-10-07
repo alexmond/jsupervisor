@@ -7,9 +7,9 @@
         <artifactId>jsupervisor-root</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <artifactId>jsupervisor</artifactId>
+    <artifactId>jsupervisor-core</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>jsupervisor</name>
+    <name>jsupervisor-core</name>
     <description>A Spring Boot-based process supervisor for managing and monitoring application processes</description>
     <url>https://alexmond.github.io/jsupervisor/current/index.html</url>
     <issueManagement>
@@ -45,18 +45,11 @@
         <bootstrap-icons.version>1.13.1</bootstrap-icons.version>
         <commons-io.version>2.20.0</commons-io.version>
         <spring-boot-config-json-schema.version>1.0.4</spring-boot-config-json-schema.version>
-        <spring-boot-admin.version>3.5.5</spring-boot-admin.version>
     </properties>
     <dependencies>
         <dependency>
-            <groupId>org.alexmond</groupId>
-            <artifactId>jsupervisor-ui</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.alexmond</groupId>
-            <artifactId>jsupervisor-rest</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -78,6 +71,11 @@
             <artifactId>jakarta.persistence-api</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>${oshi-core.version}</version> <!-- Use the latest version -->
+        </dependency>
+        <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
@@ -87,50 +85,20 @@
             <artifactId>httpclient5</artifactId>
         </dependency>
         <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
-            <version>${spring-boot-admin.version}</version>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations-jakarta</artifactId>
+            <version>2.2.36</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.alexmond</groupId>
-            <artifactId>spring-boot-config-json-schema-starter</artifactId>
-            <version>${spring-boot-config-json-schema.version}</version>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.alexmond</groupId>
-            <artifactId>spring-boot-actuator-sanitizer-starter</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <!-- WebJars Dependencies -->
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>bootstrap</artifactId>
-            <version>${bootstrap.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>font-awesome</artifactId>
-            <version>${font-awesome.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars.npm</groupId>
-            <artifactId>bootstrap-icons</artifactId>
-            <version>${bootstrap-icons.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>webjars-locator-core</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

@@ -43,6 +43,9 @@
         <url>https://github.com/alexmond/jsupervisor</url>
     </scm>
     <modules>
+        <module>jsupervisor-core</module>
+        <module>jsupervisor-ui</module>
+        <module>jsupervisor-rest</module>
         <module>jsupervisor</module>
         <module>spring-boot-test-app</module>
     </modules>
