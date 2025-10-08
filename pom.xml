@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>org.alexmond</groupId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.0.1</version>
     <artifactId>jsupervisor-root</artifactId>
     <packaging>pom</packaging>
     <name>jsupervisor root</name>
