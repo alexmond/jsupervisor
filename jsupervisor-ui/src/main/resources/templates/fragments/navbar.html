@@ -4,10 +4,10 @@
     </a>
     <div class="navbar-nav">
         <a class="nav-item nav-link" 
-           th:classappend="${activePage == 'processes'} ? 'active' : ''"
+           th:classappend="${pageModel.activePage == 'processes'} ? 'active' : ''"
            href="/">Processes</a>
         <a class="nav-item nav-link" 
-           th:classappend="${activePage == 'events'} ? 'active' : ''"
+           th:classappend="${pageModel.activePage == 'events'} ? 'active' : ''"
            href="/events">Events</a>
     </div>
 </nav>

@@ -4,7 +4,7 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-12">
-            <h1 class="mb-4" th:text="${title}">Process Details</h1>
+            <h1 class="mb-4" th:text="${pageModel.title}">Process Details</h1>
             <div class="mb-3">
                 <button class="btn  btn-outline-primary" onclick="location.reload()">
                     <i class="fa-solid fa-arrows-rotate"></i> Refresh
@@ -24,7 +24,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="event : ${events}">
+                <tr th:each="event : ${pageModel.events}">
                     <td th:text="${event.processName}">Process Name</td>
                     <td>
                         <span class="badge "

@@ -45,16 +45,16 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td th:text="${pr.name}">WEB-TEST</td>
+                    <td th:text="${pageModel.pr.name}">WEB-TEST</td>
                     <td>
-                                <span class="badge " th:classappend="${@uiconfig.uiStatusClass.get(pr.status)}"
-                                      th:text="${pr.status}">WEB-TEST</span>
+                                <span class="badge " th:classappend="${@uiconfig.uiStatusClass.get(pageModel.pr.status)}"
+                                      th:text="${pageModel.pr.status}">WEB-TEST</span>
                     </td>
-                    <td th:text="${pr.pid}">WEB-TEST</td>
+                    <td th:text="${pageModel.pr.pid}">WEB-TEST</td>
                     <!--                                        <td th:text="${#temporals.format(pr.startTime, 'dd-MM-yyyy HH:mm')}">WEB-TEST</td>-->
-                    <td th:text="${pr.processUptime}">WEB-TEST</td>
-                    <td th:text="${pr.exitCode}">WEB-TEST</td>
-                    <td th:text="${logFile}">WEB-TEST</td>
+                    <td th:text="${pageModel.pr.processUptime}">WEB-TEST</td>
+                    <td th:text="${pageModel.pr.exitCode}">WEB-TEST</td>
+                    <td th:text="${pageModel.logFile}">WEB-TEST</td>
                 </tr>
                 </tbody>
             </table>
@@ -70,33 +70,28 @@
                             <i class="fas fa-arrow-left"></i> Back to Processes
                         </a>
 
-                        <a class="btn-sm btn-info"
-                           th:href="@{/detail/{name}(name=${proc.name})}"
-                           th:if="${procName != null}">
-                            <i class="fas fa-info-circle"></i> Process Details
-                        </a>
                         <div class="btn-group" role="group">
-                            <a th:class="${logType == 'stdout' ? 'btn btn-primary' : 'btn btn-outline-primary'}"
-                               th:href="@{/log/{name}(name=${pr.name}, type='stdout', lines=${lines})}">
+                            <a th:class="${pageModel.logType == 'stdout' ? 'btn btn-primary' : 'btn btn-outline-primary'}"
+                               th:href="@{/log/{name}(name=${pageModel.pr.name}, type='stdout', lines=${pageModel.lines})}">
                                 <i class="bi bi-file-text"></i> stdout
                             </a>
-                            <a th:class="${logType == 'stderr' ? 'btn btn-danger' : 'btn btn-outline-danger'}"
-                               th:href="@{/log/{name}(name=${pr.name}, type='stderr', lines=${lines})}">
+                            <a th:class="${pageModel.logType == 'stderr' ? 'btn btn-danger' : 'btn btn-outline-danger'}"
+                               th:href="@{/log/{name}(name=${pageModel.pr.name}, type='stderr', lines=${pageModel.lines})}">
                                 <i class="bi bi-exclamation-triangle"></i> stderr
                             </a>
                         </div>
 
                         <div class="btn-group ms-3" role="group">
-                            <a th:class="${lines == 50 ? 'btn btn-secondary' : 'btn btn-outline-secondary'}"
-                               th:href="@{/log/{name}(name=${pr.name}, type=${logType}, lines=50)}">
+                            <a th:class="${pageModel.lines == 50 ? 'btn btn-secondary' : 'btn btn-outline-secondary'}"
+                               th:href="@{/log/{name}(name=${pageModel.pr.name}, type=${pageModel.logType}, lines=50)}">
                                 50 lines
                             </a>
-                            <a th:class="${lines == 100 ? 'btn btn-secondary' : 'btn btn-outline-secondary'}"
-                               th:href="@{/log/{name}(name=${pr.name}, type=${logType}, lines=100)}">
+                            <a th:class="${pageModel.lines == 100 ? 'btn btn-secondary' : 'btn btn-outline-secondary'}"
+                               th:href="@{/log/{name}(name=${pageModel.pr.name}, type=${pageModel.logType}, lines=100)}">
                                 100 lines
                             </a>
-                            <a th:class="${lines == 500 ? 'btn btn-secondary' : 'btn btn-outline-secondary'}"
-                               th:href="@{/log/{name}(name=${pr.name}, type=${logType}, lines=500)}">
+                            <a th:class="${pageModel.lines == 500 ? 'btn btn-secondary' : 'btn btn-outline-secondary'}"
+                               th:href="@{/log/{name}(name=${pageModel.pr.name}, type=${pageModel.logType}, lines=500)}">
                                 500 lines
                             </a>
                         </div>
@@ -119,12 +114,12 @@
             <div class="card">
                 <div class="card-header">
                     <h6 class="mb-0">
-                        <i th:class="${logType == 'stderr' ? 'bi bi-exclamation-triangle text-danger' : 'bi bi-file-text text-primary'}"></i>
-                        <span th:text="|${name} - ${logType} (last ${lines} lines)|">Log Content</span>
+                        <i th:class="${pageModel.logType == 'stderr' ? 'bi bi-exclamation-triangle text-danger' : 'bi bi-file-text text-primary'}"></i>
+                        <span th:text="|${pageModel.pr.name} - ${pageModel.logType} (last ${pageModel.lines} lines)|">Log Content</span>
                     </h6>
                 </div>
                 <div class="card-body p-0">
-                        <pre class="log-content p-3 mb-0" id="logContent" th:text="${logContent}">
+                        <pre class="log-content p-3 mb-0" id="logContent" th:text="${pageModel.logContent}">
 Log content will appear here...
                         </pre>
                 </div>

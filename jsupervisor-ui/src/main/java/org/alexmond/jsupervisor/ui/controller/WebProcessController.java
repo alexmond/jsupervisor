@@ -1,21 +1,21 @@
-package org.alexmond.jsupervisor.controller;
+package org.alexmond.jsupervisor.ui.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
-import org.alexmond.jsupervisor.config.UiConfig;
 import org.alexmond.jsupervisor.model.ProcessStatusRest;
 import org.alexmond.jsupervisor.repository.EventRepository;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
 import org.alexmond.jsupervisor.repository.RunningProcess;
 import org.alexmond.jsupervisor.service.ProcessManager;
 import org.alexmond.jsupervisor.service.ProcessManagerBulk;
+import org.alexmond.jsupervisor.ui.model.EventsPageModel;
+import org.alexmond.jsupervisor.ui.model.ProcessDetailPageModel;
+import org.alexmond.jsupervisor.ui.model.ProcessLogPageModel;
+import org.alexmond.jsupervisor.ui.model.ProcessesPageModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,18 +33,20 @@ public class WebProcessController {
     private final ProcessManagerBulk processManagerBulk;
     private final SupervisorConfig supervisorConfig;
     private final EventRepository eventRepository;
-    private final UiConfig uiConfig;
     private final boolean linkToPage = false;
 
 
     @GetMapping({"/", "/index"})
     public String getAllProcesses(Model model) {
         Collection<ProcessStatusRest> processes = processRepository.findAllProcessStatusRest();
-        model.addAttribute("processes", processes);
-        model.addAttribute("title", "Process List");
+        ProcessesPageModel pageModel = ProcessesPageModel.builder()
+                .title("Process List")
+                .activePage("processes")
+                .processes(processes)
+                .build();
+        model.addAttribute("pageModel", pageModel);
         model.addAttribute("content", "proc/list");
-        model.addAttribute("activePage", "processes");
-        if(linkToPage) return "proc/list";
+        if (linkToPage) return "proc/list";
         return "layout";
     }
 
@@ -81,14 +83,16 @@ public class WebProcessController {
     @GetMapping("/details/{name}")
     public String processesDetails(@PathVariable String name, Model model) {
         ProcessStatusRest proc = new ProcessStatusRest(name, processRepository.getRunningProcess(name));
-        model.addAttribute("proc", proc);
-        model.addAttribute("title", "Process Details");
+        ProcessDetailPageModel pageModel = ProcessDetailPageModel.builder()
+                .title("Process Details")
+                .activePage("processes")
+                .proc(proc)
+                .build();
+        model.addAttribute("pageModel", pageModel);
         model.addAttribute("content", "proc/detail");
-        model.addAttribute("activePage", "processes");
-        if(linkToPage) return "proc/detail";
+        if (linkToPage) return "proc/detail";
         return "layout";
     }
-
 
     @GetMapping("/log/{name}")
     public String processLog(@PathVariable String name,
@@ -108,25 +112,33 @@ public class WebProcessController {
             logContent = Files.readString(runningProcess.getStdout().toPath());
         }
         ProcessStatusRest proc = new ProcessStatusRest(name, processRepository.getRunningProcess(name));
-        model.addAttribute("pr", proc);
-        model.addAttribute("logContent", logContent);
-        model.addAttribute("title", "Process Log");
+
+        ProcessLogPageModel pageModel = ProcessLogPageModel.builder()
+                .title("Process Log")
+                .activePage("processes")
+                .logType(type)
+                .logFile(logFile != null ? logFile.getName() : "N/A")
+                .lines(lines)
+                .logContent(logContent)
+                .pr(proc)
+                .build();
+
+        model.addAttribute("pageModel", pageModel);
         model.addAttribute("content", "proc/process-log");
-        model.addAttribute("activePage", "processes");
-        model.addAttribute("logType", type);
-        model.addAttribute("logFile", logFile != null ? logFile.getName() : "N/A");
-        model.addAttribute("lines", lines);
-        if(linkToPage) return "proc/process-log";
+        if (linkToPage) return "proc/process-log";
         return "layout";
     }
 
     @GetMapping("/events")
-    public String getEvents(Model model) throws IOException {
-        model.addAttribute("events", eventRepository.findAll());
-        model.addAttribute("title", "Events");
+    public String getEvents(Model model) {
+        EventsPageModel pageModel = EventsPageModel.builder()
+                .title("Events")
+                .activePage("events")
+                .events(eventRepository.findAll())
+                .build();
+        model.addAttribute("pageModel", pageModel);
         model.addAttribute("content", "proc/events");
-        model.addAttribute("activePage", "events");
-        if(linkToPage) return "proc/events";
+        if (linkToPage) return "proc/events";
         return "layout";
     }
 }

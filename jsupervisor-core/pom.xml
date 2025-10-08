@@ -38,13 +38,8 @@
     </scm>
     <properties>
         <java.version>17</java.version>
-        <springdoc-openapi.version>2.8.13</springdoc-openapi.version>
         <oshi-core.version>6.8.2</oshi-core.version>
-        <bootstrap.version>5.3.3</bootstrap.version>
-        <font-awesome.version>6.5.1</font-awesome.version>
-        <bootstrap-icons.version>1.13.1</bootstrap-icons.version>
         <commons-io.version>2.20.0</commons-io.version>
-        <spring-boot-config-json-schema.version>1.0.4</spring-boot-config-json-schema.version>
     </properties>
     <dependencies>
         <dependency>

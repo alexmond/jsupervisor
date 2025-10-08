@@ -36,11 +36,11 @@
         <tag>HEAD</tag>
         <url>https://github.com/alexmond/jsupervisor</url>
     </scm>
+    
     <properties>
         <java.version>17</java.version>
         <bootstrap.version>5.3.3</bootstrap.version>
         <commons-io.version>2.20.0</commons-io.version>
-        <bootstrap.version>5.3.3</bootstrap.version>
         <font-awesome.version>6.5.1</font-awesome.version>
         <bootstrap-icons.version>1.13.1</bootstrap-icons.version>
     </properties>

@@ -3,18 +3,18 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-12">
-            <h1 class="mb-4" th:text="${title}">Process Details</h1>
+            <h1 class="mb-4" th:text="${pageModel.title}">Process Details</h1>
 
             <div class="mb-3">
                 <a class="btn btn-secondary" href="/">
                     <i class="fas fa-arrow-left"></i> Back to Processes
                 </a>
-                <!--                    <a th:href="@{/edit/{name}(name=${proc.name})}" class="btn btn-warning">-->
+                <!--                    <a th:href="@{/edit/{name}(name=${pageModel.proc.name})}" class="btn btn-warning">-->
                 <!--                        <i class="fas fa-edit"></i> Edit Process Configuration-->
                 <!--                    </a>-->
             </div>
 
-            <div class="card" th:if="${proc}">
+            <div class="card" th:if="${pageModel.proc}">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
@@ -22,43 +22,43 @@
                             <table class="table table-bordered">
                                 <tr>
                                     <td><strong>Name:</strong></td>
-                                    <td th:text="${proc.name}">Process Name</td>
+                                    <td th:text="${pageModel.proc.name}">Process Name</td>
                                 </tr>
                                 <tr>
                                     <td><strong>PID:</strong></td>
-                                    <td th:text="${proc.pid}">123</td>
+                                    <td th:text="${pageModel.proc.pid}">123</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Status:</strong></td>
                                     <td>
                                             <span class="badge "
-                                                  th:classappend="${@uiconfig.uiStatusClass.get(proc.status)}"
-                                                  th:text="${proc.status}">WEB-TEST</span>
+                                                  th:classappend="${@uiconfig.uiStatusClass.get(pageModel.proc.status)}"
+                                                  th:text="${pageModel.proc.status}">WEB-TEST</span>
                                     </td>
                                 </tr>
                                 <!--                                    <tr>-->
                                 <!--                                        <td><strong>CPU:</strong></td>-->
-                                <!--                                        <td th:text="${proc.cpu} + '%'">0.0%</td>-->
+                                <!--                                        <td th:text="${pageModel.proc.cpu} + '%'">0.0%</td>-->
                                 <!--                                    </tr>-->
                                 <!--                                    <tr>-->
                                 <!--                                        <td><strong>Memory:</strong></td>-->
-                                <!--                                        <td th:text="${proc.memory} + ' MB'">0 MB</td>-->
+                                <!--                                        <td th:text="${pageModel.proc.memory} + ' MB'">0 MB</td>-->
                                 <!--                                    </tr>-->
                                 <tr>
                                     <td><strong>Start Time:</strong></td>
-                                    <td th:text="${proc.startTime}">Start Time</td>
+                                    <td th:text="${pageModel.proc.startTime}">Start Time</td>
                                 </tr>
                                 <tr>
                                     <td><strong>End Time:</strong></td>
-                                    <td th:text="${proc.endTime}">Start Time</td>
+                                    <td th:text="${pageModel.proc.endTime}">Start Time</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Exit Code:</strong></td>
-                                    <td th:text="${proc.exitCode}">Start Time</td>
+                                    <td th:text="${pageModel.proc.exitCode}">Start Time</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Start error message:</strong></td>
-                                    <td th:text="${proc.failedErrorLog}">place holder</td>
+                                    <td th:text="${pageModel.proc.failedErrorLog}">place holder</td>
                                 </tr>
                             </table>
                         </div>
@@ -68,39 +68,39 @@
                             <table class="table table-bordered">
                                 <tr>
                                     <td><strong>Command:</strong></td>
-                                    <td th:text="${proc.processConfig.command}">Process Name</td>
+                                    <td th:text="${pageModel.proc.processConfig.command}">Process Name</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Working Directory:</strong></td>
-                                    <td th:text="${proc.processConfig.workingDirectory}">Working Directory</td>
+                                    <td th:text="${pageModel.proc.processConfig.workingDirectory}">Working Directory</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Arguments:</strong></td>
-                                    <td th:text="${proc.processConfig.args}">Arguments</td>
+                                    <td th:text="${pageModel.proc.processConfig.args}">Arguments</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Environment Variables:</strong></td>
-                                    <td th:text="${proc.processConfig.env}">Environment Variables</td>
+                                    <td th:text="${pageModel.proc.processConfig.env}">Environment Variables</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Standard Output File:</strong></td>
-                                    <td th:text="${proc.processConfig.stdoutLogfile}">Standard Output</td>
+                                    <td th:text="${pageModel.proc.processConfig.stdoutLogfile}">Standard Output</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Standard Error File:</strong></td>
-                                    <td th:text="${proc.processConfig.stderrLogfile}">Standard Error</td>
+                                    <td th:text="${pageModel.proc.processConfig.stderrLogfile}">Standard Error</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Whatever to redirect stderr to stdout</strong></td>
-                                    <td th:text="${proc.processConfig.redirectErrorStream}">true</td>
+                                    <td th:text="${pageModel.proc.processConfig.redirectErrorStream}">true</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Append to or overnight log file:</strong></td>
-                                    <td th:text="${proc.processConfig.appendLog}">false</td>
+                                    <td th:text="${pageModel.proc.processConfig.appendLog}">false</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Shutdown Timeout duration before forcible shutdown:</strong></td>
-                                    <td th:text="${proc.processConfig.shutdownTimeout.toSeconds()}">0</td>
+                                    <td th:text="${pageModel.proc.processConfig.shutdownTimeout.toSeconds()}">0</td>
                                 </tr>
                             </table>
                         </div>
@@ -109,7 +109,7 @@
             </div>
         </div>
 
-        <div class="alert alert-danger" th:unless="${proc}">
+        <div class="alert alert-danger" th:unless="${pageModel.proc}">
             <i class="fas fa-exclamation-triangle"></i> Process not found.
         </div>
     </div>

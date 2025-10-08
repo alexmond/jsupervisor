@@ -4,7 +4,7 @@
 <div class="container mt-4">
     <div class="row">
         <div class="col-12">
-            <h1 class="mb-4" th:text="${title}">Process Management</h1>
+            <h1 class="mb-4" th:text="${pageModel.title}">Process Management</h1>
 
             <div class="mb-3">
                 <button class="btn  btn-outline-primary" onclick="location.reload()">
@@ -20,11 +20,11 @@
 
             <div class="card">
                 <div class="card-body">
-                    <div class="alert alert-info" th:if="${#lists.isEmpty(processes)}">
+                    <div class="alert alert-info" th:if="${#lists.isEmpty(pageModel.processes)}">
                         <i class="fas fa-info-circle"></i> No processes found.
                     </div>
 
-                    <div th:unless="${#lists.isEmpty(processes)}">
+                    <div th:unless="${#lists.isEmpty(pageModel.processes)}">
                         <table class="table table-striped">
                             <thead>
                             <tr>
@@ -38,7 +38,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="pr : ${processes}">
+                            <tr th:each="pr : ${pageModel.processes}">
                                 <td th:text="${pr.name}">WEB-TEST</td>
                                 <td>
                                             <span class="badge "
@@ -72,7 +72,7 @@
 
                         <div class="mt-3">
                             <small class="text-muted">
-                                Total processes: <span th:text="${#lists.size(processes)}">0</span>
+                                Total processes: <span th:text="${#lists.size(pageModel.processes)}">0</span>
                             </small>
                         </div>
                     </div>

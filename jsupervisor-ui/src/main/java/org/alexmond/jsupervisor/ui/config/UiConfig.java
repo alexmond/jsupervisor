@@ -1,4 +1,4 @@
-package org.alexmond.jsupervisor.config;
+package org.alexmond.jsupervisor.ui.config;
 
 import lombok.Data;
 import org.alexmond.jsupervisor.model.ProcessStatus;
