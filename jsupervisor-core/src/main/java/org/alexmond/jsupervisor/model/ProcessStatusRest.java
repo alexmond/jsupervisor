@@ -68,8 +68,4 @@ public class ProcessStatusRest {
         }
         status = runningProcess.getProcessStatus();
     }
-
-    public boolean isAlive() {
-        return pid != null;
-    }
 }

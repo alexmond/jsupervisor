@@ -17,6 +17,10 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * REST Controller for managing and monitoring application processes.
+ * Provides endpoints for starting, stopping, restarting, and retrieving process information.
+ */
 @Tag(name = "Supervisor", description = "Process API")
 @RestController
 @RequestMapping("/api/v1")
@@ -29,6 +33,14 @@ public class RestProcessController {
     private final ProcessManager processManager;
     private final ProcessManagerBulk processManagerBulk;
 
+    /**
+     * Constructs a new RestProcessController.
+     *
+     * @param processRepository  Repository for process management
+     * @param supervisorConfig   Configuration for the supervisor
+     * @param processManager     Manager for individual process operations
+     * @param processManagerBulk Manager for bulk process operations
+     */
     @Autowired
     public RestProcessController(ProcessRepository processRepository, SupervisorConfig supervisorConfig, ProcessManager processManager, ProcessManagerBulk processManagerBulk) {
         this.processRepository = processRepository;
@@ -37,6 +49,11 @@ public class RestProcessController {
         this.processManagerBulk = processManagerBulk;
     }
 
+    /**
+     * Starts all configured processes.
+     *
+     * @throws IOException if there is an error starting the processes
+     */
     @PostMapping("/startAll")
     @Operation(summary = "Start all configured processes")
     @ApiResponse(responseCode = "200", description = "All processes started successfully")
@@ -44,6 +61,11 @@ public class RestProcessController {
         processManagerBulk.startAll();
     }
 
+    /**
+     * Stops a specific process.
+     *
+     * @param name the name of the process to stop
+     */
     @PostMapping("/stop/{name}")
     @Operation(summary = "Stop a specific process")
     @ApiResponse(responseCode = "200", description = "Process stopped successfully")
@@ -51,6 +73,11 @@ public class RestProcessController {
         processManager.stopProcess(name);
     }
 
+    /**
+     * Starts a specific process.
+     *
+     * @param name the name of the process to start
+     */
     @PostMapping("/start/{name}")
     @Operation(summary = "Start a specific process")
     @ApiResponse(responseCode = "200", description = "Process started successfully")
@@ -58,6 +85,11 @@ public class RestProcessController {
         processManager.startProcess(name);
     }
 
+    /**
+     * Restarts a specific process.
+     *
+     * @param name the name of the process to restart
+     */
     @PostMapping("/restart/{name}")
     @Operation(summary = "Restart a specific process")
     @ApiResponse(responseCode = "200", description = "Process started successfully")
@@ -66,6 +98,12 @@ public class RestProcessController {
         processManager.restartProcess(name);
     }
 
+    /**
+     * Retrieves details for a specific process.
+     *
+     * @param name the name of the process
+     * @return the process status details
+     */
     @PostMapping("/details/{name}")
     @Operation(summary = "Return the details for a specific process")
     @ApiResponse(responseCode = "200", description = "Details returned successfully",
@@ -76,6 +114,11 @@ public class RestProcessController {
     }
 
 
+    /**
+     * Retrieves all configured processes.
+     *
+     * @return a collection of all process statuses
+     */
     @GetMapping("/allProcesses")
     @Operation(summary = "Get all configured processes")
     @ApiResponse(responseCode = "200", description = "List of all processes retrieved successfully",
