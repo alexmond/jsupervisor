@@ -3,6 +3,11 @@ package org.alexmond.jsupervisor.config;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+/**
+ * Abstract base class providing common configuration properties for health checks.
+ * Defines timing and threshold parameters used to control health check behavior.
+ * This class serves as a foundation for specific health check implementations.
+ */
 @Data
 @Schema(description = "Base configuration for health checks")
 public abstract class AbstractHealthCheckConfig {

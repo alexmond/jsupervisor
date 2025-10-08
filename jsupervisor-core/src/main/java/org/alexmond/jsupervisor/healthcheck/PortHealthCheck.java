@@ -11,6 +11,11 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
+/**
+ * Health check implementation that monitors a specific TCP port on a host.
+ * Tracks successful and failed connection attempts to determine the health status
+ * of the monitored process based on configured thresholds.
+ */
 @Slf4j
 public class PortHealthCheck implements HealthCheck {
     private boolean cachedHealth = false;
@@ -19,16 +24,32 @@ public class PortHealthCheck implements HealthCheck {
     private int successesCount = 0;
     private int failureCount = 0;
 
+    /**
+     * Creates a new PortHealthCheck instance.
+     *
+     * @param portHealthCheckConfig Configuration for the port health check including host, port, and thresholds
+     * @param runningProcess        The process being monitored
+     */
     public PortHealthCheck(PortHealthCheckConfig portHealthCheckConfig, RunningProcess runningProcess) {
         config = portHealthCheckConfig;
         this.runningProcess = runningProcess;
     }
 
+    /**
+     * Returns the current cached health status.
+     *
+     * @return true if the monitored port is considered healthy, false otherwise
+     */
     @Override
     public boolean check() {
         return cachedHealth;
     }
 
+    /**
+     * Performs the health check by attempting to connect to the configured port.
+     * Updates the health status based on successful/failed connection attempts
+     * and configured thresholds.
+     */
     @Override
     public void run() {
         try {
@@ -53,6 +74,11 @@ public class PortHealthCheck implements HealthCheck {
         }
     }
 
+    /**
+     * Creates and configures an HTTP client request factory with specific timeouts.
+     *
+     * @return Configured ClientHttpRequestFactory instance
+     */
     private ClientHttpRequestFactory getClientHttpRequestFactory() {
         HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
         clientHttpRequestFactory.setConnectTimeout(100);

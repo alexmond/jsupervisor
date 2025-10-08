@@ -10,6 +10,10 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Repository class managing running processes in the supervisor system.
+ * Provides methods to access and manipulate process information.
+ */
 @Configuration
 public class ProcessRepository {
 
@@ -17,6 +21,12 @@ public class ProcessRepository {
     private final Map<String, RunningProcess> runningProcesses = new ConcurrentHashMap<>();
 
 
+    /**
+     * Constructs a ProcessRepository and initializes running processes from configuration.
+     *
+     * @param supervisorConfig Configuration containing process definitions
+     * @param eventRepository  Repository for handling process events
+     */
     @Autowired
     public ProcessRepository(SupervisorConfig supervisorConfig, EventRepository eventRepository) {
         for (var processConfig : supervisorConfig.getProcess().entrySet()) {
@@ -24,6 +34,11 @@ public class ProcessRepository {
         }
     }
 
+    /**
+     * Retrieves status information for all running processes in REST format.
+     *
+     * @return Collection of ProcessStatusRest objects containing process status information
+     */
     public Collection<ProcessStatusRest> findAllProcessStatusRest() {
         Collection<ProcessStatusRest> formatedProcesses = new ArrayList<>();
         for (var runningProcess : runningProcesses.entrySet()) {
@@ -32,14 +47,31 @@ public class ProcessRepository {
         return formatedProcesses;
     }
 
+    /**
+     * Retrieves all running processes.
+     *
+     * @return Map of process names to RunningProcess objects
+     */
     public Map<String, RunningProcess> findAll() {
         return runningProcesses;
     }
 
+    /**
+     * Retrieves a specific running process by name.
+     *
+     * @param name Name of the process to retrieve
+     * @return RunningProcess object for the specified name
+     */
     public RunningProcess getRunningProcess(String name) {
         return runningProcesses.get(name);
     }
 
+    /**
+     * Retrieves status information for a specific process in REST format.
+     *
+     * @param name Name of the process to retrieve status for
+     * @return ProcessStatusRest object containing process status information
+     */
     public ProcessStatusRest getRunningProcessRest(String name) {
         return new ProcessStatusRest(name, runningProcesses.get(name));
     }

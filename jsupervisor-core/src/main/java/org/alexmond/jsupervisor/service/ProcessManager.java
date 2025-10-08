@@ -21,6 +21,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Manages the lifecycle of processes in the supervisor system.
+ * Responsible for starting, stopping, and restarting processes according to their configuration.
+ * Handles process monitoring, output redirection, and cleanup operations.
+ */
 @Component
 @Slf4j
 public class ProcessManager {
@@ -30,6 +35,15 @@ public class ProcessManager {
     private final ThreadPoolTaskScheduler threadPoolTaskScheduler;
     private final EventRepository eventRepository;
 
+    /**
+     * Constructs a ProcessManager with required dependencies.
+     *
+     * @param supervisorConfig        Configuration for the supervisor system
+     * @param processRepository       Repository for managing process states
+     * @param processManagerMonitor   Monitor for tracking process completion
+     * @param threadPoolTaskScheduler Scheduler for async operations
+     * @param eventRepository         Repository for storing process events
+     */
     @Autowired
     public ProcessManager(SupervisorConfig supervisorConfig, ProcessRepository processRepository, ProcessManagerMonitor processManagerMonitor, ThreadPoolTaskScheduler threadPoolTaskScheduler, EventRepository eventRepository) {
         this.supervisorConfig = supervisorConfig;
@@ -39,12 +53,26 @@ public class ProcessManager {
         this.eventRepository = eventRepository;
     }
 
+    /**
+     * Restarts a process by stopping it and then starting it again.
+     * This operation is performed asynchronously.
+     *
+     * @param name The name of the process to restart
+     */
     @Async
     public void restartProcess(String name) {
         stopProcess(name);
         startProcess(name);
     }
 
+    /**
+     * Starts a process with the given name according to its configuration.
+     * Handles process creation, output redirection, environment setup, and monitoring.
+     * This operation is performed asynchronously.
+     *
+     * @param name The name of the process to start
+     * @throws IllegalArgumentException if no process configuration is found for the given name
+     */
     @Async
     public void startProcess(String name) {
         var runningProcess = processRepository.getRunningProcess(name);
@@ -119,6 +147,13 @@ public class ProcessManager {
         }
     }
 
+    /**
+     * Stops a running process with the given name.
+     * Attempts graceful shutdown first, followed by force kill if necessary.
+     * This operation is performed asynchronously.
+     *
+     * @param name The name of the process to stop
+     */
     @Async
     public void stopProcess(String name) {
         RunningProcess runningProcess = processRepository.getRunningProcess(name);

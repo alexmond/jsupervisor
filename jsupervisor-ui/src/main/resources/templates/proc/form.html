@@ -14,7 +14,8 @@
             <div class="card">
                 <div class="card-body">
                     <form method="post"
-                          th:action="${adminUser.id != null} ? @{/users/edit/{id}(id=${adminUser.id})} : @{/users/add}" th:object="${adminUser}">
+                          th:action="${adminUser.id != null} ? @{/users/edit/{id}(id=${adminUser.id})} : @{/users/add}"
+                          th:object="${adminUser}">
 
                         <div class="row">
                             <div class="col-md-6">

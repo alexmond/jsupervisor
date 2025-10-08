@@ -113,27 +113,7 @@ public class RunningProcess {
         endTime = null;
         exitCode = null;
     }
-
-    ;
-
-
-//    public ProcessStatus getProcessStatus() {
-//        if (process == null && startTime == null) {
-//            return ProcessStatus.not_started;
-//        } else if (process != null && process.isAlive()) {
-//            return ProcessStatus.running;
-//        } else if (endTime != null) {
-//            return switch (exitCode) {
-//                case 0 -> ProcessStatus.finished;
-//                case 1 -> ProcessStatus.failed;
-//                case 143 -> ProcessStatus.stopped;
-//                case 137 -> ProcessStatus.aborted;
-//                default -> ProcessStatus.unknown;
-//            };
-//        } else {
-//            return ProcessStatus.unknown;
-//        }
-//    }
+    
 
     public Duration getProcessRuntime() {
         if (startTime == null) {

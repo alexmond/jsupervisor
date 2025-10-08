@@ -128,12 +128,4 @@ public class RestProcessController {
         return processRepository.findAllProcessStatusRest();
     }
 
-//    @DeleteMapping("/users/{id}")
-//    @Operation(summary = "Delete a user")
-//    @ApiResponse(responseCode = "200", description = "User successfully deleted",
-//            content = @Content(mediaType = "application/json",
-//                    schema = @Schema(implementation = boolean.class)))
-//    public boolean deleteUser(@PathVariable int id) {
-//        return processRepository.deleteUser(id);
-//    }
 }

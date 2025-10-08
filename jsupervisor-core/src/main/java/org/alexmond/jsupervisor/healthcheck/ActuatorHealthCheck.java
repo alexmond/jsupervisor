@@ -11,6 +11,10 @@ import org.springframework.web.client.RestClientException;
 import java.time.Duration;
 import java.util.Map;
 
+/**
+ * Health check implementation that monitors application health through Spring Boot Actuator's health endpoint.
+ * This implementation supports consecutive success/failure thresholds and caches the health state.
+ */
 @Slf4j
 public class ActuatorHealthCheck implements HealthCheck {
     private final RestClient restClient;
@@ -20,6 +24,12 @@ public class ActuatorHealthCheck implements HealthCheck {
     private int consecutiveFailures = 0;
     private RunningProcess runningProcess;
 
+    /**
+     * Creates a new ActuatorHealthCheck instance.
+     *
+     * @param config         Configuration containing actuator endpoint URL, timeout, and threshold settings
+     * @param runningProcess The process being monitored
+     */
     public ActuatorHealthCheck(ActuatorHealthCheckConfig config, RunningProcess runningProcess) {
         this.config = config;
         this.runningProcess = runningProcess;
@@ -34,11 +44,21 @@ public class ActuatorHealthCheck implements HealthCheck {
                 .build();
     }
 
+    /**
+     * Returns the cached health state of the monitored application.
+     *
+     * @return true if the application is considered healthy, false otherwise
+     */
     @Override
     public boolean check() {
         return cachedHealth;
     }
 
+    /**
+     * Performs the health check by calling the actuator endpoint.
+     * Updates the cached health state based on consecutive successes/failures
+     * and configured thresholds.
+     */
     @Override
     public void run() {
 

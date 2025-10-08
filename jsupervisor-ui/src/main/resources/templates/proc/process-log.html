@@ -47,7 +47,8 @@
                 <tr>
                     <td th:text="${pageModel.pr.name}">WEB-TEST</td>
                     <td>
-                                <span class="badge " th:classappend="${@uiconfig.uiStatusClass.get(pageModel.pr.status)}"
+                                <span class="badge "
+                                      th:classappend="${@uiconfig.uiStatusClass.get(pageModel.pr.status)}"
                                       th:text="${pageModel.pr.status}">WEB-TEST</span>
                     </td>
                     <td th:text="${pageModel.pr.pid}">WEB-TEST</td>
@@ -128,14 +129,14 @@ Log content will appear here...
     </div>
 
 
-<th:block th:fragment="scripts">
-    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
-    <script>
-        function scrollToBottom() {
-            const logContent = document.getElementById('logContent');
-            logContent.scrollTop = logContent.scrollHeight;
-        }
-    </script>
-</th:block>
-</body>
+    <th:block th:fragment="scripts">
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+        <script>
+            function scrollToBottom() {
+                const logContent = document.getElementById('logContent');
+                logContent.scrollTop = logContent.scrollHeight;
+            }
+        </script>
+    </th:block>
+    </body>
 </html>

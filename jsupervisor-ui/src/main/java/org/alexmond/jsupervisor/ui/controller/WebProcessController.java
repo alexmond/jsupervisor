@@ -15,27 +15,58 @@ import org.alexmond.jsupervisor.ui.model.ProcessLogPageModel;
 import org.alexmond.jsupervisor.ui.model.ProcessesPageModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Collection;
 
+/**
+ * Controller handling web interface operations for process management.
+ * Provides endpoints for viewing and managing processes, their logs, and events.
+ */
 @Slf4j
 @Controller
 @RequestMapping("/")
 @RequiredArgsConstructor
 public class WebProcessController {
 
+    /**
+     * Repository for managing process entities
+     */
     private final ProcessRepository processRepository;
+    /**
+     * Service for individual process management operations
+     */
     private final ProcessManager processManager;
+    /**
+     * Service for bulk process management operations
+     */
     private final ProcessManagerBulk processManagerBulk;
+    /**
+     * Configuration settings for the supervisor
+     */
     private final SupervisorConfig supervisorConfig;
+    /**
+     * Repository for managing process events
+     */
     private final EventRepository eventRepository;
+    /**
+     * Flag indicating whether to return direct page templates
+     */
     private final boolean linkToPage = false;
 
 
+    /**
+     * Displays the main page with a list of all processes.
+     *
+     * @param model the Spring MVC model
+     * @return the view name to render
+     */
     @GetMapping({"/", "/index"})
     public String getAllProcesses(Model model) {
         Collection<ProcessStatusRest> processes = processRepository.findAllProcessStatusRest();
@@ -50,36 +81,73 @@ public class WebProcessController {
         return "layout";
     }
 
+    /**
+     * Initiates the start operation for a specified process.
+     *
+     * @param name the name of the process to start
+     * @return redirect to the main page
+     */
     @GetMapping("/start/{name}")
     public String startProcess(@PathVariable String name) {
         processManager.startProcess(name);
         return "redirect:/";
     }
 
+    /**
+     * Initiates the stop operation for a specified process.
+     *
+     * @param name the name of the process to stop
+     * @return redirect to the main page
+     */
     @GetMapping("/stop/{name}")
     public String stopProcess(@PathVariable String name) {
         processManager.stopProcess(name);
         return "redirect:/";
     }
 
+    /**
+     * Initiates the restart operation for a specified process.
+     *
+     * @param name the name of the process to restart
+     * @return redirect to the main page
+     */
     @GetMapping("/restart/{name}")
     public String restartProcess(@PathVariable String name) {
         processManager.restartProcess(name);
         return "redirect:/";
     }
 
+    /**
+     * Starts all configured processes.
+     *
+     * @return redirect to the main page
+     * @throws IOException if there is an error starting the processes
+     */
     @GetMapping("/startAll")
     public String startAll() throws IOException {
         processManagerBulk.startAll();
         return "redirect:/";
     }
 
+    /**
+     * Stops all running processes.
+     *
+     * @return redirect to the main page
+     * @throws IOException if there is an error stopping the processes
+     */
     @GetMapping("/stopAll")
     public String stopAll() throws IOException {
         processManagerBulk.stopAll();
         return "redirect:/";
     }
 
+    /**
+     * Displays detailed information about a specific process.
+     *
+     * @param name  the name of the process
+     * @param model the Spring MVC model
+     * @return the view name to render
+     */
     @GetMapping("/details/{name}")
     public String processesDetails(@PathVariable String name, Model model) {
         ProcessStatusRest proc = new ProcessStatusRest(name, processRepository.getRunningProcess(name));
@@ -94,6 +162,16 @@ public class WebProcessController {
         return "layout";
     }
 
+    /**
+     * Displays log content for a specific process.
+     *
+     * @param name  the name of the process
+     * @param type  the type of log to display (stdout or stderr)
+     * @param lines the number of lines to display
+     * @param model the Spring MVC model
+     * @return the view name to render
+     * @throws IOException if there is an error reading the log file
+     */
     @GetMapping("/log/{name}")
     public String processLog(@PathVariable String name,
                              @RequestParam(defaultValue = "stdout") String type,
@@ -129,6 +207,12 @@ public class WebProcessController {
         return "layout";
     }
 
+    /**
+     * Displays the event history page.
+     *
+     * @param model the Spring MVC model
+     * @return the view name to render
+     */
     @GetMapping("/events")
     public String getEvents(Model model) {
         EventsPageModel pageModel = EventsPageModel.builder()

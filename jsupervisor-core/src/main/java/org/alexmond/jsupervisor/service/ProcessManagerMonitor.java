@@ -11,6 +11,11 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
 
+/**
+ * Monitors and manages the lifecycle of running processes.
+ * This component tracks process execution, updates process status,
+ * and handles process completion events.
+ */
 @Component
 @Slf4j
 public class ProcessManagerMonitor {
@@ -18,11 +23,25 @@ public class ProcessManagerMonitor {
     @Autowired
     private EventRepository eventRepository;
 
+    /**
+     * Constructs a ProcessManagerMonitor with required dependencies.
+     *
+     * @param processRepository repository for managing process entities
+     */
     @Autowired
     public ProcessManagerMonitor(ProcessRepository processRepository) {
         this.processRepository = processRepository;
     }
 
+    /**
+     * Asynchronously monitors a process until completion and updates its status.
+     * Upon process completion, updates the process status based on exit code and performs cleanup.
+     *
+     * @param name      the name of the process to monitor
+     * @param proc      the Java Process object to monitor
+     * @param startTime the time when the process started
+     * @return CompletableFuture<Void> representing the completion of monitoring
+     */
     @Async
     public CompletableFuture<Void> monitorProcessCompletion(String name, Process proc, LocalDateTime startTime) {
         try {

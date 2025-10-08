@@ -13,18 +13,47 @@ import oshi.hardware.HardwareAbstractionLayer;
 import oshi.software.os.OperatingSystem;
 
 
+/**
+ * Represents a REST resource for supervisor system information.
+ * This class provides system hardware and operating system details
+ * such as memory usage, CPU information, and node configuration.
+ */
 @Component
 @Data
 @Slf4j
 public class SupervisorRest {
 
+    /**
+     * The name of the node in the supervisor system
+     */
     private String NodeName;
+    /**
+     * Description of the node
+     */
     private String description;
+    /**
+     * Total physical memory available in the system
+     */
     private String physicalMemory;
+    /**
+     * Number of physical CPU cores
+     */
     private Integer physicalCpu;
+    /**
+     * Operating system information
+     */
     private String operatingSystem;
+    /**
+     * Currently available memory in the system
+     */
     private String availableMemory;
 
+    /**
+     * Constructs a new SupervisorRest instance.
+     * Initializes system information including CPU, memory, and OS details.
+     *
+     * @param supervisorConfig the configuration for the supervisor system
+     */
     @Autowired
     public SupervisorRest(SupervisorConfig supervisorConfig) {
         NodeName = supervisorConfig.getNodeName();
@@ -55,6 +84,10 @@ public class SupervisorRest {
         log.info("System Identifier: {}", systemInfo);
     }
 
+    /**
+     * Refreshes the available memory information.
+     * Updates the current available memory value from the system.
+     */
     public void refresh() {
         SystemInfo systemInfo = new SystemInfo();
         availableMemory = FileUtils.byteCountToDisplaySize(systemInfo.getHardware().getMemory().getAvailable());

@@ -48,7 +48,8 @@
                                 <td>
                                     <a target="_blank"
                                        th:href="${pr.getProcessConfig().getUrl()}"
-                                       th:if="${!#strings.isEmpty(pr.getProcessConfig().getUrl())}" th:text="${pr.getProcessConfig().getUrl()}">WEB-TEST</a>
+                                       th:if="${!#strings.isEmpty(pr.getProcessConfig().getUrl())}"
+                                       th:text="${pr.getProcessConfig().getUrl()}">WEB-TEST</a>
                                     <span th:if="${#strings.isEmpty(pr.getProcessConfig().getUrl())}">-</span>
                                 </td>
                                 <td th:text="${pr.pid}">WEB-TEST</td>

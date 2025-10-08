@@ -9,9 +9,13 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 /**
- * Represents a user entity in the system.
- * Implements Identifiable interface for consistent ID handling.
+ * REST representation of a process status.
+ * Contains detailed information about a running or completed process,
+ * including its configuration, runtime statistics, and log file locations.
+ * This class is used for transferring process status data between
+ * the service layer and API consumers.
  */
+
 @Data
 @Schema(description = "Represents process status information")
 public class ProcessStatusRest {
@@ -51,6 +55,12 @@ public class ProcessStatusRest {
     @Schema(description = "Error log content when process failed to start")
     private String failedErrorLog;
 
+    /**
+     * Constructs a ProcessStatusRest object from a running process.
+     *
+     * @param name           The name identifier of the process
+     * @param runningProcess The running process instance containing detailed status information
+     */
     public ProcessStatusRest(String name, RunningProcess runningProcess) {
         this.name = name;
         this.startTime = runningProcess.getStartTime();
