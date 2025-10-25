@@ -4,10 +4,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.HttpHealthCheckConfig;
 import org.alexmond.jsupervisor.model.ProcessStatus;
 import org.alexmond.jsupervisor.repository.RunningProcess;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.web.client.RestClient;
-import org.springframework.web.client.RestClientException;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLParameters;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.net.http.HttpClient;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.cert.X509Certificate;
 import java.time.Duration;
 
 /**
@@ -17,12 +23,12 @@ import java.time.Duration;
  */
 @Slf4j
 public class HttpHealthCheck implements HealthCheck {
-    private final RestClient restClient;
+    private final HttpClient httpClient;
     int successCount = 0;
     int failureCount = 0;
     private boolean cachedHealth = false;
-    private HttpHealthCheckConfig config;
-    private RunningProcess runningProcess;
+    private final HttpHealthCheckConfig config;
+    private final RunningProcess runningProcess;
 
     /**
      * Creates new HTTP health check instance.
@@ -33,18 +39,39 @@ public class HttpHealthCheck implements HealthCheck {
     public HttpHealthCheck(HttpHealthCheckConfig config, RunningProcess runningProcess) {
         this.config = config;
         this.runningProcess = runningProcess;
-
-        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
-        clientHttpRequestFactory.setConnectTimeout(Duration.ofSeconds(config.getTimeoutSeconds()));
-        clientHttpRequestFactory.setConnectionRequestTimeout(Duration.ofSeconds(config.getTimeoutSeconds()));
-
-
-        this.restClient = RestClient.builder()
-                .requestFactory(clientHttpRequestFactory)
-                .baseUrl(config.getUrl())
-                .build();
+        this.httpClient = createHttpClient(config);
+        
     }
 
+    private HttpClient createHttpClient(HttpHealthCheckConfig config) {
+        HttpClient.Builder builder = HttpClient.newBuilder()
+                .followRedirects(HttpClient.Redirect.NORMAL)
+                .connectTimeout(Duration.ofSeconds(config.getTimeoutSeconds()));
+
+        if (config.isIgnoreSslErrors()) {
+            try {
+                SSLContext sslContext = SSLContext.getInstance("TLS");
+                sslContext.init(null, new TrustManager[]{new X509TrustManager() {
+                    public void checkClientTrusted(X509Certificate[] chain, String authType) {
+                    }
+
+                    public void checkServerTrusted(X509Certificate[] chain, String authType) {
+                    }
+
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return new X509Certificate[0];
+                    }
+                }}, new SecureRandom());
+
+                builder.sslContext(sslContext)
+                        .sslParameters(new SSLParameters());
+            } catch (NoSuchAlgorithmException | KeyManagementException e) {
+                log.warn("Failed to initialize SSL context for ignoring certificate validation: {}", e.getMessage());
+            }
+        }
+
+        return builder.build();
+    }
     /**
      * Returns the current cached health status.
      *
@@ -62,11 +89,16 @@ public class HttpHealthCheck implements HealthCheck {
      */
     @Override
     public void run() {
-
         try {
             log.debug("Performing health check");
-            var status = restClient.get().retrieve().toBodilessEntity().getStatusCode();
-            if (status.is2xxSuccessful()) {
+            var request = java.net.http.HttpRequest.newBuilder()
+                    .uri(java.net.URI.create(config.getUrl()))
+                    .timeout(Duration.ofSeconds(config.getTimeoutSeconds()))
+                    .GET()
+                    .build();
+
+            var response = httpClient.send(request, java.net.http.HttpResponse.BodyHandlers.discarding());
+            if (response.statusCode() >= 200 && response.statusCode() < 300) {
                 successCount++;
                 if (successCount >= config.getSuccessThreshold() && !cachedHealth) {
                     cachedHealth = true;
@@ -81,7 +113,7 @@ public class HttpHealthCheck implements HealthCheck {
                 }
                 successCount = 0;
             }
-        } catch (RestClientException ex) {
+        } catch (Exception ex) {
             failureCount++;
             if (failureCount >= config.getFailureThreshold() && cachedHealth) {
                 cachedHealth = false;
@@ -91,5 +123,4 @@ public class HttpHealthCheck implements HealthCheck {
             log.error("Health check failed", ex);
         }
     }
-
 }

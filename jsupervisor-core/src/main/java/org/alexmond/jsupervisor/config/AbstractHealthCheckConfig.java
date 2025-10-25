@@ -31,6 +31,12 @@ public abstract class AbstractHealthCheckConfig {
     private Integer timeoutSeconds = 10;
 
     /**
+     * Whether to ignore SSL certificate validation errors during health checks.
+     */
+    @Schema(description = "Whether to ignore SSL certificate validation errors during health checks", example = "false")
+    private boolean ignoreSslErrors = false;
+
+    /**
      * Minimum consecutive successes for the probe to be considered successful.
      */
     @Schema(description = "Minimum consecutive successes for the probe to be considered successful", example = "2")

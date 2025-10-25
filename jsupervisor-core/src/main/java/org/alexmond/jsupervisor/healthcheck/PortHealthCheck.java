@@ -4,8 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.PortHealthCheckConfig;
 import org.alexmond.jsupervisor.model.ProcessStatus;
 import org.alexmond.jsupervisor.repository.RunningProcess;
-import org.springframework.http.client.ClientHttpRequestFactory;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -74,15 +72,4 @@ public class PortHealthCheck implements HealthCheck {
         }
     }
 
-    /**
-     * Creates and configures an HTTP client request factory with specific timeouts.
-     *
-     * @return Configured ClientHttpRequestFactory instance
-     */
-    private ClientHttpRequestFactory getClientHttpRequestFactory() {
-        HttpComponentsClientHttpRequestFactory clientHttpRequestFactory = new HttpComponentsClientHttpRequestFactory();
-        clientHttpRequestFactory.setConnectTimeout(100);
-        clientHttpRequestFactory.setConnectionRequestTimeout(70);
-        return clientHttpRequestFactory;
-    }
 }

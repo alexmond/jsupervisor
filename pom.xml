@@ -36,9 +36,11 @@
     <properties>
         <spring-boot-admin.version>3.5.5</spring-boot-admin.version>
 
+        <spring-boot-config-json-schema.version>1.0.7</spring-boot-config-json-schema.version>
+        <spring-boot-actuator-sanitizer.version>1.0.0</spring-boot-actuator-sanitizer.version>
+
+
         <git-commit-id-plugin.version>4.9.10</git-commit-id-plugin.version>
-        <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
-        <maven-javadoc-plugin.version>3.4.1</maven-javadoc-plugin.version>
         <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
         <central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
     </properties>
@@ -58,9 +60,8 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>pl.project13.maven</groupId>
-                    <artifactId>git-commit-id-plugin</artifactId>
-                    <version>${git-commit-id-plugin.version}</version>
+                    <groupId>io.github.git-commit-id</groupId>
+                    <artifactId>git-commit-id-maven-plugin</artifactId>
                     <executions>
                         <execution>
                             <goals>
@@ -82,7 +83,6 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-source-plugin</artifactId>
-                    <version>${maven-source-plugin.version}</version>
                     <executions>
                         <execution>
                             <id>attach-sources</id>
@@ -96,7 +96,6 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>${maven-javadoc-plugin.version}</version>
                     <executions>
                         <execution>
                             <id>attach-javadocs</id>
@@ -159,8 +158,8 @@
                         <artifactId>maven-source-plugin</artifactId>
                     </plugin>
                     <plugin>
-                        <groupId>pl.project13.maven</groupId>
-                        <artifactId>git-commit-id-plugin</artifactId>
+                        <groupId>io.github.git-commit-id</groupId>
+                        <artifactId>git-commit-id-maven-plugin</artifactId>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
