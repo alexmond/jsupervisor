@@ -46,9 +46,7 @@ This project provides a robust process supervision solution built with Spring Bo
 
 == Technologies
 
-- Spring Boot 3.5.3
-- Spring Boot Admin 3.2.3
-- Jakarta EE
+- Spring Boot 3.5.x
 - OSHI (Operating System and Hardware Information)
 - Maven
 - Lombok

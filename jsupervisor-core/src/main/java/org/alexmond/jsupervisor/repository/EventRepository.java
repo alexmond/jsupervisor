@@ -12,7 +12,6 @@ import java.util.TreeMap;
  * Repository for managing ProcessEvent entities.
  * Provides basic CRUD operations for process events storage.
  */
-@Component
 public class EventRepository {
     /**
      * Storage for ProcessEvent entities with their IDs as keys

@@ -2913,6 +2913,7 @@
     "json-config-schema" : {
       "type" : "object",
       "$anchor" : "org.alexmond.config.json.schema.config.JsonConfigSchemaConfig",
+      "description" : "JSON Schema configuration properties",
       "properties" : {
         "additional-exclude-classes" : {
           "type" : "array",
@@ -2938,7 +2939,7 @@
         "allow-additional-properties" : {
           "type" : "boolean",
           "description" : "Allow additional properties not defined in schema, currently not supported by intellij",
-          "default" : true
+          "default" : "true"
         },
         "description" : {
           "type" : "string",
@@ -2948,12 +2949,12 @@
         "enable-anchor-refs" : {
           "type" : "boolean",
           "description" : "Enable JSON Schema anchor references",
-          "default" : false
+          "default" : "false"
         },
         "enable-definition-refs" : {
           "type" : "boolean",
           "description" : "Enable JSON Schema definition references",
-          "default" : true
+          "default" : "true"
         },
         "exclude-anchors" : {
           "type" : "array",
@@ -2979,7 +2980,7 @@
         "missing-type-log" : {
           "type" : "boolean",
           "description" : "Enable logging for missing type information",
-          "default" : false
+          "default" : "false"
         },
         "schema-id" : {
           "type" : "string",
@@ -2999,12 +3000,156 @@
         "use-openapi" : {
           "type" : "boolean",
           "description" : "Enable OpenAPI annotations processing",
-          "default" : true
+          "default" : "true"
         },
         "use-validation" : {
           "type" : "boolean",
           "description" : "Enable validation annotations processing",
+          "default" : "true"
+        }
+      }
+    },
+    "jsupervisor" : {
+      "type" : "object",
+      "$anchor" : "org.alexmond.jsupervisor.config.SupervisorConfig",
+      "description" : "Configuration class for JSupervisor settings",
+      "properties" : {
+        "description" : {
+          "type" : "string",
+          "description" : "Description of the supervisor node",
+          "default" : ""
+        },
+        "enabled" : {
+          "type" : "boolean",
+          "description" : "Whether JSupervisor is enabled",
           "default" : true
+        },
+        "node-name" : {
+          "type" : "string",
+          "description" : "The name of the supervisor node",
+          "default" : "supervisor"
+        },
+        "process" : {
+          "type" : "object",
+          "description" : "Map of process configurations, where key is process name",
+          "additionalProperties" : {
+            "type" : "object",
+            "$anchor" : "org.alexmond.jsupervisor.config.ProcessConfig",
+            "properties" : {
+              "actuator-health-check" : {
+                "type" : "object",
+                "$anchor" : "org.alexmond.jsupervisor.config.ActuatorHealthCheckConfig",
+                "description" : "Configuration for Spring Boot Actuator health check endpoint",
+                "properties" : {
+                  "actuator-health-url" : {
+                    "type" : "string",
+                    "description" : "URL of the Actuator health endpoint"
+                  }
+                }
+              },
+              "append-log" : {
+                "type" : "boolean",
+                "description" : "Determines if log files should be appended to or overwritten. If true, new log entries will be appended to existing log files. If false, existing log files will be overwritten when the process starts."
+              },
+              "application-log" : {
+                "type" : "string",
+                "description" : "File path where the application log will be stored"
+              },
+              "args" : {
+                "type" : "array",
+                "description" : "Command-line arguments to be passed to the process. Each element in the list represents a single argument.",
+                "items" : {
+                  "type" : "string"
+                }
+              },
+              "command" : {
+                "type" : "string",
+                "description" : "The command to be executed. Can be either a full path to an executable or a command available in the system PATH."
+              },
+              "description" : {
+                "type" : "string",
+                "description" : "Description of the process"
+              },
+              "env" : {
+                "type" : "object",
+                "description" : "Environment variables to be set for the process. Keys represent environment variable names, values represent their corresponding values."
+              },
+              "health-check-type" : {
+                "type" : "string",
+                "description" : "Type of health check to be performed on the process",
+                "enum" : [ "actuator", "PORT", "port", "ACTUATOR", "http", "HTTP", "CMD", "cmd", "none", "NONE" ]
+              },
+              "http-health-check-config" : {
+                "type" : "object",
+                "$anchor" : "org.alexmond.jsupervisor.config.HttpHealthCheckConfig",
+                "description" : "Configuration for HTTP-based health checks",
+                "properties" : {
+                  "headers" : {
+                    "type" : "array",
+                    "description" : "Custom HTTP headers for health check request",
+                    "items" : {
+                      "type" : "string"
+                    }
+                  },
+                  "method" : {
+                    "type" : "string",
+                    "description" : "HTTP method for health check"
+                  },
+                  "return-code" : {
+                    "type" : "string",
+                    "description" : "Expected HTTP status code"
+                  },
+                  "url" : {
+                    "type" : "string",
+                    "description" : "URL endpoint for health check"
+                  }
+                }
+              },
+              "port-health-check" : {
+                "type" : "object",
+                "$anchor" : "org.alexmond.jsupervisor.config.PortHealthCheckConfig",
+                "description" : "Configuration for port-based health check monitoring",
+                "properties" : {
+                  "host" : {
+                    "type" : "string",
+                    "description" : "Host address to monitor"
+                  },
+                  "port" : {
+                    "type" : "integer",
+                    "description" : "Port number to monitor"
+                  }
+                }
+              },
+              "redirect-error-stream" : {
+                "type" : "boolean",
+                "description" : "Determines if the error stream should be redirected to the output stream. If true, stderr will be merged with stdout. If false, stderr will be written to a separate file if specified."
+              },
+              "shutdown-timeout" : {
+                "type" : "string",
+                "description" : "The maximum time to wait for the process to shut down gracefully. After this duration, the process will be forcefully terminated if still running. Defaults to 5 seconds."
+              },
+              "shutdown-url" : {
+                "type" : "string",
+                "description" : "URL for gracefully shutting down the process. If specified, a request will be sent to this URL before forcefully terminating the process."
+              },
+              "stderr-logfile" : {
+                "type" : "string",
+                "description" : "File path where the standard error (stderr) of the process will be logged. If not specified, stderr will be inherited from the parent process."
+              },
+              "stdout-logfile" : {
+                "type" : "string",
+                "description" : "File path where the standard output (stdout) of the process will be logged. If not specified, stdout will be inherited from the parent process."
+              },
+              "url" : {
+                "type" : "string",
+                "description" : "URL or command to execute the process"
+              },
+              "working-directory" : {
+                "type" : "string",
+                "description" : "The working directory where the process will be executed. If not specified, the current working directory will be used."
+              }
+            }
+          }
         }
       }
     },
@@ -3558,6 +3703,20 @@
               "type" : "object",
               "$anchor" : "org.alexmond.actuator.sanitizer.SanitizingProperties",
               "properties" : {
+                "additional-key-patterns" : {
+                  "type" : "array",
+                  "description" : "Additional regex patterns to match property keys for sanitization. These patterns are combined with the default patterns list.",
+                  "items" : {
+                    "type" : "string"
+                  }
+                },
+                "additional-keys" : {
+                  "type" : "array",
+                  "description" : "Additional exact property keys to sanitize (case-insensitive). These keys are combined with the default keys list.",
+                  "items" : {
+                    "type" : "string"
+                  }
+                },
                 "enabled" : {
                   "type" : "boolean",
                   "description" : "Whether to enable custom sanitization (if false, uses Spring Boot defaults). Default: true",
@@ -7096,144 +7255,6 @@
           "type" : "boolean",
           "description" : "The Writer with order by keys.",
           "default" : false
-        }
-      }
-    },
-    "supervisor" : {
-      "type" : "object",
-      "$anchor" : "org.alexmond.jsupervisor.config.SupervisorConfig",
-      "properties" : {
-        "description" : {
-          "type" : "string",
-          "description" : "Description of the supervisor node",
-          "default" : ""
-        },
-        "node-name" : {
-          "type" : "string",
-          "description" : "The name of the supervisor node",
-          "default" : "supervisor"
-        },
-        "process" : {
-          "type" : "object",
-          "description" : "Map of process configurations, where key is process name",
-          "additionalProperties" : {
-            "type" : "object",
-            "$anchor" : "org.alexmond.jsupervisor.config.ProcessConfig",
-            "properties" : {
-              "actuator-health-check" : {
-                "type" : "object",
-                "$anchor" : "org.alexmond.jsupervisor.config.ActuatorHealthCheckConfig",
-                "description" : "Configuration for Spring Boot Actuator-based health checks",
-                "properties" : {
-                  "actuator-health-url" : {
-                    "type" : "string",
-                    "description" : "URL of the Actuator health endpoint"
-                  }
-                }
-              },
-              "append-log" : {
-                "type" : "boolean",
-                "description" : "Determines if log files should be appended to or overwritten. If true, new log entries will be appended to existing log files. If false, existing log files will be overwritten when the process starts."
-              },
-              "application-log" : {
-                "type" : "string",
-                "description" : "File path where the application log will be stored"
-              },
-              "args" : {
-                "type" : "array",
-                "description" : "Command-line arguments to be passed to the process. Each element in the list represents a single argument.",
-                "items" : {
-                  "type" : "string"
-                }
-              },
-              "command" : {
-                "type" : "string",
-                "description" : "The command to be executed. Can be either a full path to an executable or a command available in the system PATH."
-              },
-              "description" : {
-                "type" : "string",
-                "description" : "Description of the process"
-              },
-              "env" : {
-                "type" : "object",
-                "description" : "Environment variables to be set for the process. Keys represent environment variable names, values represent their corresponding values."
-              },
-              "health-check-type" : {
-                "type" : "string",
-                "description" : "Type of health check to be performed on the process",
-                "enum" : [ "actuator", "PORT", "port", "ACTUATOR", "http", "HTTP", "CMD", "cmd", "none", "NONE" ]
-              },
-              "http-health-check-config" : {
-                "type" : "object",
-                "$anchor" : "org.alexmond.jsupervisor.config.HttpHealthCheckConfig",
-                "description" : "Configuration for URL-based health checks",
-                "properties" : {
-                  "headers" : {
-                    "type" : "array",
-                    "description" : "Custom HTTP headers for health check request",
-                    "items" : {
-                      "type" : "string"
-                    }
-                  },
-                  "method" : {
-                    "type" : "string",
-                    "description" : "HTTP method for health check"
-                  },
-                  "return-code" : {
-                    "type" : "string",
-                    "description" : "Expected HTTP status code"
-                  },
-                  "url" : {
-                    "type" : "string",
-                    "description" : "URL endpoint for health check"
-                  }
-                }
-              },
-              "port-health-check" : {
-                "type" : "object",
-                "$anchor" : "org.alexmond.jsupervisor.config.PortHealthCheckConfig",
-                "description" : "Configuration for TCP port-based health checks",
-                "properties" : {
-                  "host" : {
-                    "type" : "string",
-                    "description" : "Host address to monitor"
-                  },
-                  "port" : {
-                    "type" : "integer",
-                    "description" : "Port number to monitor"
-                  }
-                }
-              },
-              "redirect-error-stream" : {
-                "type" : "boolean",
-                "description" : "Determines if the error stream should be redirected to the output stream. If true, stderr will be merged with stdout. If false, stderr will be written to a separate file if specified."
-              },
-              "shutdown-timeout" : {
-                "type" : "string",
-                "description" : "The maximum time to wait for the process to shut down gracefully. After this duration, the process will be forcefully terminated if still running. Defaults to 5 seconds."
-              },
-              "shutdown-url" : {
-                "type" : "string",
-                "description" : "URL for gracefully shutting down the process. If specified, a request will be sent to this URL before forcefully terminating the process."
-              },
-              "stderr-logfile" : {
-                "type" : "string",
-                "description" : "File path where the standard error (stderr) of the process will be logged. If not specified, stderr will be inherited from the parent process."
-              },
-              "stdout-logfile" : {
-                "type" : "string",
-                "description" : "File path where the standard output (stdout) of the process will be logged. If not specified, stdout will be inherited from the parent process."
-              },
-              "url" : {
-                "type" : "string",
-                "description" : "URL or command to execute the process"
-              },
-              "working-directory" : {
-                "type" : "string",
-                "description" : "The working directory where the process will be executed. If not specified, the current working directory will be used."
-              }
-            }
-          }
         }
       }
     },

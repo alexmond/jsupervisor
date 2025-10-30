@@ -2,9 +2,6 @@ package org.alexmond.jsupervisor.repository;
 
 import org.alexmond.jsupervisor.config.SupervisorConfig;
 import org.alexmond.jsupervisor.model.ProcessStatusRest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -14,7 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * Repository class managing running processes in the supervisor system.
  * Provides methods to access and manipulate process information.
  */
-@Configuration
 public class ProcessRepository {
 
 
@@ -27,7 +23,6 @@ public class ProcessRepository {
      * @param supervisorConfig Configuration containing process definitions
      * @param eventRepository  Repository for handling process events
      */
-    @Autowired
     public ProcessRepository(SupervisorConfig supervisorConfig, EventRepository eventRepository) {
         for (var processConfig : supervisorConfig.getProcess().entrySet()) {
             runningProcesses.put(processConfig.getKey(), new RunningProcess(processConfig.getKey(), processConfig.getValue(), eventRepository));

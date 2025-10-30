@@ -49,10 +49,11 @@ spring:
     activate:
       on-profile: test
 
-supervisor:
+jsupervisor:
   node-name: local
   process:
     test:
+      application-log:
       command: "java"
       working-directory: "work"
       stdout-logfile: test-stdout.log

@@ -13,96 +13,70 @@
                 <!--                        <i class="fas fa-edit"></i> Edit Process Configuration-->
                 <!--                    </a>-->
             </div>
-
             <div class="card" th:if="${pageModel.proc}">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
                             <h5>Process Information</h5>
                             <table class="table table-bordered">
+                                <thead>
                                 <tr>
-                                    <td><strong>Name:</strong></td>
-                                    <td th:text="${pageModel.proc.name}">Process Name</td>
+                                    <th>Parameter</th>
+                                    <th>Value</th>
                                 </tr>
-                                <tr>
-                                    <td><strong>PID:</strong></td>
-                                    <td th:text="${pageModel.proc.pid}">123</td>
+                                </thead>
+                                <tbody>
+                                <tr th:each="parameter : ${pageModel.process}">
+                                    <th:block th:switch="${parameter.key}">
+                                        <th:block th:case="status">
+                                            <td th:text="${parameter.key}"></td>
+                                            <td>
+                                                <span class="badge "
+                                                      th:classappend="${@uiconfig.uiStatusClass.get(T(org.alexmond.jsupervisor.model.ProcessStatus).valueOf(parameter.value))}"
+                                                      th:text="${parameter.value}">WEB-TEST</span>
+                                            </td>
+                                        </th:block>
+                                        <th:block th:case="*">
+                                            <td th:text="${parameter.key}"></td>
+                                            <td th:text="${parameter.value}"></td>
+                                        </th:block>
+                                    </th:block>
                                 </tr>
-                                <tr>
-                                    <td><strong>Status:</strong></td>
-                                    <td>
-                                            <span class="badge "
-                                                  th:classappend="${@uiconfig.uiStatusClass.get(pageModel.proc.status)}"
-                                                  th:text="${pageModel.proc.status}">WEB-TEST</span>
-                                    </td>
-                                </tr>
-                                <!--                                    <tr>-->
-                                <!--                                        <td><strong>CPU:</strong></td>-->
-                                <!--                                        <td th:text="${pageModel.proc.cpu} + '%'">0.0%</td>-->
-                                <!--                                    </tr>-->
-                                <!--                                    <tr>-->
-                                <!--                                        <td><strong>Memory:</strong></td>-->
-                                <!--                                        <td th:text="${pageModel.proc.memory} + ' MB'">0 MB</td>-->
-                                <!--                                    </tr>-->
-                                <tr>
-                                    <td><strong>Start Time:</strong></td>
-                                    <td th:text="${pageModel.proc.startTime}">Start Time</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>End Time:</strong></td>
-                                    <td th:text="${pageModel.proc.endTime}">Start Time</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Exit Code:</strong></td>
-                                    <td th:text="${pageModel.proc.exitCode}">Start Time</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Start error message:</strong></td>
-                                    <td th:text="${pageModel.proc.failedErrorLog}">place holder</td>
-                                </tr>
+                                </tbody>
                             </table>
                         </div>
 
                         <div class="col-md-6">
                             <h5>Process Configuration</h5>
                             <table class="table table-bordered">
+                                <thead>
                                 <tr>
-                                    <td><strong>Command:</strong></td>
-                                    <td th:text="${pageModel.proc.processConfig.command}">Process Name</td>
+                                    <th>Parameter</th>
+                                    <th>Value</th>
                                 </tr>
-                                <tr>
-                                    <td><strong>Working Directory:</strong></td>
-                                    <td th:text="${pageModel.proc.processConfig.workingDirectory}">Working Directory
+                                </thead>
+                                <tbody>
+                                <tr th:each="parameter : ${pageModel.processConfig}">
+                                    <td th:text="${parameter.key}"></td>
+                                    <td th:unless="${parameter.value instanceof T(java.util.Map) or parameter.value instanceof T(java.util.List)}"
+                                        th:text="${parameter.value}"></td>
+                                    <td th:if="${parameter.value instanceof T(java.util.Map)}">
+                                        <table class="table table-sm table-borderless">
+                                            <tr th:each="value : ${parameter.value}" th:if="${value != null}">
+                                                <td th:text="${value.key}"></td>
+                                                <td th:text="${value.value}"></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td th:if="${parameter.value instanceof T(java.util.List)}">
+                                        <table class="table table-sm table-borderless">
+                                            <tr th:each="value : ${parameter.value}" th:if="${value != null}">
+                                                <td th:text="${value}"></td>
+                                            </tr>
+                                        </table>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td><strong>Arguments:</strong></td>
-                                    <td th:text="${pageModel.proc.processConfig.args}">Arguments</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Environment Variables:</strong></td>
-                                    <td th:text="${pageModel.proc.processConfig.env}">Environment Variables</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Standard Output File:</strong></td>
-                                    <td th:text="${pageModel.proc.processConfig.stdoutLogfile}">Standard Output</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Standard Error File:</strong></td>
-                                    <td th:text="${pageModel.proc.processConfig.stderrLogfile}">Standard Error</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Whatever to redirect stderr to stdout</strong></td>
-                                    <td th:text="${pageModel.proc.processConfig.redirectErrorStream}">true</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Append to or overnight log file:</strong></td>
-                                    <td th:text="${pageModel.proc.processConfig.appendLog}">false</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Shutdown Timeout duration before forcible shutdown:</strong></td>
-                                    <td th:text="${pageModel.proc.processConfig.shutdownTimeout.toSeconds()}">0</td>
-                                </tr>
+                                </tbody>
                             </table>
                         </div>
                     </div>

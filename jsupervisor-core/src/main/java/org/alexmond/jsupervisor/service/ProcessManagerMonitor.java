@@ -1,5 +1,6 @@
 package org.alexmond.jsupervisor.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.model.ProcessStatus;
 import org.alexmond.jsupervisor.repository.EventRepository;
@@ -16,22 +17,12 @@ import java.util.concurrent.CompletableFuture;
  * This component tracks process execution, updates process status,
  * and handles process completion events.
  */
-@Component
 @Slf4j
+@RequiredArgsConstructor
 public class ProcessManagerMonitor {
     private final ProcessRepository processRepository;
-    @Autowired
-    private EventRepository eventRepository;
+    private final EventRepository eventRepository;
 
-    /**
-     * Constructs a ProcessManagerMonitor with required dependencies.
-     *
-     * @param processRepository repository for managing process entities
-     */
-    @Autowired
-    public ProcessManagerMonitor(ProcessRepository processRepository) {
-        this.processRepository = processRepository;
-    }
 
     /**
      * Asynchronously monitors a process until completion and updates its status.

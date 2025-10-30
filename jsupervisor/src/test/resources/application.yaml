@@ -36,7 +36,7 @@ spring:
     activate:
       on-profile: test
 
-supervisor:
+jsupervisor:
   process:
     test:
       command: "java"

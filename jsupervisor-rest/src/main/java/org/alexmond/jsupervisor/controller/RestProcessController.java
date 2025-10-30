@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
 import org.alexmond.jsupervisor.model.ProcessStatusRest;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
@@ -12,6 +13,7 @@ import org.alexmond.jsupervisor.service.ProcessManager;
 import org.alexmond.jsupervisor.service.ProcessManagerBulk;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.annotation.RequestScope;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -24,6 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Tag(name = "Supervisor", description = "Process API")
 @RestController
 @RequestMapping("/api/v1")
+@RequiredArgsConstructor
 public class RestProcessController {
 
     final
@@ -32,22 +35,6 @@ public class RestProcessController {
     private final ProcessRepository processRepository;
     private final ProcessManager processManager;
     private final ProcessManagerBulk processManagerBulk;
-
-    /**
-     * Constructs a new RestProcessController.
-     *
-     * @param processRepository  Repository for process management
-     * @param supervisorConfig   Configuration for the supervisor
-     * @param processManager     Manager for individual process operations
-     * @param processManagerBulk Manager for bulk process operations
-     */
-    @Autowired
-    public RestProcessController(ProcessRepository processRepository, SupervisorConfig supervisorConfig, ProcessManager processManager, ProcessManagerBulk processManagerBulk) {
-        this.processRepository = processRepository;
-        this.supervisorConfig = supervisorConfig;
-        this.processManager = processManager;
-        this.processManagerBulk = processManagerBulk;
-    }
 
     /**
      * Starts all configured processes.

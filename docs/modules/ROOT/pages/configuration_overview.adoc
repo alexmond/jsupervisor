@@ -11,7 +11,7 @@ Each process is configured under the `supervisor.process` map, where the key is 
 
 [,yaml]
 ----
-supervisor:
+jsupervisor:
   process:
     <process-name>:
       # Process configuration goes here

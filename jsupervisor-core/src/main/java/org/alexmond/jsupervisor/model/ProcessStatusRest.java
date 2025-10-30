@@ -1,5 +1,10 @@
 package org.alexmond.jsupervisor.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.alexmond.jsupervisor.config.ProcessConfig;
@@ -7,6 +12,7 @@ import org.alexmond.jsupervisor.repository.RunningProcess;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 /**
  * REST representation of a process status.
@@ -45,6 +51,7 @@ public class ProcessStatusRest {
     private String processUptime;
 
     @Schema(description = "Process configuration settings")
+    @JsonIgnore
     private ProcessConfig processConfig;
 
     @Schema(description = "File path where the standard output (stdout) of the process will be logged. If not specified, stdout will be inherited from the parent process.")
@@ -77,5 +84,15 @@ public class ProcessStatusRest {
             pid = runningProcess.getProcess().pid();
         }
         status = runningProcess.getProcessStatus();
+    }
+
+    public boolean isAlive() {
+        return pid != null;
+    }
+
+    public Map<String, Object> toMap() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper.convertValue(this, Map.class);
     }
 }

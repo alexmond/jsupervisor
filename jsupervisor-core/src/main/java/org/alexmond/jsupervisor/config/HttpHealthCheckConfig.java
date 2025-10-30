@@ -1,5 +1,6 @@
 package org.alexmond.jsupervisor.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,6 +14,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "Configuration for HTTP-based health checks")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class HttpHealthCheckConfig extends AbstractHealthCheckConfig {
     /**
      * The URL to send health check requests to

@@ -14,6 +14,10 @@ management:
     health:
       show-details: always
 
+logging:
+  file:
+    name: srv.log
+
 ---
 spring:
   config:
@@ -21,6 +25,10 @@ spring:
       on-profile: srv1
 server:
   port: 8081
+
+logging:
+  file:
+    name: srv1.log
 
 ---
 spring:

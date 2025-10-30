@@ -76,9 +76,15 @@
                                th:href="@{/log/{name}(name=${pageModel.pr.name}, type='stdout', lines=${pageModel.lines})}">
                                 <i class="bi bi-file-text"></i> stdout
                             </a>
-                            <a th:class="${pageModel.logType == 'stderr' ? 'btn btn-danger' : 'btn btn-outline-danger'}"
+                            <a th:unless="${pageModel.pr.processConfig.redirectErrorStream}"
+                               th:class="${pageModel.logType == 'stderr' ? 'btn btn-danger' : 'btn btn-outline-danger'}"
                                th:href="@{/log/{name}(name=${pageModel.pr.name}, type='stderr', lines=${pageModel.lines})}">
                                 <i class="bi bi-exclamation-triangle"></i> stderr
+                            </a>
+                            <a th:if="${pageModel.pr.processConfig.applicationLog != null}"
+                               th:class="${pageModel.logType == 'application' ? 'btn btn-primary' : 'btn btn-outline-primary'}"
+                               th:href="@{/log/{name}(name=${pageModel.pr.name}, type='application', lines=${pageModel.lines})}">
+                                <i class="bi bi-file-text"></i> application
                             </a>
                         </div>
 

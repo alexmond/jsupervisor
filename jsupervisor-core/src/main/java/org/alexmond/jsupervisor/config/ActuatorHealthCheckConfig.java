@@ -1,5 +1,6 @@
 package org.alexmond.jsupervisor.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,6 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "Configuration for Spring Boot Actuator health check endpoint")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ActuatorHealthCheckConfig extends AbstractHealthCheckConfig {
 
     /**

@@ -1,5 +1,6 @@
 package org.alexmond.jsupervisor.ui.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
@@ -12,6 +13,8 @@ import org.alexmond.jsupervisor.service.ProcessManagerBulk;
 import org.alexmond.jsupervisor.ui.model.EventsPageModel;
 import org.alexmond.jsupervisor.ui.model.ProcessDetailPageModel;
 import org.alexmond.jsupervisor.ui.model.ProcessLogPageModel;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.alexmond.jsupervisor.ui.model.ProcessesPageModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -155,9 +158,12 @@ public class WebProcessController {
                 .title("Process Details")
                 .activePage("processes")
                 .proc(proc)
+                .processConfig(proc.getProcessConfig().toMap())
+                .process(proc.toMap())
                 .build();
         model.addAttribute("pageModel", pageModel);
         model.addAttribute("content", "proc/detail");
+
         if (linkToPage) return "proc/detail";
         return "layout";
     }
@@ -183,11 +189,19 @@ public class WebProcessController {
             model.addAttribute("error", "Process not found: " + name);
             return "logs/error";
         }
-        File logFile = "stderr".equals(type) ? runningProcess.getStderr() : runningProcess.getStdout();
+        File logFile = switch (type) {
+            case "stderr" -> runningProcess.getStderr();
+            case "stdout" -> runningProcess.getStdout();
+            case "application" -> runningProcess.getApplication();
+            default -> runningProcess.getStdout();
+        };
 
         String logContent = "";
-        if (runningProcess.getStdout() != null && runningProcess.getStdout().exists()) {
-            logContent = Files.readString(runningProcess.getStdout().toPath());
+        try {
+            logContent = Files.readString(logFile.toPath());
+        }catch (IOException e) {
+            log.error("Error reading log file", e);
+            logContent = "Error reading log file: " + e.toString();
         }
         ProcessStatusRest proc = new ProcessStatusRest(name, processRepository.getRunningProcess(name));
 

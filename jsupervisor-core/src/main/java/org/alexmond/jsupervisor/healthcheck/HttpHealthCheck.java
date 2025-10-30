@@ -120,7 +120,7 @@ public class HttpHealthCheck implements HealthCheck {
                 runningProcess.setProcessStatus(ProcessStatus.unhealthy);
             }
             successCount = 0;
-            log.error("Health check failed", ex);
+            log.warn("Health check failed {}", ex.getMessage());
         }
     }
 }

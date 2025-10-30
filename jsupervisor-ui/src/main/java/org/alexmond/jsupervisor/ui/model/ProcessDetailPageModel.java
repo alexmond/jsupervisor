@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
 import org.alexmond.jsupervisor.model.ProcessStatusRest;
 
+import java.util.Map;
+
 /**
  * Model class for displaying detailed process information in the UI.
  * Extends BaseModel to incorporate common model attributes while providing
@@ -19,4 +21,7 @@ public class ProcessDetailPageModel extends BaseModel {
      * including its current state and runtime information.
      */
     private ProcessStatusRest proc;
+    Map<String, Object> processConfig;
+    Map<String, Object> process;
+
 }

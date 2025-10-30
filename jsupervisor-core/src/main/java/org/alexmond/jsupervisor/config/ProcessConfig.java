@@ -1,5 +1,8 @@
 package org.alexmond.jsupervisor.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -21,12 +24,13 @@ import java.util.Map;
 @Validated
 @Schema(description = "Configuration class for process execution settings. Contains settings for command execution, environment variables, working directory and logging configuration.")
 //@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProcessConfig {
     /**
      * The command to be executed. This field is required and cannot be empty.
      * Can be either a full path to an executable or a command available in the system PATH.
      */
-    @Schema(description = "The command to be executed. Can be either a full path to an executable or a command available in the system PATH.")
+    @Schema(description = "The command to be executed. Can be either a full path to an executable or a command available in the system PATH.",title = "aaaaa")
     @NotBlank(message = "Command must not be empty")
     private String command;
 
@@ -148,4 +152,9 @@ public class ProcessConfig {
     @NestedConfigurationProperty
     private PortHealthCheckConfig portHealthCheck;
 
+    public Map<String, Object> toMap() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper.convertValue(this, Map.class);
+    }
 }

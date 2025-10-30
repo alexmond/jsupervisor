@@ -35,6 +35,7 @@ public class RunningProcess {
     private Integer exitCode;
     private File stdout;
     private File stderr = null;
+    private File application = null;
     private CompletableFuture<Void> completableFuture = null;
     private ScheduledFuture<?> scheduledFuture = null;
     private String stdoutLogfile;
@@ -63,6 +64,9 @@ public class RunningProcess {
         }
 
         stdout = new File(processConfig.getStdoutLogfile());
+        if(processConfig.getApplicationLog() != null) {
+            application = new File(processConfig.getApplicationLog());
+        }
         healthCheck = HealthCheckFactory.getHealthCheck(processConfig, this);
     }
 

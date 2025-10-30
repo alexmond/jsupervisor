@@ -93,7 +93,17 @@
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
         </dependency>
-<!--        <dependency>-->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-models-jakarta</artifactId>
+            <version>2.2.36</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+        <!--        <dependency>-->
 <!--            <groupId>org.springframework</groupId>-->
 <!--            <artifactId>spring-web</artifactId>-->
 <!--        </dependency>-->
@@ -109,8 +119,8 @@
                         <artifactId>maven-source-plugin</artifactId>
                     </plugin>
                     <plugin>
-                        <groupId>pl.project13.maven</groupId>
-                        <artifactId>git-commit-id-plugin</artifactId>
+                        <groupId>io.github.git-commit-id</groupId>
+                        <artifactId>git-commit-id-maven-plugin</artifactId>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>

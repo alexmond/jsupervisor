@@ -1,5 +1,6 @@
 package org.alexmond.jsupervisor.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.ProcessConfig;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
@@ -26,32 +27,14 @@ import java.util.concurrent.CompletableFuture;
  * Responsible for starting, stopping, and restarting processes according to their configuration.
  * Handles process monitoring, output redirection, and cleanup operations.
  */
-@Component
 @Slf4j
+@RequiredArgsConstructor
 public class ProcessManager {
     private final SupervisorConfig supervisorConfig;
     private final ProcessRepository processRepository;
     private final ProcessManagerMonitor processManagerMonitor;
     private final ThreadPoolTaskScheduler threadPoolTaskScheduler;
     private final EventRepository eventRepository;
-
-    /**
-     * Constructs a ProcessManager with required dependencies.
-     *
-     * @param supervisorConfig        Configuration for the supervisor system
-     * @param processRepository       Repository for managing process states
-     * @param processManagerMonitor   Monitor for tracking process completion
-     * @param threadPoolTaskScheduler Scheduler for async operations
-     * @param eventRepository         Repository for storing process events
-     */
-    @Autowired
-    public ProcessManager(SupervisorConfig supervisorConfig, ProcessRepository processRepository, ProcessManagerMonitor processManagerMonitor, ThreadPoolTaskScheduler threadPoolTaskScheduler, EventRepository eventRepository) {
-        this.supervisorConfig = supervisorConfig;
-        this.processRepository = processRepository;
-        this.processManagerMonitor = processManagerMonitor;
-        this.threadPoolTaskScheduler = threadPoolTaskScheduler;
-        this.eventRepository = eventRepository;
-    }
 
     /**
      * Restarts a process by stopping it and then starting it again.

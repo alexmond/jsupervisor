@@ -1,4 +1,4 @@
-$schema: ./config-schema.yaml
+$schema: ../docs//modules/ROOT/attachments/jsupervisor-schema.json
 server:
   port: 8086
 spring:
@@ -29,7 +29,7 @@ logging:
         remote:
           rmi: info
 
-supervisor:
+jsupervisor:
   node-name: local
   process:
     test:
@@ -49,11 +49,12 @@ supervisor:
         - "10"
     testapp1:
       health-check-type: http
+      working-directory: "../work"
+      application-log: "../work/srv1.log"
       http-health-check-config:
         url: http://localhost:8081/
       command: "java"
       redirect-error-stream: false
-      working-directory: "../spring-boot-test-app"
       stdout-logfile: testapp1-stdout.log
       stderr-logfile: testapp1-error.log
       url: http://localhost:8081/
@@ -61,7 +62,7 @@ supervisor:
         - "-Dspring.profiles.active=srv1"
         - "-Dspring.application.name=testapp1"
         - "-jar"
-        - target/spring-boot-test-app-0.0.1-SNAPSHOT.jar
+        - ../spring-boot-test-app/target/spring-boot-test-app-0.0.1-SNAPSHOT.jar
     testapp2:
       health-check-type: actuator
       actuator-health-check:

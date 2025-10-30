@@ -22904,7 +22904,7 @@ properties:
         type: "boolean"
         description: "The Writer with order by keys."
         default: false
-  supervisor:
+  jsupervisor:
     type: "object"
     properties:
       description:

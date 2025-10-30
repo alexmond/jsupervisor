@@ -1,5 +1,6 @@
 package org.alexmond.jsupervisor.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ import java.util.concurrent.CompletableFuture;
  * Manages bulk operations for process management, allowing start and stop operations
  * to be performed on multiple processes simultaneously.
  */
-@Component
 @Slf4j
+@RequiredArgsConstructor
 public class ProcessManagerBulk {
     /**
      * Stores CompletableFuture objects for tracking asynchronous process operations.
@@ -33,17 +34,6 @@ public class ProcessManagerBulk {
      */
     private final ProcessManager processManager;
 
-    /**
-     * Constructs a new ProcessManagerBulk instance.
-     *
-     * @param processRepository repository for process management
-     * @param processManager    individual process operations manager
-     */
-    @Autowired
-    public ProcessManagerBulk(ProcessRepository processRepository, ProcessManager processManager) {
-        this.processRepository = processRepository;
-        this.processManager = processManager;
-    }
 
     /**
      * Asynchronously starts all registered processes that are not currently running.

@@ -18,7 +18,6 @@ import oshi.software.os.OperatingSystem;
  * This class provides system hardware and operating system details
  * such as memory usage, CPU information, and node configuration.
  */
-@Component
 @Data
 @Slf4j
 public class SupervisorRest {
@@ -54,7 +53,6 @@ public class SupervisorRest {
      *
      * @param supervisorConfig the configuration for the supervisor system
      */
-    @Autowired
     public SupervisorRest(SupervisorConfig supervisorConfig) {
         NodeName = supervisorConfig.getNodeName();
         description = supervisorConfig.getDescription();

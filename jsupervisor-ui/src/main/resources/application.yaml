@@ -49,7 +49,7 @@ spring:
     activate:
       on-profile: test
 
-supervisor:
+jsupervisor:
   node-name: local
   process:
     test:
