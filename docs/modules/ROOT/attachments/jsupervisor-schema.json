@@ -3014,6 +3014,16 @@
       "$anchor" : "org.alexmond.jsupervisor.config.SupervisorConfig",
       "description" : "Configuration class for JSupervisor settings",
       "properties" : {
+        "auto-start" : {
+          "type" : "boolean",
+          "description" : "Whether auto-start is enabled for marked processes",
+          "default" : "false"
+        },
+        "auto-start-delay" : {
+          "type" : "string",
+          "description" : "Delay between auto-starting processes",
+          "default" : "10s"
+        },
         "description" : {
           "type" : "string",
           "description" : "Description of the supervisor node",
@@ -3022,7 +3032,7 @@
         "enabled" : {
           "type" : "boolean",
           "description" : "Whether JSupervisor is enabled",
-          "default" : true
+          "default" : "true"
         },
         "node-name" : {
           "type" : "string",
@@ -3061,6 +3071,14 @@
                 "items" : {
                   "type" : "string"
                 }
+              },
+              "auto-restart" : {
+                "type" : "boolean",
+                "description" : "Determines if the process should be automatically restarted if it stops unexpectedly"
+              },
+              "auto-start" : {
+                "type" : "boolean",
+                "description" : "Determines if the process should start automatically when the supervisor starts"
               },
               "command" : {
                 "type" : "string",
@@ -3104,6 +3122,10 @@
                     "description" : "URL endpoint for health check"
                   }
                 }
+              },
+              "order" : {
+                "type" : "integer",
+                "description" : "Specifies the startup order of the process. Lower numbers indicate earlier startup"
               },
               "port-health-check" : {
                 "type" : "object",

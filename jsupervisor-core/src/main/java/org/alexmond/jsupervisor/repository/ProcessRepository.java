@@ -1,10 +1,11 @@
 package org.alexmond.jsupervisor.repository;
 
+import lombok.Getter;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
 import org.alexmond.jsupervisor.model.ProcessStatusRest;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
+import org.springframework.context.ApplicationEventPublisher;
+
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -15,17 +16,28 @@ public class ProcessRepository {
 
 
     private final Map<String, RunningProcess> runningProcesses = new ConcurrentHashMap<>();
+    @Getter
+    private final Map<Integer, List<String>> processOrders = new TreeMap<>();
 
 
     /**
      * Constructs a ProcessRepository and initializes running processes from configuration.
      *
      * @param supervisorConfig Configuration containing process definitions
-     * @param eventRepository  Repository for handling process events
+     * @param eventPublisher   Application event publisher for process events
      */
-    public ProcessRepository(SupervisorConfig supervisorConfig, EventRepository eventRepository) {
+    public ProcessRepository(SupervisorConfig supervisorConfig, ApplicationEventPublisher eventPublisher) {
         for (var processConfig : supervisorConfig.getProcess().entrySet()) {
-            runningProcesses.put(processConfig.getKey(), new RunningProcess(processConfig.getKey(), processConfig.getValue(), eventRepository));
+            runningProcesses.put(processConfig.getKey(), new RunningProcess(processConfig.getKey(), processConfig.getValue(), eventPublisher));
+            int order = Integer.MAX_VALUE;
+            if (processConfig.getValue().getOrder() != null) {
+                order = processConfig.getValue().getOrder();
+            }
+            if (processOrders.containsKey(order)) {
+                processOrders.get(order).add(processConfig.getKey());
+            }else {
+                processOrders.put(order, new ArrayList<>(List.of(processConfig.getKey())));
+            }
         }
     }
 
@@ -71,7 +83,7 @@ public class ProcessRepository {
         return new ProcessStatusRest(name, runningProcesses.get(name));
     }
 
-//    public RunningProcess addProcess(RunningProcess runningProcess){
+    //    public RunningProcess addProcess(RunningProcess runningProcess){
 //        runningProcesses.add(runningProcess);
 //        return runningProcess;
 //    }

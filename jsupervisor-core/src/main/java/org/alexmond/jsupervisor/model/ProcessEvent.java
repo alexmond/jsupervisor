@@ -1,7 +1,8 @@
 package org.alexmond.jsupervisor.model;
 
-import lombok.Data;
+import lombok.*;
 import org.alexmond.jsupervisor.repository.RunningProcess;
+import org.springframework.context.ApplicationEvent;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -10,8 +11,9 @@ import java.time.LocalDateTime;
  * Represents an event that occurs during process lifecycle management.
  * This class captures various attributes and state changes of a managed process.
  */
-@Data
-public class ProcessEvent {
+@Setter
+@Getter
+public class ProcessEvent extends ApplicationEvent {
 
     /**
      * Unique identifier for the process event
@@ -64,6 +66,7 @@ public class ProcessEvent {
     private Duration processUptime;
 
     public ProcessEvent(RunningProcess runningProcess, ProcessStatus newStatus) {
+        super(runningProcess);
 
         if (runningProcess.getProcess() != null) {
             this.pid = runningProcess.getProcess().pid();
@@ -85,6 +88,5 @@ public class ProcessEvent {
             // Process is still running or no end time recorded
             this.processUptime = Duration.between(this.startTime, this.eventTime);
         }
-
     }
 }

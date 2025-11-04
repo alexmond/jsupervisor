@@ -1,6 +1,7 @@
 package org.alexmond.jsupervisor.repository;
 
 import org.alexmond.jsupervisor.model.ProcessEvent;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -28,14 +29,13 @@ public class EventRepository {
      * If the entity has no ID, generates a new one.
      *
      * @param entity the process event to save
-     * @return the saved process event
      */
-    public ProcessEvent save(ProcessEvent entity) {
+    @Async
+    public void save(ProcessEvent entity) {
         if (entity.getId() == null) {
             entity.setId(nextId++);
         }
         data.put(entity.getId(), entity);
-        return entity;
     }
 
     /**

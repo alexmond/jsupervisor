@@ -5,9 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.model.ProcessStatus;
 import org.alexmond.jsupervisor.repository.EventRepository;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
@@ -21,8 +20,6 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class ProcessManagerMonitor {
     private final ProcessRepository processRepository;
-    private final EventRepository eventRepository;
-
 
     /**
      * Asynchronously monitors a process until completion and updates its status.

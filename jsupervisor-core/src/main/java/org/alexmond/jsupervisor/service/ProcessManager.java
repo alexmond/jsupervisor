@@ -34,7 +34,6 @@ public class ProcessManager {
     private final ProcessRepository processRepository;
     private final ProcessManagerMonitor processManagerMonitor;
     private final ThreadPoolTaskScheduler threadPoolTaskScheduler;
-    private final EventRepository eventRepository;
 
     /**
      * Restarts a process by stopping it and then starting it again.
@@ -80,16 +79,16 @@ public class ProcessManager {
             processBuilder.directory(new File(processConfig.getWorkingDirectory()));
 
             // Handle output redirection
-            if (processConfig.getRedirectErrorStream()) {
+            if (processConfig.isRedirectErrorStream()) {
                 processBuilder.redirectErrorStream(true);
             } else {
-                if (processConfig.getAppendLog())
+                if (processConfig.isAppendLog())
                     processBuilder.redirectError(
                             ProcessBuilder.Redirect.appendTo(runningProcess.getStderr()));
                 else
                     processBuilder.redirectError(runningProcess.getStderr());
             }
-            if (processConfig.getAppendLog())
+            if (processConfig.isAppendLog())
                 processBuilder.redirectOutput(
                         ProcessBuilder.Redirect.appendTo(runningProcess.getStdout()));
             else

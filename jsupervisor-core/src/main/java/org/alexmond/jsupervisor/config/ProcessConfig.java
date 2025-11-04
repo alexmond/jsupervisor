@@ -30,7 +30,7 @@ public class ProcessConfig {
      * The command to be executed. This field is required and cannot be empty.
      * Can be either a full path to an executable or a command available in the system PATH.
      */
-    @Schema(description = "The command to be executed. Can be either a full path to an executable or a command available in the system PATH.",title = "aaaaa")
+    @Schema(description = "The command to be executed. Can be either a full path to an executable or a command available in the system PATH.")
     @NotBlank(message = "Command must not be empty")
     private String command;
 
@@ -75,7 +75,7 @@ public class ProcessConfig {
      * If false, existing log files will be overwritten when the process starts.
      */
     @Schema(description = "Determines if log files should be appended to or overwritten. If true, new log entries will be appended to existing log files. If false, existing log files will be overwritten when the process starts.", defaultValue = "true")
-    private Boolean appendLog = true;
+    private boolean appendLog = true;
 
     /**
      * Determines if the error stream should be redirected to the output stream.
@@ -83,7 +83,33 @@ public class ProcessConfig {
      * If false, stderr will be written to a separate file if specified.
      */
     @Schema(description = "Determines if the error stream should be redirected to the output stream. If true, stderr will be merged with stdout. If false, stderr will be written to a separate file if specified.", defaultValue = "true")
-    private Boolean redirectErrorStream = true;
+    private boolean redirectErrorStream = true;
+
+    /**
+     * Determines if the process should start automatically when the supervisor starts.
+     * If true, the process will be started during supervisor initialization.
+     */
+    @Schema(description = "Determines if the process should start automatically when the supervisor starts", defaultValue = "false")
+    private boolean autoStart = false;
+
+    /**
+     * Determines if the process should be automatically restarted if it stops unexpectedly.
+     * If true, the process will be restarted when it exits with a non-zero status.
+     */
+    @Schema(description = "Determines if the process should be automatically restarted if it stops unexpectedly", defaultValue = "false")
+    private boolean autoRestart = false;
+
+    /**
+     * Specifies the startup order of the process.
+     * Lower numbers indicate earlier startup. Processes with the same order value
+     * may start in any sequence.
+     */
+    @Schema(description = "Specifies the startup order of the process. Lower numbers indicate earlier startup", example = "1")
+    private Integer order;
+
+    // other options
+//    startsecs=10
+//    startretries=3
 
     /**
      * The maximum time to wait for the process to shut down gracefully.

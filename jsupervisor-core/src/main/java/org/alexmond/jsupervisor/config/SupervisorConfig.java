@@ -5,12 +5,14 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Configuration properties for JSupervisor.
  * Maps properties with 'jsupervisor' prefix from configuration files.
+ * Provides settings for process supervision, auto-start behavior, and node identification.
  */
 @Schema(description = "Configuration class for JSupervisor settings")
 @ConfigurationProperties(prefix = "jsupervisor")
@@ -21,8 +23,20 @@ public class SupervisorConfig {
     /**
      * Whether JSupervisor is enabled.
      */
-    @Schema(description = "Whether JSupervisor is enabled", example = "true")
+    @Schema(description = "Whether JSupervisor is enabled", defaultValue = "true")
     private boolean enabled = true;
+
+    /**
+     * Whether processes marked for auto-start should be started automatically.
+     */
+    @Schema(description = "Whether auto-start is enabled for marked processes", defaultValue = "false")
+    private boolean autoStart = false;
+
+    /**
+     * Delay between auto-starting processes to prevent system overload.
+     */
+    @Schema(description = "Delay between auto-starting processes")
+    private Duration autoStartDelay = Duration.ofSeconds(10);
 
     /**
      * Collection of process configurations to be supervised.

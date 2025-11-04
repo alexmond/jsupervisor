@@ -2,6 +2,7 @@ package org.alexmond.jsupervisor.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.alexmond.jsupervisor.config.SupervisorConfig;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -19,6 +20,8 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @RequiredArgsConstructor
 public class ProcessManagerBulk {
+
+    SupervisorConfig config;
     /**
      * Stores CompletableFuture objects for tracking asynchronous process operations.
      */
@@ -37,14 +40,35 @@ public class ProcessManagerBulk {
 
     /**
      * Asynchronously starts all registered processes that are not currently running.
-     *
-     * @throws IOException if an I/O error occurs while starting processes
      */
     @Async
-    public void startAll() throws IOException {
-        processRepository.findAll().entrySet().stream()
-                .filter(e -> !e.getValue().isProcessRunning())
-                .forEach(e -> processManager.startProcess(e.getKey()));
+    public void startAll() {
+        processRepository.getProcessOrders().forEach((key, value) -> {
+            log.info("Starting for Order {} and {} process(es)", key, value);
+            value.forEach(processManager::startProcess);
+            try {
+                Thread.sleep(config.getAutoStartDelay().toMillis());
+            } catch (InterruptedException e) {
+                log.error("Thread.sleep interrupted {}",e.getMessage(), e);
+            }
+        });
+    }
+
+    @Async
+    public void autoStartAll() {
+        processRepository.getProcessOrders().forEach((key, value) -> {
+            log.info("Auto-start initiated for Order {} and {} process(es)", key, value);
+            value.forEach(process -> {
+                if (processRepository.getRunningProcess(process).getProcessConfig().isAutoStart()) {
+                    processManager.startProcess(process);
+                }
+            });
+            try {
+                Thread.sleep(config.getAutoStartDelay().toMillis());
+            } catch (InterruptedException e) {
+                log.error("Thread.sleep interrupted {}",e.getMessage(), e);
+            }
+        });
     }
 
     /**
