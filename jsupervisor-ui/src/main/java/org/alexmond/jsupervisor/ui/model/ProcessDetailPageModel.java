@@ -16,12 +16,12 @@ import java.util.Map;
 @Data
 @SuperBuilder
 public class ProcessDetailPageModel extends BaseModel {
+    Map<String, Object> processConfig;
+    Map<String, Object> process;
     /**
      * Process status information containing details about the managed process,
      * including its current state and runtime information.
      */
     private ProcessStatusRest proc;
-    Map<String, Object> processConfig;
-    Map<String, Object> process;
 
 }

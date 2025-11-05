@@ -1,4 +1,3 @@
-
 package org.alexmond.jsupervisor.service;
 
 import lombok.RequiredArgsConstructor;
@@ -33,16 +32,16 @@ public class JSupervisorApplicationReadyListener {
     @EventListener(ApplicationReadyEvent.class)
     public void onApplicationReady(ApplicationReadyEvent event) {
         log.info("JSupervisor application is ready. Node: {}", supervisorConfig.getNodeName());
-        
+
         // Log supervisor information
         logSupervisorInfo();
-        
+
         // Auto-start configured processes
         autoStartProcesses();
-        
+
         // Log process status
         logProcessStatus();
-        
+
         log.info("JSupervisor initialization completed");
     }
 

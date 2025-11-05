@@ -4,11 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -21,22 +18,19 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class ProcessManagerBulk {
 
-    SupervisorConfig config;
     /**
      * Stores CompletableFuture objects for tracking asynchronous process operations.
      */
     private final Map<String, CompletableFuture<Void>> processFutures = new HashMap<>();
-
     /**
      * Repository for managing process-related data and operations.
      */
     private final ProcessRepository processRepository;
-
     /**
      * Manager for handling individual process operations.
      */
     private final ProcessManager processManager;
-
+    SupervisorConfig config;
 
     /**
      * Asynchronously starts all registered processes that are not currently running.
@@ -49,7 +43,7 @@ public class ProcessManagerBulk {
             try {
                 Thread.sleep(config.getAutoStartDelay().toMillis());
             } catch (InterruptedException e) {
-                log.error("Thread.sleep interrupted {}",e.getMessage(), e);
+                log.error("Thread.sleep interrupted {}", e.getMessage(), e);
             }
         });
     }
@@ -66,7 +60,7 @@ public class ProcessManagerBulk {
             try {
                 Thread.sleep(config.getAutoStartDelay().toMillis());
             } catch (InterruptedException e) {
-                log.error("Thread.sleep interrupted {}",e.getMessage(), e);
+                log.error("Thread.sleep interrupted {}", e.getMessage(), e);
             }
         });
     }
@@ -74,13 +68,26 @@ public class ProcessManagerBulk {
     /**
      * Asynchronously stops all currently running processes.
      *
-     * @throws IOException if an I/O error occurs while stopping processes
      */
     @Async
-    public void stopAll() throws IOException {
+    public void stopAll() {
         processRepository.findAll().entrySet().stream()
                 .filter(e -> e.getValue().isProcessRunning())
                 .forEach(e -> processManager.stopProcess(e.getKey()));
+    }
+
+    /**
+     * Asynchronously stops all currently running processes.
+     */
+    @Async
+    public void restartAll() {
+        stopAll();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            log.error("Thread.sleep interrupted {}", e.getMessage(), e);
+        }
+        startAll();
     }
 
 

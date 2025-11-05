@@ -1,16 +1,15 @@
 package org.alexmond.jsupervisor.healthcheck;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.ActuatorHealthCheckConfig;
 import org.alexmond.jsupervisor.model.ProcessStatus;
 import org.alexmond.jsupervisor.repository.RunningProcess;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLParameters;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.security.KeyManagementException;

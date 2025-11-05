@@ -1,6 +1,5 @@
 package org.alexmond.jsupervisor.ui.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
@@ -13,8 +12,6 @@ import org.alexmond.jsupervisor.service.ProcessManagerBulk;
 import org.alexmond.jsupervisor.ui.model.EventsPageModel;
 import org.alexmond.jsupervisor.ui.model.ProcessDetailPageModel;
 import org.alexmond.jsupervisor.ui.model.ProcessLogPageModel;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.alexmond.jsupervisor.ui.model.ProcessesPageModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -199,7 +196,7 @@ public class WebProcessController {
         String logContent = "";
         try {
             logContent = Files.readString(logFile.toPath());
-        }catch (IOException e) {
+        } catch (IOException e) {
             log.error("Error reading log file", e);
             logContent = "Error reading log file: " + e.toString();
         }

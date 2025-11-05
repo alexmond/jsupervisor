@@ -11,6 +11,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.map.repository.config.EnableMapRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
@@ -20,6 +21,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 @EnableConfigurationProperties(SupervisorConfig.class)
 @ComponentScan(basePackages = "org.alexmond.jsupervisor")
 @EnableAsync
+@EnableMapRepositories(basePackages = "org.alexmond.jsupervisor.repository")
 public class JSupervisorAutoConfiguration {
 
     /**
@@ -36,14 +38,14 @@ public class JSupervisorAutoConfiguration {
         return scheduler;
     }
 
-    /**
-     * Creates an EventRepository bean if none exists.
-     */
-    @Bean
-    @ConditionalOnMissingBean(EventRepository.class)
-    public EventRepository eventRepository() {
-        return new EventRepository();
-    }
+//    /**
+//     * Creates an EventRepository bean if none exists.
+//     */
+//    @Bean
+//    @ConditionalOnMissingBean(EventRepository.class)
+//    public EventRepository eventRepository() {
+//        return new EventRepository();
+//    }
 
     /**
      * Creates a ProcessRepository bean if none exists.
@@ -90,7 +92,7 @@ public class JSupervisorAutoConfiguration {
      * Creates a ProcessManagerBulk bean if none exists.
      */
     @Bean
-    public ProcsessEventListener procsessEventListener(EventRepository  eventRepository) {
+    public ProcsessEventListener procsessEventListener(EventRepository eventRepository) {
         return new ProcsessEventListener(eventRepository);
     }
 

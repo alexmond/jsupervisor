@@ -7,6 +7,7 @@ import org.alexmond.jsupervisor.config.ProcessConfig;
 import org.alexmond.jsupervisor.healthcheck.HealthCheck;
 import org.alexmond.jsupervisor.healthcheck.HealthCheckFactory;
 import org.alexmond.jsupervisor.model.ProcessEvent;
+import org.alexmond.jsupervisor.model.ProcessEventEntry;
 import org.alexmond.jsupervisor.model.ProcessStatus;
 import org.springframework.context.ApplicationEventPublisher;
 
@@ -65,7 +66,7 @@ public class RunningProcess {
         }
 
         stdout = new File(processConfig.getStdoutLogfile());
-        if(processConfig.getApplicationLog() != null) {
+        if (processConfig.getApplicationLog() != null) {
             application = new File(processConfig.getApplicationLog());
         }
         healthCheck = HealthCheckFactory.getHealthCheck(processConfig, this);
@@ -94,7 +95,7 @@ public class RunningProcess {
     @Synchronized
     public void setProcessStatus(ProcessStatus processStatus) {
         log.info("setProcessStatus {}", processStatus);
-        eventPublisher.publishEvent(new ProcessEvent(this, processStatus));
+        eventPublisher.publishEvent(new ProcessEvent(new ProcessEventEntry(this, processStatus)));
 
         this.processStatus = processStatus;
     }
@@ -119,7 +120,7 @@ public class RunningProcess {
         endTime = null;
         exitCode = null;
     }
-    
+
 
     public Duration getProcessRuntime() {
         if (startTime == null) {

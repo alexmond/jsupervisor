@@ -1,4 +1,3 @@
-
 package org.alexmond.jsupervisor.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,7 +37,7 @@ public class LogController {
             @Parameter(description = "Process name") @PathVariable String processName,
             @Parameter(description = "Number of lines to return from end of file") @RequestParam(defaultValue = "100") int lines,
             @Parameter(description = "Follow log (return streaming response)") @RequestParam(defaultValue = "false") boolean follow) {
-        
+
         RunningProcess runningProcess = processRepository.getRunningProcess(processName);
         if (runningProcess == null) {
             return ResponseEntity.notFound().build();
@@ -48,26 +47,26 @@ public class LogController {
             File stdoutFile = runningProcess.getStdout();
             if (stdoutFile == null || !stdoutFile.exists()) {
                 return ResponseEntity.ok(Map.of(
-                    "processName", processName,
-                    "logType", "stdout",
-                    "content", "",
-                    "lines", 0,
-                    "file", "N/A"
+                        "processName", processName,
+                        "logType", "stdout",
+                        "content", "",
+                        "lines", 0,
+                        "file", "N/A"
                 ));
             }
 
             List<String> logLines = Files.readAllLines(stdoutFile.toPath());
-            List<String> tailLines = logLines.size() > lines ? 
-                logLines.subList(Math.max(0, logLines.size() - lines), logLines.size()) : logLines;
+            List<String> tailLines = logLines.size() > lines ?
+                    logLines.subList(Math.max(0, logLines.size() - lines), logLines.size()) : logLines;
 
             return ResponseEntity.ok(Map.of(
-                "processName", processName,
-                "logType", "stdout",
-                "content", String.join("\n", tailLines),
-                "lines", tailLines.size(),
-                "totalLines", logLines.size(),
-                "file", stdoutFile.getName(),
-                "lastModified", stdoutFile.lastModified()
+                    "processName", processName,
+                    "logType", "stdout",
+                    "content", String.join("\n", tailLines),
+                    "lines", tailLines.size(),
+                    "totalLines", logLines.size(),
+                    "file", stdoutFile.getName(),
+                    "lastModified", stdoutFile.lastModified()
             ));
         } catch (IOException e) {
             log.error("Failed to read stdout log for process: {}", processName, e);
@@ -80,7 +79,7 @@ public class LogController {
     public ResponseEntity<Map<String, Object>> getStderrLog(
             @Parameter(description = "Process name") @PathVariable String processName,
             @Parameter(description = "Number of lines to return from end of file") @RequestParam(defaultValue = "100") int lines) {
-        
+
         RunningProcess runningProcess = processRepository.getRunningProcess(processName);
         if (runningProcess == null) {
             return ResponseEntity.notFound().build();
@@ -90,26 +89,26 @@ public class LogController {
             File stderrFile = runningProcess.getStderr();
             if (stderrFile == null || !stderrFile.exists()) {
                 return ResponseEntity.ok(Map.of(
-                    "processName", processName,
-                    "logType", "stderr",
-                    "content", "",
-                    "lines", 0,
-                    "file", "N/A"
+                        "processName", processName,
+                        "logType", "stderr",
+                        "content", "",
+                        "lines", 0,
+                        "file", "N/A"
                 ));
             }
 
             List<String> logLines = Files.readAllLines(stderrFile.toPath());
-            List<String> tailLines = logLines.size() > lines ? 
-                logLines.subList(Math.max(0, logLines.size() - lines), logLines.size()) : logLines;
+            List<String> tailLines = logLines.size() > lines ?
+                    logLines.subList(Math.max(0, logLines.size() - lines), logLines.size()) : logLines;
 
             return ResponseEntity.ok(Map.of(
-                "processName", processName,
-                "logType", "stderr",
-                "content", String.join("\n", tailLines),
-                "lines", tailLines.size(),
-                "totalLines", logLines.size(),
-                "file", stderrFile.getName(),
-                "lastModified", stderrFile.lastModified()
+                    "processName", processName,
+                    "logType", "stderr",
+                    "content", String.join("\n", tailLines),
+                    "lines", tailLines.size(),
+                    "totalLines", logLines.size(),
+                    "file", stderrFile.getName(),
+                    "lastModified", stderrFile.lastModified()
             ));
         } catch (IOException e) {
             log.error("Failed to read stderr log for process: {}", processName, e);
@@ -121,20 +120,20 @@ public class LogController {
     @Operation(summary = "List log files", description = "Get information about all log files for a process")
     public ResponseEntity<Map<String, Object>> getLogFiles(
             @Parameter(description = "Process name") @PathVariable String processName) {
-        
+
         RunningProcess runningProcess = processRepository.getRunningProcess(processName);
         if (runningProcess == null) {
             return ResponseEntity.notFound().build();
         }
 
         Map<String, Object> logInfo = Map.of(
-            "processName", processName,
-            "stdoutLogfile", runningProcess.getStdoutLogfile(),
-            "stderrLogfile", runningProcess.getStderrLogfile(),
-            "stdoutExists", runningProcess.getStdout() != null && runningProcess.getStdout().exists(),
-            "stderrExists", runningProcess.getStderr() != null && runningProcess.getStderr().exists(),
-            "stdoutSize", runningProcess.getStdout() != null && runningProcess.getStdout().exists() ? runningProcess.getStdout().length() : 0,
-            "stderrSize", runningProcess.getStderr() != null && runningProcess.getStderr().exists() ? runningProcess.getStderr().length() : 0
+                "processName", processName,
+                "stdoutLogfile", runningProcess.getStdoutLogfile(),
+                "stderrLogfile", runningProcess.getStderrLogfile(),
+                "stdoutExists", runningProcess.getStdout() != null && runningProcess.getStdout().exists(),
+                "stderrExists", runningProcess.getStderr() != null && runningProcess.getStderr().exists(),
+                "stdoutSize", runningProcess.getStdout() != null && runningProcess.getStdout().exists() ? runningProcess.getStdout().length() : 0,
+                "stderrSize", runningProcess.getStderr() != null && runningProcess.getStderr().exists() ? runningProcess.getStderr().length() : 0
         );
 
         return ResponseEntity.ok(logInfo);

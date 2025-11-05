@@ -98,8 +98,8 @@ public class JSupervisorStartupManager implements ApplicationListener<Applicatio
             }
         }
 
-        log.info("Configuration validation complete: {} valid, {} invalid", 
-                 validProcesses, invalidProcesses);
+        log.info("Configuration validation complete: {} valid, {} invalid",
+                validProcesses, invalidProcesses);
 
         if (invalidProcesses > 0) {
             log.warn("Some processes have invalid configuration and may fail to start");
@@ -243,15 +243,15 @@ public class JSupervisorStartupManager implements ApplicationListener<Applicatio
         log.info("├──────────────────┼─────────────┼──────────────────────────┤");
 
         List<Map.Entry<String, ProcessConfig>> sortedProcesses = supervisorConfig.getProcess().entrySet().stream()
-                .sorted(Comparator.comparing(e -> e.getValue().getPriority() != null ? 
+                .sorted(Comparator.comparing(e -> e.getValue().getPriority() != null ?
                         e.getValue().getPriority() : Integer.MAX_VALUE))
                 .toList();
 
         for (Map.Entry<String, ProcessConfig> entry : sortedProcesses) {
             String name = entry.getKey();
             ProcessConfig config = entry.getValue();
-            boolean autostart = config.isAutostart() != null ? config.isAutostart() : 
-                               supervisorConfig.isAutostart();
+            boolean autostart = config.isAutostart() != null ? config.isAutostart() :
+                    supervisorConfig.isAutostart();
             String command = config.getCommand();
             if (command.length() > 24) {
                 command = command.substring(0, 21) + "...";
@@ -307,7 +307,7 @@ public class JSupervisorStartupManager implements ApplicationListener<Applicatio
                     Boolean autostart = e.getValue().isAutostart();
                     return autostart == null || autostart; // Auto-start if not specified or true
                 })
-                .sorted(Comparator.comparing(e -> e.getValue().getPriority() != null ? 
+                .sorted(Comparator.comparing(e -> e.getValue().getPriority() != null ?
                         e.getValue().getPriority() : Integer.MAX_VALUE))
                 .toList();
 
@@ -316,7 +316,7 @@ public class JSupervisorStartupManager implements ApplicationListener<Applicatio
             try {
                 log.info("Starting process: {}", name);
                 processManager.startProcess(name);
-                
+
                 // Small delay between starts if priority-based
                 if (entry.getValue().getPriority() != null) {
                     Thread.sleep(100);

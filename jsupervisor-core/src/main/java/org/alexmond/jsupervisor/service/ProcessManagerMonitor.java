@@ -3,9 +3,7 @@ package org.alexmond.jsupervisor.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.model.ProcessStatus;
-import org.alexmond.jsupervisor.repository.EventRepository;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Async;
 
 import java.time.LocalDateTime;

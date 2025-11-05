@@ -15,6 +15,7 @@ import java.util.Map;
 public class ValidateConfiguration {
 
     private final SupervisorConfig supervisorConfig;
+
     /**
      * Validates the supervisor configuration
      */

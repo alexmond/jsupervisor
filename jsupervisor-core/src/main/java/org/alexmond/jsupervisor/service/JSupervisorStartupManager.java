@@ -2,25 +2,11 @@ package org.alexmond.jsupervisor.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.alexmond.jsupervisor.config.ProcessConfig;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
-import org.alexmond.jsupervisor.repository.EventRepository;
-import org.alexmond.jsupervisor.repository.ProcessRepository;
 import org.alexmond.jsupervisor.utility.ValidateConfiguration;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Comprehensive startup manager for JSupervisor.
@@ -31,7 +17,7 @@ import java.util.Map;
 @Order(100) // Execute after most other application listeners
 @RequiredArgsConstructor
 public class JSupervisorStartupManager implements ApplicationListener<ApplicationReadyEvent> {
-//
+    //
     private final SupervisorConfig supervisorConfig;
     private final ProcessManagerBulk processManagerBulk;
 

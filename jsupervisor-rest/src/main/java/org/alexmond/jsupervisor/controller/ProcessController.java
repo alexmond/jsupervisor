@@ -32,9 +32,8 @@ public class ProcessController {
 
     @GetMapping
     @Operation(summary = "List all processes", description = "Retrieve status information for all configured processes")
-    public ResponseEntity<Collection<ProcessStatusRest>> getAllProcesses() {
-        Collection<ProcessStatusRest> processes = processRepository.findAllProcessStatusRest();
-        return ResponseEntity.ok(processes);
+    public Collection<ProcessStatusRest> getAllProcesses() {
+        return processRepository.findAllProcessStatusRest();
     }
 
     @GetMapping("/{name}")
@@ -48,7 +47,7 @@ public class ProcessController {
         return ResponseEntity.ok(process);
     }
 
-    @PostMapping("/{name}/start")
+    @PostMapping("/start/{name}")
     @Operation(summary = "Start process", description = "Start a specific process")
     public ResponseEntity<Map<String, String>> startProcess(
             @Parameter(description = "Process name") @PathVariable String name) {
@@ -60,7 +59,7 @@ public class ProcessController {
         }
     }
 
-    @PostMapping("/{name}/stop")
+    @PostMapping("/stop/{name}")
     @Operation(summary = "Stop process", description = "Stop a specific process")
     public ResponseEntity<Map<String, String>> stopProcess(
             @Parameter(description = "Process name") @PathVariable String name) {
@@ -72,7 +71,7 @@ public class ProcessController {
         return ResponseEntity.ok(Map.of("message", "Process stop initiated", "process", name));
     }
 
-    @PostMapping("/{name}/restart")
+    @PostMapping("/restart/{name}")
     @Operation(summary = "Restart process", description = "Restart a specific process")
     public ResponseEntity<Map<String, String>> restartProcess(
             @Parameter(description = "Process name") @PathVariable String name) {
@@ -84,28 +83,10 @@ public class ProcessController {
         return ResponseEntity.ok(Map.of("message", "Process restart initiated", "process", name));
     }
 
-    @GetMapping("/{name}/status")
+    @GetMapping("/status/{name}")
     @Operation(summary = "Get process status", description = "Get the current status of a specific process")
-    public  ProcessStatusRest getProcessStatus(
+    public ProcessStatusRest getProcessStatus(
             @Parameter(description = "Process name") @PathVariable String name) {
         return processRepository.getRunningProcessRest(name);
-    }
-
-    @GetMapping("/{name}/health")
-    @Operation(summary = "Get process health", description = "Get the health status of a specific process")
-    public ResponseEntity<Map<String, Object>> getProcessHealth(
-            @Parameter(description = "Process name") @PathVariable String name) {
-        ProcessStatusRest process = processRepository.getRunningProcessRest(name);
-        if (process == null) {
-            return ResponseEntity.notFound().build();
-        }
-        
-        boolean isHealthy = process.getStatus().name().equals("healthy");
-        return ResponseEntity.ok(Map.of(
-            "name", process.getName(),
-            "healthy", isHealthy,
-            "status", process.getStatus(),
-            "lastCheck", System.currentTimeMillis()
-        ));
     }
 }

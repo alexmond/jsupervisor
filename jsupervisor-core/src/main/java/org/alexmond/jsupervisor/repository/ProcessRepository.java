@@ -35,7 +35,7 @@ public class ProcessRepository {
             }
             if (processOrders.containsKey(order)) {
                 processOrders.get(order).add(processConfig.getKey());
-            }else {
+            } else {
                 processOrders.put(order, new ArrayList<>(List.of(processConfig.getKey())));
             }
         }
