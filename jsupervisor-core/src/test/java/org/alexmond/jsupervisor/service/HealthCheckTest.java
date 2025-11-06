@@ -36,7 +36,7 @@ public class HealthCheckTest {
         processConfig.setWorkingDirectory(".");
         processConfig.setHealthCheckType(HealthCheckType.ACTUATOR);
         ActuatorHealthCheckConfig actuatorHealthCheckConfig = new ActuatorHealthCheckConfig();
-        actuatorHealthCheckConfig.setActuatorHealthUrl("http://localhost:8086/actuator/health");
+        actuatorHealthCheckConfig.setActuatorHealthUrl("http://localhost:9086/actuator/health");
         processConfig.setActuatorHealthCheck(actuatorHealthCheckConfig);
 
         processRepository.addProcess("acTest",processConfig);
@@ -58,7 +58,7 @@ public class HealthCheckTest {
         processConfig.setWorkingDirectory(".");
         processConfig.setHealthCheckType(HealthCheckType.HTTP);
         HttpHealthCheckConfig httpHealthCheckConfig = new HttpHealthCheckConfig();
-        httpHealthCheckConfig.setUrl("http://localhost:8086/actuator/health");
+        httpHealthCheckConfig.setUrl("http://localhost:9086/actuator/health");
         processConfig.setHttpHealthCheckConfig(httpHealthCheckConfig);
 
         processRepository.addProcess("acTest",processConfig);
@@ -81,7 +81,7 @@ public class HealthCheckTest {
         processConfig.setHealthCheckType(HealthCheckType.PORT);
         PortHealthCheckConfig portHealthCheckConfig = new PortHealthCheckConfig();
         portHealthCheckConfig.setHost("localhost");
-        portHealthCheckConfig.setPort(8086);
+        portHealthCheckConfig.setPort(9086);
         processConfig.setPortHealthCheck(portHealthCheckConfig);
 
         processRepository.addProcess("acTest",processConfig);
