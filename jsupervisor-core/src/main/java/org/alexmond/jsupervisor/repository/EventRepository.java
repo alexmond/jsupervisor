@@ -8,6 +8,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 /**
  * Repository for managing ProcessEvent entities.
@@ -25,9 +27,9 @@ public interface EventRepository extends CrudRepository<ProcessEventEntry, Long>
     void delete(ProcessEventEntry entity);
 
     @RestResource(path = "byProcessName", rel = "byProcessName")
-    Iterable<ProcessEventEntry> findByProcessName(String processName);
+    List<ProcessEventEntry> findByProcessName(String processName);
 
     // Example: Find by status (add more as needed)
     @RestResource(path = "byStatus", rel = "byStatus")
-    Iterable<ProcessEventEntry> findByNewStatus(ProcessStatus status);
+    List<ProcessEventEntry> findByNewStatus(ProcessStatus status);
 }

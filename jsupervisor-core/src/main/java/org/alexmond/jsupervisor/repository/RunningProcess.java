@@ -1,6 +1,7 @@
 package org.alexmond.jsupervisor.repository;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.ProcessConfig;
@@ -21,15 +22,16 @@ import java.util.concurrent.ScheduledFuture;
  * Represents a user entity in the system.
  * Implements Identifiable interface for consistent ID handling.
  */
-
-@Data
+@Getter
+@Setter
 @Slf4j
 public class RunningProcess {
 
     private final ApplicationEventPublisher eventPublisher;
+    private final String processName;
+    private final ProcessConfig processConfig;
+    
     private RunningProcess runningProcess;
-    private ProcessConfig processConfig;
-    private String processName;
     private HealthCheck healthCheck;
     private Process process = null;
     private LocalDateTime startTime;
@@ -65,7 +67,7 @@ public class RunningProcess {
             stdoutLogfile = processName + "-stdout.log";
         }
 
-        stdout = new File(processConfig.getStdoutLogfile());
+        stdout = new File(stdoutLogfile);
         if (processConfig.getApplicationLog() != null) {
             application = new File(processConfig.getApplicationLog());
         }

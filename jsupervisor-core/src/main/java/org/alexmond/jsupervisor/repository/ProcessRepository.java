@@ -1,6 +1,7 @@
 package org.alexmond.jsupervisor.repository;
 
 import lombok.Getter;
+import org.alexmond.jsupervisor.config.ProcessConfig;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
 import org.alexmond.jsupervisor.model.ProcessStatusRest;
 import org.springframework.context.ApplicationEventPublisher;
@@ -18,6 +19,7 @@ public class ProcessRepository {
     private final Map<String, RunningProcess> runningProcesses = new ConcurrentHashMap<>();
     @Getter
     private final Map<Integer, List<String>> processOrders = new TreeMap<>();
+    private final ApplicationEventPublisher eventPublisher;
 
 
     /**
@@ -27,17 +29,22 @@ public class ProcessRepository {
      * @param eventPublisher   Application event publisher for process events
      */
     public ProcessRepository(SupervisorConfig supervisorConfig, ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
         for (var processConfig : supervisorConfig.getProcess().entrySet()) {
-            runningProcesses.put(processConfig.getKey(), new RunningProcess(processConfig.getKey(), processConfig.getValue(), eventPublisher));
-            int order = Integer.MAX_VALUE;
-            if (processConfig.getValue().getOrder() != null) {
-                order = processConfig.getValue().getOrder();
-            }
-            if (processOrders.containsKey(order)) {
-                processOrders.get(order).add(processConfig.getKey());
-            } else {
-                processOrders.put(order, new ArrayList<>(List.of(processConfig.getKey())));
-            }
+            addProcess(processConfig.getKey(), processConfig.getValue());
+        }
+    }
+
+    public void addProcess(String processName, ProcessConfig processConfig) {
+        runningProcesses.put(processName, new RunningProcess(processName, processConfig, eventPublisher));
+        int order = Integer.MAX_VALUE;
+        if (processConfig.getOrder() != null) {
+            order = processConfig.getOrder();
+        }
+        if (processOrders.containsKey(order)) {
+            processOrders.get(order).add(processName);
+        } else {
+            processOrders.put(order, new ArrayList<>(List.of(processName)));
         }
     }
 
@@ -83,10 +90,6 @@ public class ProcessRepository {
         return new ProcessStatusRest(name, runningProcesses.get(name));
     }
 
-    //    public RunningProcess addProcess(RunningProcess runningProcess){
-//        runningProcesses.add(runningProcess);
-//        return runningProcess;
-//    }
 
 //    public Optional<RunningProcess> updateProcess(int id, String newName){
 //        Optional<RunningProcess> findUser =  runningProcesses.stream()
