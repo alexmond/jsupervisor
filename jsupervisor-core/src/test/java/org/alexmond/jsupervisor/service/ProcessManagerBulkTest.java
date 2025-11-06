@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
  * Test class for the ProcessManagerBulk class.
  * This class verifies the behavior of the restartAll method.
  */
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class ProcessManagerBulkTest {
     @Autowired
     private ProcessManagerBulk processManagerBulk;
@@ -28,16 +28,17 @@ public class ProcessManagerBulkTest {
     void testRestartAllInvokesStopAllAndStartAll() throws InterruptedException {
 
         processManagerBulk.startAll();
-        Thread.sleep(1000);
+        Thread.sleep(100);
         processRepository.findAllProcessStatusRest().forEach(process -> {
             assertEquals(ProcessStatus.running, process.getStatus());
         });
         processManagerBulk.stopAll();
-        Thread.sleep(1000);
+        Thread.sleep(100);
         processRepository.findAllProcessStatusRest().forEach(process -> {
             assertEquals(ProcessStatus.stopped, process.getStatus());
         });
         processManagerBulk.restartAll();
+        Thread.sleep(1000);
         processRepository.findAllProcessStatusRest().forEach(process -> {
             assertEquals(ProcessStatus.running, process.getStatus());
         });
@@ -50,8 +51,7 @@ public class ProcessManagerBulkTest {
         ProcessManager processManager = mock(ProcessManager.class);
         SupervisorConfig config = mock(SupervisorConfig.class);
 
-        ProcessManagerBulk processManagerBulk = Mockito.spy(new ProcessManagerBulk(processRepository, processManager));
-        processManagerBulk.config = config;
+        ProcessManagerBulk processManagerBulk = Mockito.spy(new ProcessManagerBulk(processRepository, processManager,config));
 
         doNothing().when(processManagerBulk).stopAll();
         // Use RuntimeException instead of InterruptedException since startAll() doesn't declare checked exceptions

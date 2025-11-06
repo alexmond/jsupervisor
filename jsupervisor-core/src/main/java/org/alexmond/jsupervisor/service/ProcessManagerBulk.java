@@ -30,7 +30,7 @@ public class ProcessManagerBulk {
      * Manager for handling individual process operations.
      */
     private final ProcessManager processManager;
-    SupervisorConfig config;
+    private final SupervisorConfig config;
 
     /**
      * Asynchronously starts all registered processes that are not currently running.
@@ -83,7 +83,7 @@ public class ProcessManagerBulk {
     public void restartAll() {
         stopAll();
         try {
-            Thread.sleep(1000);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             log.error("Thread.sleep interrupted {}", e.getMessage(), e);
         }

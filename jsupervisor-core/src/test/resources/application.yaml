@@ -33,12 +33,12 @@ jsupervisor:
       command: "sleep"
       working-directory: "."
       args:
-        - "1000"
+        - "10000"
     sleep2:
       command: "sleep"
       working-directory: "."
       args:
-        - "1000"
+        - "10000"
 
 
 

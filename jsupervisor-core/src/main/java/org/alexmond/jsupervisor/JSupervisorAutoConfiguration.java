@@ -84,8 +84,9 @@ public class JSupervisorAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(ProcessManagerBulk.class)
     public ProcessManagerBulk processManagerBulk(ProcessRepository processRepository,
-                                                 ProcessManager processManager) {
-        return new ProcessManagerBulk(processRepository, processManager);
+                                                 ProcessManager processManager,
+                                                 SupervisorConfig supervisorConfig) {
+        return new ProcessManagerBulk(processRepository, processManager,supervisorConfig);
     }
 
     /**

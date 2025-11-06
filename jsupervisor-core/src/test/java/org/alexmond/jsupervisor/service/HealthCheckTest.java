@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Test class for the ProcessManagerBulk class.
  * This class verifies the behavior of the restartAll method.
  */
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class HealthCheckTest {
     @Autowired
     private ProcessManagerBulk processManagerBulk;
@@ -37,6 +37,9 @@ public class HealthCheckTest {
         processConfig.setHealthCheckType(HealthCheckType.ACTUATOR);
         ActuatorHealthCheckConfig actuatorHealthCheckConfig = new ActuatorHealthCheckConfig();
         actuatorHealthCheckConfig.setActuatorHealthUrl("http://localhost:9086/actuator/health");
+        actuatorHealthCheckConfig.setSuccessThreshold(1);
+        actuatorHealthCheckConfig.setFailureThreshold(1);
+        actuatorHealthCheckConfig.setPeriodSeconds(1);
         processConfig.setActuatorHealthCheck(actuatorHealthCheckConfig);
 
         processRepository.addProcess("acTest",processConfig);
@@ -59,6 +62,9 @@ public class HealthCheckTest {
         processConfig.setHealthCheckType(HealthCheckType.HTTP);
         HttpHealthCheckConfig httpHealthCheckConfig = new HttpHealthCheckConfig();
         httpHealthCheckConfig.setUrl("http://localhost:9086/actuator/health");
+        httpHealthCheckConfig.setSuccessThreshold(1);
+        httpHealthCheckConfig.setFailureThreshold(1);
+        httpHealthCheckConfig.setPeriodSeconds(1);
         processConfig.setHttpHealthCheckConfig(httpHealthCheckConfig);
 
         processRepository.addProcess("acTest",processConfig);
@@ -82,6 +88,9 @@ public class HealthCheckTest {
         PortHealthCheckConfig portHealthCheckConfig = new PortHealthCheckConfig();
         portHealthCheckConfig.setHost("localhost");
         portHealthCheckConfig.setPort(9086);
+        portHealthCheckConfig.setSuccessThreshold(1);
+        portHealthCheckConfig.setFailureThreshold(1);
+        portHealthCheckConfig.setPeriodSeconds(1);
         processConfig.setPortHealthCheck(portHealthCheckConfig);
 
         processRepository.addProcess("acTest",processConfig);
