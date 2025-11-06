@@ -1,6 +1,7 @@
 package org.alexmond.jsupervisor.repository;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.ProcessConfig;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
 import org.alexmond.jsupervisor.model.ProcessStatusRest;
@@ -13,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Repository class managing running processes in the supervisor system.
  * Provides methods to access and manipulate process information.
  */
+@Slf4j
 public class ProcessRepository {
 
 
@@ -45,6 +47,21 @@ public class ProcessRepository {
             processOrders.get(order).add(processName);
         } else {
             processOrders.put(order, new ArrayList<>(List.of(processName)));
+        }
+    }
+    public void removeProcess(String processName) {
+        if (runningProcesses.containsKey(processName) && !runningProcesses.get(processName).isProcessRunning()) {
+            runningProcesses.remove(processName);
+            Iterator<Map.Entry<Integer, List<String>>> iterator = processOrders.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<Integer, List<String>> entry = iterator.next();
+                entry.getValue().remove(processName);
+                if (entry.getValue().isEmpty()) {
+                    iterator.remove();
+                }
+            }
+        }else{
+            log.error("Process {} is running or does not exist", processName);
         }
     }
 

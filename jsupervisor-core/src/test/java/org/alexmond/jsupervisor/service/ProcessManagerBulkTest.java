@@ -1,11 +1,14 @@
 package org.alexmond.jsupervisor.service;
 
 import org.alexmond.jsupervisor.config.SupervisorConfig;
+import org.alexmond.jsupervisor.model.ProcessStatus;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 /**
@@ -14,27 +17,30 @@ import static org.mockito.Mockito.*;
  */
 @SpringBootTest
 public class ProcessManagerBulkTest {
+    @Autowired
+    private ProcessManagerBulk processManagerBulk;
+    @Autowired
+    private ProcessManager processManager;
+    @Autowired
+    private ProcessRepository processRepository;
 
     @Test
-    void testRestartAllInvokesStopAllAndStartAll() {
-        // Arrange
-        ProcessRepository processRepository = mock(ProcessRepository.class);
-        ProcessManager processManager = mock(ProcessManager.class);
-        SupervisorConfig config = mock(SupervisorConfig.class);
-        
-        // Create a spy instead of a regular instance
-        ProcessManagerBulk processManagerBulk = Mockito.spy(new ProcessManagerBulk(processRepository, processManager));
-        processManagerBulk.config = config;
+    void testRestartAllInvokesStopAllAndStartAll() throws InterruptedException {
 
-        doNothing().when(processManagerBulk).stopAll();
-        doNothing().when(processManagerBulk).startAll();
-
-        // Act
+        processManagerBulk.startAll();
+        Thread.sleep(1000);
+        processRepository.findAllProcessStatusRest().forEach(process -> {
+            assertEquals(ProcessStatus.running, process.getStatus());
+        });
+        processManagerBulk.stopAll();
+        Thread.sleep(1000);
+        processRepository.findAllProcessStatusRest().forEach(process -> {
+            assertEquals(ProcessStatus.stopped, process.getStatus());
+        });
         processManagerBulk.restartAll();
-
-        // Assert
-        verify(processManagerBulk, times(1)).stopAll();
-        verify(processManagerBulk, times(1)).startAll();
+        processRepository.findAllProcessStatusRest().forEach(process -> {
+            assertEquals(ProcessStatus.running, process.getStatus());
+        });
     }
 
     @Test

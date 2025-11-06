@@ -17,7 +17,9 @@ public class ProcsessEventListener {
 
     @EventListener
     public void handleUserRegisteredEvent(ProcessEvent processEvent) {
-        log.info("Handle process event for {}, with new status", processEvent.getEntry().getProcessName());
+        log.info("Handle process event for {}, with new status {}",
+                processEvent.getEntry().getProcessName(),
+                processEvent.getEntry().getNewStatus());
         ProcessEventEntry processEventEntry = processEvent.getEntry();
         processEventEntry.setId(idGenerator.incrementAndGet());
         eventRepository.save(processEventEntry);
