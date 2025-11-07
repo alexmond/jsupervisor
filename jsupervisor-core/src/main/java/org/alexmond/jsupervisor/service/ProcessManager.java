@@ -5,13 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.ProcessConfig;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
 import org.alexmond.jsupervisor.model.ProcessStatus;
-import org.alexmond.jsupervisor.repository.EventRepository;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
 import org.alexmond.jsupervisor.repository.RunningProcess;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +31,6 @@ public class ProcessManager {
     private final ProcessRepository processRepository;
     private final ProcessManagerMonitor processManagerMonitor;
     private final ThreadPoolTaskScheduler threadPoolTaskScheduler;
-    private final EventRepository eventRepository;
 
     /**
      * Restarts a process by stopping it and then starting it again.
@@ -80,16 +76,16 @@ public class ProcessManager {
             processBuilder.directory(new File(processConfig.getWorkingDirectory()));
 
             // Handle output redirection
-            if (processConfig.getRedirectErrorStream()) {
+            if (processConfig.isRedirectErrorStream()) {
                 processBuilder.redirectErrorStream(true);
             } else {
-                if (processConfig.getAppendLog())
+                if (processConfig.isAppendLog())
                     processBuilder.redirectError(
                             ProcessBuilder.Redirect.appendTo(runningProcess.getStderr()));
                 else
                     processBuilder.redirectError(runningProcess.getStderr());
             }
-            if (processConfig.getAppendLog())
+            if (processConfig.isAppendLog())
                 processBuilder.redirectOutput(
                         ProcessBuilder.Redirect.appendTo(runningProcess.getStdout()));
             else

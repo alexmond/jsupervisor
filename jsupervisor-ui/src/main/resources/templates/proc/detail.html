@@ -58,8 +58,8 @@
                                 <tbody>
                                 <tr th:each="parameter : ${pageModel.processConfig}">
                                     <td th:text="${parameter.key}"></td>
-                                    <td th:unless="${parameter.value instanceof T(java.util.Map) or parameter.value instanceof T(java.util.List)}"
-                                        th:text="${parameter.value}"></td>
+                                    <td th:text="${parameter.value}"
+                                        th:unless="${parameter.value instanceof T(java.util.Map) or parameter.value instanceof T(java.util.List)}"></td>
                                     <td th:if="${parameter.value instanceof T(java.util.Map)}">
                                         <table class="table table-sm table-borderless">
                                             <tr th:each="value : ${parameter.value}" th:if="${value != null}">

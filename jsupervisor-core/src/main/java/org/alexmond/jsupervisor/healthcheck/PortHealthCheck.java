@@ -56,16 +56,16 @@ public class PortHealthCheck implements HealthCheck {
                 socket.connect(new InetSocketAddress(config.getHost(), config.getPort()), config.getTimeoutSeconds());
                 successesCount++;
                 failureCount = 0;
-                if (successesCount >= config.getSuccessThreshold() && !cachedHealth) {
+                if (successesCount >= config.getSuccessThreshold()) {
                     cachedHealth = true;
                     runningProcess.setProcessStatus(ProcessStatus.healthy);
                 }
             }
         } catch (IOException ex) {
-            log.error("Health check failed", ex);
+            log.error("Health check failed {}", ex.toString());
             failureCount++;
             successesCount = 0;
-            if (failureCount >= config.getFailureThreshold() && cachedHealth) {
+            if (failureCount >= config.getFailureThreshold()) {
                 cachedHealth = false;
                 runningProcess.setProcessStatus(ProcessStatus.unhealthy);
             }

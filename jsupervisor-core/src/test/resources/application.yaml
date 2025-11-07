@@ -1,5 +1,5 @@
 server:
-  port: 8086
+  port: 9086
 spring:
   application:
     name: simple-boot-supervisor
@@ -10,15 +10,11 @@ spring:
         core-size: 8
         max-size: 20
         queue-capacity: 25
-
-process:
-  name: test
-  command: "java"
-  working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/jsupervisor/work"
-  stdout-logfile: ${process.working-directory}/stdout.log
-  stderr-logfile: ${process.working-directory}/error.log
-  args:
-    - "-version"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
 
 logging:
   level:
@@ -30,49 +26,21 @@ logging:
         remote:
           rmi: info
 
----
-spring:
-  config:
-    activate:
-      on-profile: test
-
 jsupervisor:
+  node-name: local
   process:
-    test:
-      command: "java"
-      working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/jsupervisor/work"
-      stdout-logfile: ${process.working-directory}/stdout.log
-      stderr-logfile: ${process.working-directory}/error.log
-      args:
-        - "-version"
-    test2:
-      command: "java"
-      working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/jsupervisor/work"
-      stdout-logfile: ${process.working-directory}/stdout.log
-      stderr-logfile: ${process.working-directory}/error.log
-      args:
-        - "-version"
-    test3:
-      command: "java"
-      working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/jsupervisor/work"
-      stdout-logfile: ${process.working-directory}/stdout.log
-      stderr-logfile: ${process.working-directory}/error.log
-      args:
-        - "-version"
-    test4:
-      command: "java"
-      working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/jsupervisor/work"
-      stdout-logfile: ${process.working-directory}/stdout.log
-      stderr-logfile: ${process.working-directory}/error.log
-      args:
-        - "-version"
-    sleep:
+    sleep1:
       command: "sleep"
-      working-directory: "/Users/alex.mondshain/IdeaProjects/spring-boot-playground/jsupervisor/work"
-      stdout-logfile: ${process.working-directory}/stdout.log
-      stderr-logfile: ${process.working-directory}/error.log
+      working-directory: "."
       args:
-        - "10"
+        - "10000"
+    sleep2:
+      command: "sleep"
+      working-directory: "."
+      args:
+        - "10000"
+
+
 
 
 

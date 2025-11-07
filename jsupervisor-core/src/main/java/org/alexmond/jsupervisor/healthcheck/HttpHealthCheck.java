@@ -24,11 +24,11 @@ import java.time.Duration;
 @Slf4j
 public class HttpHealthCheck implements HealthCheck {
     private final HttpClient httpClient;
+    private final HttpHealthCheckConfig config;
+    private final RunningProcess runningProcess;
     int successCount = 0;
     int failureCount = 0;
     private boolean cachedHealth = false;
-    private final HttpHealthCheckConfig config;
-    private final RunningProcess runningProcess;
 
     /**
      * Creates new HTTP health check instance.
@@ -40,7 +40,7 @@ public class HttpHealthCheck implements HealthCheck {
         this.config = config;
         this.runningProcess = runningProcess;
         this.httpClient = createHttpClient(config);
-        
+
     }
 
     private HttpClient createHttpClient(HttpHealthCheckConfig config) {
@@ -72,6 +72,7 @@ public class HttpHealthCheck implements HealthCheck {
 
         return builder.build();
     }
+
     /**
      * Returns the current cached health status.
      *
@@ -100,27 +101,27 @@ public class HttpHealthCheck implements HealthCheck {
             var response = httpClient.send(request, java.net.http.HttpResponse.BodyHandlers.discarding());
             if (response.statusCode() >= 200 && response.statusCode() < 300) {
                 successCount++;
-                if (successCount >= config.getSuccessThreshold() && !cachedHealth) {
+                failureCount = 0;
+                if (successCount >= config.getSuccessThreshold()) {
                     cachedHealth = true;
                     runningProcess.setProcessStatus(ProcessStatus.healthy);
                 }
-                failureCount = 0;
             } else {
                 failureCount++;
-                if (failureCount >= config.getFailureThreshold() && cachedHealth) {
+                successCount = 0;
+                if (failureCount >= config.getFailureThreshold()) {
                     cachedHealth = false;
                     runningProcess.setProcessStatus(ProcessStatus.unhealthy);
                 }
-                successCount = 0;
             }
         } catch (Exception ex) {
             failureCount++;
-            if (failureCount >= config.getFailureThreshold() && cachedHealth) {
+            successCount = 0;
+            if (failureCount >= config.getFailureThreshold()) {
                 cachedHealth = false;
                 runningProcess.setProcessStatus(ProcessStatus.unhealthy);
             }
-            successCount = 0;
-            log.warn("Health check failed {}", ex.getMessage());
+            log.warn("Health check failed {}", ex.toString());
         }
     }
 }

@@ -64,10 +64,28 @@
         }
       }
     },
+    "io.swagger.v3.oas.models.media.Content" : {
+      "type" : "object",
+      "$anchor" : "io.swagger.v3.oas.models.media.Content",
+      "properties" : {
+        "$jacoco-data" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          }
+        }
+      }
+    },
     "io.swagger.v3.oas.models.parameters.Parameter" : {
       "type" : "object",
       "$anchor" : "io.swagger.v3.oas.models.parameters.Parameter",
       "properties" : {
+        "$jacoco-data" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          }
+        },
         "$ref" : {
           "type" : "string"
         },
@@ -79,9 +97,7 @@
         },
         "content" : {
           "type" : "object",
-          "additionalProperties" : {
-            "type" : "object"
-          }
+          "$ref" : "#/$defs/io.swagger.v3.oas.models.media.Content"
         },
         "deprecated" : {
           "type" : "boolean"
@@ -131,6 +147,12 @@
       "type" : "object",
       "$anchor" : "io.swagger.v3.oas.models.PathItem",
       "properties" : {
+        "$jacoco-data" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          }
+        },
         "$ref" : {
           "type" : "string"
         },
@@ -151,6 +173,12 @@
           "type" : "object",
           "$anchor" : "io.swagger.v3.oas.models.Operation",
           "properties" : {
+            "$jacoco-data" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object"
+              }
+            },
             "callbacks" : {
               "type" : "object",
               "additionalProperties" : {
@@ -194,6 +222,12 @@
                 "type" : "object",
                 "$anchor" : "io.swagger.v3.oas.models.responses.ApiResponses",
                 "properties" : {
+                  "$jacoco-data" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object"
+                    }
+                  },
                   "d-e-f-a-u-l-t" : {
                     "type" : "string"
                   },
@@ -209,7 +243,8 @@
             "security" : {
               "type" : "array",
               "items" : {
-                "type" : "object"
+                "type" : "object",
+                "$ref" : "#/$defs/io.swagger.v3.oas.models.security.SecurityRequirement"
               }
             },
             "servers" : {
@@ -295,6 +330,12 @@
       "type" : "object",
       "$anchor" : "io.swagger.v3.oas.models.examples.Example",
       "properties" : {
+        "$jacoco-data" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          }
+        },
         "$ref" : {
           "type" : "string"
         },
@@ -325,14 +366,18 @@
       "type" : "object",
       "$anchor" : "io.swagger.v3.oas.models.parameters.RequestBody",
       "properties" : {
+        "$jacoco-data" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          }
+        },
         "$ref" : {
           "type" : "string"
         },
         "content" : {
           "type" : "object",
-          "additionalProperties" : {
-            "type" : "object"
-          }
+          "$ref" : "#/$defs/io.swagger.v3.oas.models.media.Content"
         },
         "description" : {
           "type" : "string"
@@ -345,6 +390,18 @@
         },
         "required" : {
           "type" : "boolean"
+        }
+      }
+    },
+    "io.swagger.v3.oas.models.security.SecurityRequirement" : {
+      "type" : "object",
+      "$anchor" : "io.swagger.v3.oas.models.security.SecurityRequirement",
+      "properties" : {
+        "$jacoco-data" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          }
         }
       }
     },
@@ -373,6 +430,12 @@
       "type" : "object",
       "$anchor" : "io.swagger.v3.oas.models.Operation",
       "properties" : {
+        "$jacoco-data" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          }
+        },
         "callbacks" : {
           "type" : "object",
           "additionalProperties" : {
@@ -416,6 +479,12 @@
             "type" : "object",
             "$anchor" : "io.swagger.v3.oas.models.responses.ApiResponses",
             "properties" : {
+              "$jacoco-data" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object"
+                }
+              },
               "d-e-f-a-u-l-t" : {
                 "type" : "string"
               },
@@ -431,7 +500,8 @@
         "security" : {
           "type" : "array",
           "items" : {
-            "type" : "object"
+            "type" : "object",
+            "$ref" : "#/$defs/io.swagger.v3.oas.models.security.SecurityRequirement"
           }
         },
         "servers" : {
@@ -456,13 +526,28 @@
       "type" : "object",
       "$anchor" : "io.swagger.v3.oas.models.headers.Header",
       "properties" : {
+        "$jacoco-data" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          }
+        },
         "$ref" : {
           "type" : "string"
         },
         "content" : {
           "type" : "object",
           "additionalProperties" : {
-            "type" : "object"
+            "type" : "object",
+            "$anchor" : "io.swagger.v3.oas.models.media.Content",
+            "properties" : {
+              "$jacoco-data" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object"
+                }
+              }
+            }
           }
         },
         "deprecated" : {
@@ -480,6 +565,12 @@
             "type" : "object",
             "$anchor" : "io.swagger.v3.oas.models.examples.Example",
             "properties" : {
+              "$jacoco-data" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object"
+                }
+              },
               "$ref" : {
                 "type" : "string"
               },
@@ -537,6 +628,12 @@
             },
             "$id" : {
               "type" : "string"
+            },
+            "$jacoco-data" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object"
+              }
             },
             "$ref" : {
               "type" : "string"
@@ -634,6 +731,12 @@
               "type" : "object",
               "$anchor" : "io.swagger.v3.oas.models.media.Discriminator",
               "properties" : {
+                "$jacoco-data" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object"
+                  }
+                },
                 "extensions" : {
                   "type" : "object",
                   "additionalProperties" : {
@@ -827,6 +930,12 @@
               "type" : "object",
               "$anchor" : "io.swagger.v3.oas.models.media.XML",
               "properties" : {
+                "$jacoco-data" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object"
+                  }
+                },
                 "attribute" : {
                   "type" : "boolean"
                 },
@@ -984,6 +1093,12 @@
       "type" : "object",
       "$anchor" : "io.swagger.v3.oas.models.callbacks.Callback",
       "properties" : {
+        "$jacoco-data" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          }
+        },
         "$ref" : {
           "type" : "string"
         },
@@ -999,6 +1114,12 @@
       "type" : "object",
       "$anchor" : "io.swagger.v3.oas.models.ExternalDocumentation",
       "properties" : {
+        "$jacoco-data" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          }
+        },
         "description" : {
           "type" : "string"
         },
@@ -1017,6 +1138,12 @@
       "type" : "object",
       "$anchor" : "io.swagger.v3.oas.models.servers.Server",
       "properties" : {
+        "$jacoco-data" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          }
+        },
         "description" : {
           "type" : "string"
         },
@@ -1035,6 +1162,12 @@
             "type" : "object",
             "$anchor" : "io.swagger.v3.oas.models.servers.ServerVariables",
             "properties" : {
+              "$jacoco-data" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object"
+                }
+              },
               "extensions" : {
                 "type" : "object",
                 "additionalProperties" : {
@@ -1274,6 +1407,12 @@
       "type" : "object",
       "$anchor" : "io.swagger.v3.oas.models.security.OAuthFlow",
       "properties" : {
+        "$jacoco-data" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          }
+        },
         "authorization-url" : {
           "type" : "string"
         },
@@ -1292,6 +1431,12 @@
             "type" : "object",
             "$anchor" : "io.swagger.v3.oas.models.security.Scopes",
             "properties" : {
+              "$jacoco-data" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object"
+                }
+              },
               "extensions" : {
                 "type" : "object",
                 "additionalProperties" : {
@@ -1320,10 +1465,22 @@
       "type" : "object",
       "$anchor" : "io.swagger.v3.oas.models.OpenAPI",
       "properties" : {
+        "$jacoco-data" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          }
+        },
         "components" : {
           "type" : "object",
           "$anchor" : "io.swagger.v3.oas.models.Components",
           "properties" : {
+            "$jacoco-data" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object"
+              }
+            },
             "c-o-m-p-o-n-e-n-t-s_s-c-h-e-m-a-s_r-e-f" : {
               "type" : "string"
             },
@@ -1333,6 +1490,12 @@
                 "type" : "object",
                 "$anchor" : "io.swagger.v3.oas.models.callbacks.Callback",
                 "properties" : {
+                  "$jacoco-data" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object"
+                    }
+                  },
                   "$ref" : {
                     "type" : "string"
                   },
@@ -1378,6 +1541,12 @@
                 "type" : "object",
                 "$anchor" : "io.swagger.v3.oas.models.parameters.Parameter",
                 "properties" : {
+                  "$jacoco-data" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object"
+                    }
+                  },
                   "$ref" : {
                     "type" : "string"
                   },
@@ -1389,9 +1558,7 @@
                   },
                   "content" : {
                     "type" : "object",
-                    "additionalProperties" : {
-                      "type" : "object"
-                    }
+                    "$ref" : "#/$defs/io.swagger.v3.oas.models.media.Content"
                   },
                   "deprecated" : {
                     "type" : "boolean"
@@ -1444,6 +1611,12 @@
                 "type" : "object",
                 "$anchor" : "io.swagger.v3.oas.models.PathItem",
                 "properties" : {
+                  "$jacoco-data" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object"
+                    }
+                  },
                   "$ref" : {
                     "type" : "string"
                   },
@@ -1464,6 +1637,12 @@
                     "type" : "object",
                     "$anchor" : "io.swagger.v3.oas.models.Operation",
                     "properties" : {
+                      "$jacoco-data" : {
+                        "type" : "array",
+                        "items" : {
+                          "type" : "object"
+                        }
+                      },
                       "callbacks" : {
                         "type" : "object",
                         "additionalProperties" : {
@@ -1507,6 +1686,12 @@
                           "type" : "object",
                           "$anchor" : "io.swagger.v3.oas.models.responses.ApiResponses",
                           "properties" : {
+                            "$jacoco-data" : {
+                              "type" : "array",
+                              "items" : {
+                                "type" : "object"
+                              }
+                            },
                             "d-e-f-a-u-l-t" : {
                               "type" : "string"
                             },
@@ -1522,7 +1707,8 @@
                       "security" : {
                         "type" : "array",
                         "items" : {
-                          "type" : "object"
+                          "type" : "object",
+                          "$ref" : "#/$defs/io.swagger.v3.oas.models.security.SecurityRequirement"
                         }
                       },
                       "servers" : {
@@ -1593,14 +1779,18 @@
                 "type" : "object",
                 "$anchor" : "io.swagger.v3.oas.models.parameters.RequestBody",
                 "properties" : {
+                  "$jacoco-data" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object"
+                    }
+                  },
                   "$ref" : {
                     "type" : "string"
                   },
                   "content" : {
                     "type" : "object",
-                    "additionalProperties" : {
-                      "type" : "object"
-                    }
+                    "$ref" : "#/$defs/io.swagger.v3.oas.models.media.Content"
                   },
                   "description" : {
                     "type" : "string"
@@ -1623,14 +1813,18 @@
                 "type" : "object",
                 "$anchor" : "io.swagger.v3.oas.models.responses.ApiResponse",
                 "properties" : {
+                  "$jacoco-data" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object"
+                    }
+                  },
                   "$ref" : {
                     "type" : "string"
                   },
                   "content" : {
                     "type" : "object",
-                    "additionalProperties" : {
-                      "type" : "object"
-                    }
+                    "$ref" : "#/$defs/io.swagger.v3.oas.models.media.Content"
                   },
                   "description" : {
                     "type" : "string"
@@ -1647,13 +1841,28 @@
                       "type" : "object",
                       "$anchor" : "io.swagger.v3.oas.models.headers.Header",
                       "properties" : {
+                        "$jacoco-data" : {
+                          "type" : "array",
+                          "items" : {
+                            "type" : "object"
+                          }
+                        },
                         "$ref" : {
                           "type" : "string"
                         },
                         "content" : {
                           "type" : "object",
                           "additionalProperties" : {
-                            "type" : "object"
+                            "type" : "object",
+                            "$anchor" : "io.swagger.v3.oas.models.media.Content",
+                            "properties" : {
+                              "$jacoco-data" : {
+                                "type" : "array",
+                                "items" : {
+                                  "type" : "object"
+                                }
+                              }
+                            }
                           }
                         },
                         "deprecated" : {
@@ -1671,6 +1880,12 @@
                             "type" : "object",
                             "$anchor" : "io.swagger.v3.oas.models.examples.Example",
                             "properties" : {
+                              "$jacoco-data" : {
+                                "type" : "array",
+                                "items" : {
+                                  "type" : "object"
+                                }
+                              },
                               "$ref" : {
                                 "type" : "string"
                               },
@@ -1728,6 +1943,12 @@
                             },
                             "$id" : {
                               "type" : "string"
+                            },
+                            "$jacoco-data" : {
+                              "type" : "array",
+                              "items" : {
+                                "type" : "object"
+                              }
                             },
                             "$ref" : {
                               "type" : "string"
@@ -1825,6 +2046,12 @@
                               "type" : "object",
                               "$anchor" : "io.swagger.v3.oas.models.media.Discriminator",
                               "properties" : {
+                                "$jacoco-data" : {
+                                  "type" : "array",
+                                  "items" : {
+                                    "type" : "object"
+                                  }
+                                },
                                 "extensions" : {
                                   "type" : "object",
                                   "additionalProperties" : {
@@ -2018,6 +2245,12 @@
                               "type" : "object",
                               "$anchor" : "io.swagger.v3.oas.models.media.XML",
                               "properties" : {
+                                "$jacoco-data" : {
+                                  "type" : "array",
+                                  "items" : {
+                                    "type" : "object"
+                                  }
+                                },
                                 "attribute" : {
                                   "type" : "boolean"
                                 },
@@ -2056,6 +2289,12 @@
                       "type" : "object",
                       "$anchor" : "io.swagger.v3.oas.models.links.Link",
                       "properties" : {
+                        "$jacoco-data" : {
+                          "type" : "array",
+                          "items" : {
+                            "type" : "object"
+                          }
+                        },
                         "$ref" : {
                           "type" : "string"
                         },
@@ -2109,6 +2348,12 @@
                 "type" : "object",
                 "$anchor" : "io.swagger.v3.oas.models.security.SecurityScheme",
                 "properties" : {
+                  "$jacoco-data" : {
+                    "type" : "array",
+                    "items" : {
+                      "type" : "object"
+                    }
+                  },
                   "$ref" : {
                     "type" : "string"
                   },
@@ -2128,6 +2373,12 @@
                     "type" : "object",
                     "$anchor" : "io.swagger.v3.oas.models.security.OAuthFlows",
                     "properties" : {
+                      "$jacoco-data" : {
+                        "type" : "array",
+                        "items" : {
+                          "type" : "object"
+                        }
+                      },
                       "authorization-code" : {
                         "type" : "object",
                         "$ref" : "#/$defs/io.swagger.v3.oas.models.security.OAuthFlow"
@@ -2146,6 +2397,12 @@
                         "type" : "object",
                         "$anchor" : "io.swagger.v3.oas.models.security.OAuthFlow",
                         "properties" : {
+                          "$jacoco-data" : {
+                            "type" : "array",
+                            "items" : {
+                              "type" : "object"
+                            }
+                          },
                           "authorization-url" : {
                             "type" : "string"
                           },
@@ -2164,6 +2421,12 @@
                               "type" : "object",
                               "$anchor" : "io.swagger.v3.oas.models.security.Scopes",
                               "properties" : {
+                                "$jacoco-data" : {
+                                  "type" : "array",
+                                  "items" : {
+                                    "type" : "object"
+                                  }
+                                },
                                 "extensions" : {
                                   "type" : "object",
                                   "additionalProperties" : {
@@ -2216,6 +2479,12 @@
           "type" : "object",
           "$anchor" : "io.swagger.v3.oas.models.ExternalDocumentation",
           "properties" : {
+            "$jacoco-data" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object"
+              }
+            },
             "description" : {
               "type" : "string"
             },
@@ -2234,10 +2503,22 @@
           "type" : "object",
           "$anchor" : "io.swagger.v3.oas.models.info.Info",
           "properties" : {
+            "$jacoco-data" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object"
+              }
+            },
             "contact" : {
               "type" : "object",
               "$anchor" : "io.swagger.v3.oas.models.info.Contact",
               "properties" : {
+                "$jacoco-data" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object"
+                  }
+                },
                 "email" : {
                   "type" : "string"
                 },
@@ -2268,6 +2549,12 @@
               "type" : "object",
               "$anchor" : "io.swagger.v3.oas.models.info.License",
               "properties" : {
+                "$jacoco-data" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object"
+                  }
+                },
                 "extensions" : {
                   "type" : "object",
                   "additionalProperties" : {
@@ -2311,6 +2598,12 @@
             "type" : "object",
             "$anchor" : "io.swagger.v3.oas.models.Paths",
             "properties" : {
+              "$jacoco-data" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object"
+                }
+              },
               "extensions" : {
                 "type" : "object",
                 "additionalProperties" : {
@@ -2323,7 +2616,16 @@
         "security" : {
           "type" : "array",
           "items" : {
-            "type" : "object"
+            "type" : "object",
+            "$anchor" : "io.swagger.v3.oas.models.security.SecurityRequirement",
+            "properties" : {
+              "$jacoco-data" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object"
+                }
+              }
+            }
           }
         },
         "servers" : {
@@ -2332,6 +2634,12 @@
             "type" : "object",
             "$anchor" : "io.swagger.v3.oas.models.servers.Server",
             "properties" : {
+              "$jacoco-data" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object"
+                }
+              },
               "description" : {
                 "type" : "string"
               },
@@ -2350,6 +2658,12 @@
                   "type" : "object",
                   "$anchor" : "io.swagger.v3.oas.models.servers.ServerVariables",
                   "properties" : {
+                    "$jacoco-data" : {
+                      "type" : "array",
+                      "items" : {
+                        "type" : "object"
+                      }
+                    },
                     "extensions" : {
                       "type" : "object",
                       "additionalProperties" : {
@@ -2372,6 +2686,12 @@
             "type" : "object",
             "$anchor" : "io.swagger.v3.oas.models.tags.Tag",
             "properties" : {
+              "$jacoco-data" : {
+                "type" : "array",
+                "items" : {
+                  "type" : "object"
+                }
+              },
               "description" : {
                 "type" : "string"
               },
@@ -2418,6 +2738,12 @@
         },
         "$id" : {
           "type" : "string"
+        },
+        "$jacoco-data" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          }
         },
         "$ref" : {
           "type" : "string"
@@ -2515,6 +2841,12 @@
           "type" : "object",
           "$anchor" : "io.swagger.v3.oas.models.media.Discriminator",
           "properties" : {
+            "$jacoco-data" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object"
+              }
+            },
             "extensions" : {
               "type" : "object",
               "additionalProperties" : {
@@ -2708,6 +3040,12 @@
           "type" : "object",
           "$anchor" : "io.swagger.v3.oas.models.media.XML",
           "properties" : {
+            "$jacoco-data" : {
+              "type" : "array",
+              "items" : {
+                "type" : "object"
+              }
+            },
             "attribute" : {
               "type" : "boolean"
             },
@@ -2871,6 +3209,12 @@
       "type" : "object",
       "$anchor" : "io.swagger.v3.oas.models.links.Link",
       "properties" : {
+        "$jacoco-data" : {
+          "type" : "array",
+          "items" : {
+            "type" : "object"
+          }
+        },
         "$ref" : {
           "type" : "string"
         },
@@ -3014,6 +3358,16 @@
       "$anchor" : "org.alexmond.jsupervisor.config.SupervisorConfig",
       "description" : "Configuration class for JSupervisor settings",
       "properties" : {
+        "auto-start" : {
+          "type" : "boolean",
+          "description" : "Whether auto-start is enabled for marked processes",
+          "default" : "false"
+        },
+        "auto-start-delay" : {
+          "type" : "string",
+          "description" : "Delay between auto-starting processes",
+          "default" : "10s"
+        },
         "description" : {
           "type" : "string",
           "description" : "Description of the supervisor node",
@@ -3022,7 +3376,7 @@
         "enabled" : {
           "type" : "boolean",
           "description" : "Whether JSupervisor is enabled",
-          "default" : true
+          "default" : "true"
         },
         "node-name" : {
           "type" : "string",
@@ -3061,6 +3415,14 @@
                 "items" : {
                   "type" : "string"
                 }
+              },
+              "auto-restart" : {
+                "type" : "boolean",
+                "description" : "Determines if the process should be automatically restarted if it stops unexpectedly"
+              },
+              "auto-start" : {
+                "type" : "boolean",
+                "description" : "Determines if the process should start automatically when the supervisor starts"
               },
               "command" : {
                 "type" : "string",
@@ -3104,6 +3466,10 @@
                     "description" : "URL endpoint for health check"
                   }
                 }
+              },
+              "order" : {
+                "type" : "integer",
+                "description" : "Specifies the startup order of the process. Lower numbers indicate earlier startup"
               },
               "port-health-check" : {
                 "type" : "object",
@@ -5396,6 +5762,74 @@
             }
           }
         },
+        "data" : {
+          "type" : "object",
+          "properties" : {
+            "rest" : {
+              "type" : "object",
+              "$anchor" : "org.springframework.boot.autoconfigure.data.rest.RepositoryRestProperties",
+              "properties" : {
+                "base-path" : {
+                  "type" : "string",
+                  "description" : "Base path to be used by Spring Data REST to expose repository resources."
+                },
+                "default-media-type" : {
+                  "type" : "string",
+                  "description" : "Content type to use as a default when none is specified."
+                },
+                "default-page-size" : {
+                  "type" : "integer",
+                  "description" : "Default size of pages."
+                },
+                "detection-strategy" : {
+                  "type" : "string",
+                  "description" : "Strategy to use to determine which repositories get exposed.",
+                  "default" : "default",
+                  "enum" : [ "all", "ALL", "default", "VISIBILITY", "visibility", "ANNOTATED", "DEFAULT", "annotated" ]
+                },
+                "enable-enum-translation" : {
+                  "type" : "boolean",
+                  "description" : "Whether to enable enum value translation through the Spring Data REST default resource bundle."
+                },
+                "limit-param-name" : {
+                  "type" : "string",
+                  "description" : "Name of the URL query string parameter that indicates how many results to return at once."
+                },
+                "max-page-size" : {
+                  "type" : "integer",
+                  "description" : "Maximum size of pages."
+                },
+                "page-param-name" : {
+                  "type" : "string",
+                  "description" : "Name of the URL query string parameter that indicates what page to return."
+                },
+                "return-body-on-create" : {
+                  "type" : "boolean",
+                  "description" : "Whether to return a response body after creating an entity."
+                },
+                "return-body-on-update" : {
+                  "type" : "boolean",
+                  "description" : "Whether to return a response body after updating an entity."
+                },
+                "sort-param-name" : {
+                  "type" : "string",
+                  "description" : "Name of the URL query string parameter that indicates what direction to sort results."
+                }
+              }
+            }
+          }
+        },
+        "hateoas" : {
+          "type" : "object",
+          "$anchor" : "org.springframework.boot.autoconfigure.hateoas.HateoasProperties",
+          "properties" : {
+            "use-hal-as-default-json-media-type" : {
+              "type" : "boolean",
+              "description" : "Whether application/hal+json responses should be sent to requests that accept application/json.",
+              "default" : true
+            }
+          }
+        },
         "http" : {
           "type" : "object",
           "properties" : {
@@ -6271,6 +6705,20 @@
               "items" : {
                 "type" : "string"
               }
+            }
+          }
+        },
+        "transaction" : {
+          "type" : "object",
+          "$anchor" : "org.springframework.boot.autoconfigure.transaction.TransactionProperties",
+          "properties" : {
+            "default-timeout" : {
+              "type" : "string",
+              "description" : "Default transaction timeout. If a duration suffix is not specified, seconds will be used."
+            },
+            "rollback-on-commit-failure" : {
+              "type" : "boolean",
+              "description" : "Whether to roll back on commit failures."
             }
           }
         },

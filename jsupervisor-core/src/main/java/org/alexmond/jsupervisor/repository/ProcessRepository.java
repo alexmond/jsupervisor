@@ -1,31 +1,67 @@
 package org.alexmond.jsupervisor.repository;
 
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+import org.alexmond.jsupervisor.config.ProcessConfig;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
 import org.alexmond.jsupervisor.model.ProcessStatusRest;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
+import org.springframework.context.ApplicationEventPublisher;
+
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Repository class managing running processes in the supervisor system.
  * Provides methods to access and manipulate process information.
  */
+@Slf4j
 public class ProcessRepository {
 
 
     private final Map<String, RunningProcess> runningProcesses = new ConcurrentHashMap<>();
+    @Getter
+    private final Map<Integer, List<String>> processOrders = new TreeMap<>();
+    private final ApplicationEventPublisher eventPublisher;
 
 
     /**
      * Constructs a ProcessRepository and initializes running processes from configuration.
      *
      * @param supervisorConfig Configuration containing process definitions
-     * @param eventRepository  Repository for handling process events
+     * @param eventPublisher   Application event publisher for process events
      */
-    public ProcessRepository(SupervisorConfig supervisorConfig, EventRepository eventRepository) {
+    public ProcessRepository(SupervisorConfig supervisorConfig, ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
         for (var processConfig : supervisorConfig.getProcess().entrySet()) {
-            runningProcesses.put(processConfig.getKey(), new RunningProcess(processConfig.getKey(), processConfig.getValue(), eventRepository));
+            addProcess(processConfig.getKey(), processConfig.getValue());
+        }
+    }
+
+    public void addProcess(String processName, ProcessConfig processConfig) {
+        runningProcesses.put(processName, new RunningProcess(processName, processConfig, eventPublisher));
+        int order = Integer.MAX_VALUE;
+        if (processConfig.getOrder() != null) {
+            order = processConfig.getOrder();
+        }
+        if (processOrders.containsKey(order)) {
+            processOrders.get(order).add(processName);
+        } else {
+            processOrders.put(order, new ArrayList<>(List.of(processName)));
+        }
+    }
+    public void removeProcess(String processName) {
+        if (runningProcesses.containsKey(processName) && !runningProcesses.get(processName).isProcessRunning()) {
+            runningProcesses.remove(processName);
+            Iterator<Map.Entry<Integer, List<String>>> iterator = processOrders.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<Integer, List<String>> entry = iterator.next();
+                entry.getValue().remove(processName);
+                if (entry.getValue().isEmpty()) {
+                    iterator.remove();
+                }
+            }
+        }else{
+            log.error("Process {} is running or does not exist", processName);
         }
     }
 
@@ -71,10 +107,6 @@ public class ProcessRepository {
         return new ProcessStatusRest(name, runningProcesses.get(name));
     }
 
-//    public RunningProcess addProcess(RunningProcess runningProcess){
-//        runningProcesses.add(runningProcess);
-//        return runningProcess;
-//    }
 
 //    public Optional<RunningProcess> updateProcess(int id, String newName){
 //        Optional<RunningProcess> findUser =  runningProcesses.stream()

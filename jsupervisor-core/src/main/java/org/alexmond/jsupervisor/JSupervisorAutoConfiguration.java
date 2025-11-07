@@ -3,16 +3,15 @@ package org.alexmond.jsupervisor;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
 import org.alexmond.jsupervisor.repository.EventRepository;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
-import org.alexmond.jsupervisor.service.ProcessManager;
-import org.alexmond.jsupervisor.service.ProcessManagerBulk;
-import org.alexmond.jsupervisor.service.ProcessManagerMonitor;
+import org.alexmond.jsupervisor.service.*;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.map.repository.config.EnableMapRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
@@ -22,6 +21,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 @EnableConfigurationProperties(SupervisorConfig.class)
 @ComponentScan(basePackages = "org.alexmond.jsupervisor")
 @EnableAsync
+@EnableMapRepositories(basePackages = "org.alexmond.jsupervisor.repository")
 public class JSupervisorAutoConfiguration {
 
     /**
@@ -38,22 +38,22 @@ public class JSupervisorAutoConfiguration {
         return scheduler;
     }
 
-    /**
-     * Creates an EventRepository bean if none exists.
-     */
-    @Bean
-    @ConditionalOnMissingBean(EventRepository.class)
-    public EventRepository eventRepository() {
-        return new EventRepository();
-    }
+//    /**
+//     * Creates an EventRepository bean if none exists.
+//     */
+//    @Bean
+//    @ConditionalOnMissingBean(EventRepository.class)
+//    public EventRepository eventRepository() {
+//        return new EventRepository();
+//    }
 
     /**
      * Creates a ProcessRepository bean if none exists.
      */
     @Bean
     @ConditionalOnMissingBean(ProcessRepository.class)
-    public ProcessRepository processRepository(SupervisorConfig supervisorConfig, EventRepository eventRepository) {
-        return new ProcessRepository(supervisorConfig, eventRepository);
+    public ProcessRepository processRepository(SupervisorConfig supervisorConfig, ApplicationEventPublisher eventPublisher) {
+        return new ProcessRepository(supervisorConfig, eventPublisher);
     }
 
     /**
@@ -61,8 +61,8 @@ public class JSupervisorAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean(ProcessManagerMonitor.class)
-    public ProcessManagerMonitor processManagerMonitor(ProcessRepository processRepository,EventRepository eventRepository) {
-        return new ProcessManagerMonitor(processRepository,eventRepository);
+    public ProcessManagerMonitor processManagerMonitor(ProcessRepository processRepository) {
+        return new ProcessManagerMonitor(processRepository);
     }
 
     /**
@@ -73,10 +73,9 @@ public class JSupervisorAutoConfiguration {
     public ProcessManager processManager(SupervisorConfig supervisorConfig,
                                          ProcessRepository processRepository,
                                          ProcessManagerMonitor processManagerMonitor,
-                                         ThreadPoolTaskScheduler threadPoolTaskScheduler,
-                                         EventRepository eventRepository) {
+                                         ThreadPoolTaskScheduler threadPoolTaskScheduler) {
         return new ProcessManager(supervisorConfig, processRepository, processManagerMonitor,
-                threadPoolTaskScheduler, eventRepository);
+                threadPoolTaskScheduler);
     }
 
     /**
@@ -85,7 +84,28 @@ public class JSupervisorAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(ProcessManagerBulk.class)
     public ProcessManagerBulk processManagerBulk(ProcessRepository processRepository,
-                                                 ProcessManager processManager) {
-        return new ProcessManagerBulk(processRepository, processManager);
+                                                 ProcessManager processManager,
+                                                 SupervisorConfig supervisorConfig) {
+        return new ProcessManagerBulk(processRepository, processManager,supervisorConfig);
     }
+
+    /**
+     * Creates a ProcessManagerBulk bean if none exists.
+     */
+    @Bean
+    public ProcsessEventListener procsessEventListener(EventRepository eventRepository) {
+        return new ProcsessEventListener(eventRepository);
+    }
+
+    /**
+     * Creates a JSupervisorStartupManager bean if none exists.
+     */
+    @Bean
+    @ConditionalOnMissingBean(JSupervisorStartupManager.class)
+    public JSupervisorStartupManager jSupervisorStartupManager(SupervisorConfig supervisorConfig,
+                                                               ProcessManagerBulk processManagerBulk) {
+        return new JSupervisorStartupManager(supervisorConfig, processManagerBulk);
+    }
+
+
 }

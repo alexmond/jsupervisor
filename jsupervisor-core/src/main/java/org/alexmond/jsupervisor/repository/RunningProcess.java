@@ -1,13 +1,16 @@
 package org.alexmond.jsupervisor.repository;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.Synchronized;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.ProcessConfig;
 import org.alexmond.jsupervisor.healthcheck.HealthCheck;
 import org.alexmond.jsupervisor.healthcheck.HealthCheckFactory;
 import org.alexmond.jsupervisor.model.ProcessEvent;
+import org.alexmond.jsupervisor.model.ProcessEventEntry;
 import org.alexmond.jsupervisor.model.ProcessStatus;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.io.File;
 import java.time.Duration;
@@ -19,15 +22,16 @@ import java.util.concurrent.ScheduledFuture;
  * Represents a user entity in the system.
  * Implements Identifiable interface for consistent ID handling.
  */
-
-@Data
+@Getter
+@Setter
 @Slf4j
 public class RunningProcess {
 
+    private final ApplicationEventPublisher eventPublisher;
+    private final String processName;
+    private final ProcessConfig processConfig;
+    
     private RunningProcess runningProcess;
-    private EventRepository eventRepository;
-    private ProcessConfig processConfig;
-    private String processName;
     private HealthCheck healthCheck;
     private Process process = null;
     private LocalDateTime startTime;
@@ -43,12 +47,12 @@ public class RunningProcess {
     private ProcessStatus processStatus = ProcessStatus.not_started;
     private String failedErrorLog;
 
-    public RunningProcess(String processName, ProcessConfig processConfig, EventRepository eventRepository) {
+    public RunningProcess(String processName, ProcessConfig processConfig, ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
         this.processName = processName;
         this.processConfig = processConfig;
-        this.eventRepository = eventRepository;
 
-        if (!processConfig.getRedirectErrorStream()) {
+        if (!processConfig.isRedirectErrorStream()) {
             if (processConfig.getStderrLogfile() != null) {
                 stderrLogfile = processConfig.getStderrLogfile();
             } else {
@@ -63,8 +67,8 @@ public class RunningProcess {
             stdoutLogfile = processName + "-stdout.log";
         }
 
-        stdout = new File(processConfig.getStdoutLogfile());
-        if(processConfig.getApplicationLog() != null) {
+        stdout = new File(stdoutLogfile);
+        if (processConfig.getApplicationLog() != null) {
             application = new File(processConfig.getApplicationLog());
         }
         healthCheck = HealthCheckFactory.getHealthCheck(processConfig, this);
@@ -93,7 +97,8 @@ public class RunningProcess {
     @Synchronized
     public void setProcessStatus(ProcessStatus processStatus) {
         log.info("setProcessStatus {}", processStatus);
-        eventRepository.save(new ProcessEvent(this, processStatus));
+        eventPublisher.publishEvent(new ProcessEvent(new ProcessEventEntry(this, processStatus)));
+
         this.processStatus = processStatus;
     }
 
@@ -117,7 +122,7 @@ public class RunningProcess {
         endTime = null;
         exitCode = null;
     }
-    
+
 
     public Duration getProcessRuntime() {
         if (startTime == null) {

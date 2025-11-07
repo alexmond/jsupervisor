@@ -1,61 +1,35 @@
 package org.alexmond.jsupervisor.repository;
 
-import org.alexmond.jsupervisor.model.ProcessEvent;
-import org.springframework.stereotype.Component;
+import org.alexmond.jsupervisor.model.ProcessEventEntry;
+import org.alexmond.jsupervisor.model.ProcessStatus;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+
 
 /**
  * Repository for managing ProcessEvent entities.
  * Provides basic CRUD operations for process events storage.
  */
-public class EventRepository {
-    /**
-     * Storage for ProcessEvent entities with their IDs as keys
-     */
-    private final Map<Long, ProcessEvent> data = new TreeMap<>();
-    /**
-     * Counter for generating next entity ID
-     */
-    private Long nextId = 1L;
+@Repository
+@RepositoryRestResource(collectionResourceRel = "/api/v1/events", path = "events")
+public interface EventRepository extends CrudRepository<ProcessEventEntry, Long>,
+        PagingAndSortingRepository<ProcessEventEntry, Long> {
 
+    @RestResource(exported = false)
+    <S extends ProcessEventEntry> S save(S entity);
 
-    /**
-     * Saves a ProcessEvent entity.
-     * If the entity has no ID, generates a new one.
-     *
-     * @param entity the process event to save
-     * @return the saved process event
-     */
-    public ProcessEvent save(ProcessEvent entity) {
-        if (entity.getId() == null) {
-            entity.setId(nextId++);
-        }
-        data.put(entity.getId(), entity);
-        return entity;
-    }
+    @RestResource(exported = false)
+    void delete(ProcessEventEntry entity);
 
-    /**
-     * Retrieves a ProcessEvent by its ID.
-     *
-     * @param id the ID of the process event
-     * @return the ProcessEvent if found, null otherwise
-     */
-    public ProcessEvent findById(Long id) {
-        return data.get(id);
-    }
+    @RestResource(path = "byProcessName", rel = "byProcessName")
+    List<ProcessEventEntry> findByProcessName(String processName);
 
-    /**
-     * Retrieves all ProcessEvent entities.
-     *
-     * @return list of all process events
-     */
-    public List<ProcessEvent> findAll() {
-        return new ArrayList<>(data.values());
-    }
-
-    // Implement other CrudRepository methods (findAll, delete, etc.)
+    // Example: Find by status (add more as needed)
+    @RestResource(path = "byStatus", rel = "byStatus")
+    List<ProcessEventEntry> findByNewStatus(ProcessStatus status);
 }

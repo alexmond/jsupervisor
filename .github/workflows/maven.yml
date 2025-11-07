@@ -1,10 +1,6 @@
 name: Java CI with Maven
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+on: push
 
 jobs:
   build:
@@ -28,14 +24,24 @@ jobs:
         with:
           files: |
             **/surefire-reports/TEST-*.xml
-            **/failsafe-reports/TEST-*.xml
 
-    #    - name: Add coverage to PR
-    #      uses: codecov/codecov-action@v3
-    #      with:
-    #        token: ${{ secrets.CODECOV_TOKEN }}
-    #        files: ./target/site/jacoco/jacoco.xml
-    #        fail_ci_if_error: true
+      - name: Add coverage to PR
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ${{ github.workspace }}/*/target/site/jacoco/jacoco.xml
+          fail_ci_if_error: true
+
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: |
+            **/surefire-reports/TEST-*.xml
+
+      - name: Submit Dependency Snapshot
+        uses: advanced-security/maven-dependency-submission-action@v5
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
 #    - name: Update dependency graph
