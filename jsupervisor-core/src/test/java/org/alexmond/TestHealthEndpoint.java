@@ -1,6 +1,7 @@
 package org.alexmond;
 
 import org.alexmond.model.HealthStatusResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +20,6 @@ public class TestHealthEndpoint {
     public ResponseEntity<HealthStatusResponse> getHealthStatusDown() {
         HealthStatusResponse response = new HealthStatusResponse();
         response.setStatus("DOWN");
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(response);
     }
 }
