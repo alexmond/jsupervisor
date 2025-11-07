@@ -107,24 +107,24 @@ public class ActuatorHealthCheck implements HealthCheck {
                 response = objectMapper.readValue(httpResponse.body(), Map.class);
             }
         } catch (Exception e) {
-            log.error("Failed to execute health check request: {}", e.getMessage());
+            log.error("Failed to execute health check request: {}", e.toString());
             response = Map.of("status", "DOWN");
         }
         String status = (response != null && response.containsKey("status")) ? String.valueOf(response.get("status")) : "DOWN";
-        log.debug("Health check status: {}", status);
+        log.info("Health check status: {}", status);
         boolean currentHealth = "UP".equalsIgnoreCase(status);
 
         if (currentHealth) {
             consecutiveSuccesses++;
             consecutiveFailures = 0;
-            if (consecutiveSuccesses >= config.getSuccessThreshold() && !cachedHealth) {
+            if (consecutiveSuccesses >= config.getSuccessThreshold()) {
                 cachedHealth = true;
                 runningProcess.setProcessStatus(ProcessStatus.healthy);
             }
         } else {
             consecutiveFailures++;
             consecutiveSuccesses = 0;
-            if (consecutiveFailures >= config.getFailureThreshold() && cachedHealth) {
+            if (consecutiveFailures >= config.getFailureThreshold()) {
                 cachedHealth = false;
                 runningProcess.setProcessStatus(ProcessStatus.unhealthy);
             }

@@ -101,27 +101,27 @@ public class HttpHealthCheck implements HealthCheck {
             var response = httpClient.send(request, java.net.http.HttpResponse.BodyHandlers.discarding());
             if (response.statusCode() >= 200 && response.statusCode() < 300) {
                 successCount++;
-                if (successCount >= config.getSuccessThreshold() && !cachedHealth) {
+                failureCount = 0;
+                if (successCount >= config.getSuccessThreshold()) {
                     cachedHealth = true;
                     runningProcess.setProcessStatus(ProcessStatus.healthy);
                 }
-                failureCount = 0;
             } else {
                 failureCount++;
-                if (failureCount >= config.getFailureThreshold() && cachedHealth) {
+                successCount = 0;
+                if (failureCount >= config.getFailureThreshold()) {
                     cachedHealth = false;
                     runningProcess.setProcessStatus(ProcessStatus.unhealthy);
                 }
-                successCount = 0;
             }
         } catch (Exception ex) {
             failureCount++;
-            if (failureCount >= config.getFailureThreshold() && cachedHealth) {
+            successCount = 0;
+            if (failureCount >= config.getFailureThreshold()) {
                 cachedHealth = false;
                 runningProcess.setProcessStatus(ProcessStatus.unhealthy);
             }
-            successCount = 0;
-            log.warn("Health check failed {}", ex.getMessage());
+            log.warn("Health check failed {}", ex.toString());
         }
     }
 }

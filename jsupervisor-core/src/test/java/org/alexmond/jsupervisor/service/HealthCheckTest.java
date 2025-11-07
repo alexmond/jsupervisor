@@ -1,7 +1,6 @@
 package org.alexmond.jsupervisor.service;
 
 import org.alexmond.jsupervisor.config.*;
-import org.alexmond.jsupervisor.healthcheck.PortHealthCheck;
 import org.alexmond.jsupervisor.model.ProcessStatus;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,6 @@ import static org.awaitility.Awaitility.await;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static org.awaitility.Awaitility.waitAtMost;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -21,8 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class HealthCheckTest {
-    @Autowired
-    private ProcessManagerBulk processManagerBulk;
     @Autowired
     private ProcessManager processManager;
     @Autowired
@@ -98,6 +94,83 @@ public class HealthCheckTest {
         await().atMost(1, TimeUnit.MINUTES)
                 .until(() -> processRepository.getRunningProcessRest("acTest").getStatus().equals(ProcessStatus.healthy));
         assertEquals(ProcessStatus.healthy, processRepository.getRunningProcessRest("acTest").getStatus());
+        processManager.stopProcess("acTest");
+        await().atMost(1, TimeUnit.MINUTES)
+                .until(() -> !processRepository.getRunningProcessRest("acTest").isAlive());
+        processRepository.removeProcess("acTest");
+    }
+
+
+    @Test
+    void testActuatorHealthCheckFail() throws InterruptedException {
+        ProcessConfig processConfig = new ProcessConfig();
+        processConfig.setCommand("sleep");
+        processConfig.setArgs(List.of("100000"));
+        processConfig.setWorkingDirectory(".");
+        processConfig.setHealthCheckType(HealthCheckType.ACTUATOR);
+        ActuatorHealthCheckConfig actuatorHealthCheckConfig = new ActuatorHealthCheckConfig();
+        actuatorHealthCheckConfig.setActuatorHealthUrl("http://localhost:1000/actuator/health");
+        actuatorHealthCheckConfig.setSuccessThreshold(1);
+        actuatorHealthCheckConfig.setFailureThreshold(1);
+        actuatorHealthCheckConfig.setPeriodSeconds(1);
+        processConfig.setActuatorHealthCheck(actuatorHealthCheckConfig);
+
+        processRepository.addProcess("acTest",processConfig);
+        processManager.startProcess("acTest");
+        await().atMost(1, TimeUnit.MINUTES)
+                .until(() -> processRepository.getRunningProcessRest("acTest").getStatus().equals(ProcessStatus.unhealthy));
+        assertEquals(ProcessStatus.unhealthy, processRepository.getRunningProcessRest("acTest").getStatus());
+        processManager.stopProcess("acTest");
+        await().atMost(1, TimeUnit.MINUTES)
+                .until(() -> !processRepository.getRunningProcessRest("acTest").isAlive());
+        processRepository.removeProcess("acTest");
+    }
+
+    @Test
+    void testHttpHealthCheckFail() throws InterruptedException {
+        ProcessConfig processConfig = new ProcessConfig();
+        processConfig.setCommand("sleep");
+        processConfig.setArgs(List.of("100000"));
+        processConfig.setWorkingDirectory(".");
+        processConfig.setHealthCheckType(HealthCheckType.HTTP);
+        HttpHealthCheckConfig httpHealthCheckConfig = new HttpHealthCheckConfig();
+        httpHealthCheckConfig.setUrl("http://localhost:1000/actuator/health");
+        httpHealthCheckConfig.setSuccessThreshold(1);
+        httpHealthCheckConfig.setFailureThreshold(1);
+        httpHealthCheckConfig.setPeriodSeconds(1);
+        processConfig.setHttpHealthCheckConfig(httpHealthCheckConfig);
+
+        processRepository.addProcess("acTest",processConfig);
+        processManager.startProcess("acTest");
+        await().atMost(1, TimeUnit.MINUTES)
+                .until(() -> processRepository.getRunningProcessRest("acTest").getStatus().equals(ProcessStatus.unhealthy));
+        assertEquals(ProcessStatus.unhealthy, processRepository.getRunningProcessRest("acTest").getStatus());
+        processManager.stopProcess("acTest");
+        await().atMost(1, TimeUnit.MINUTES)
+                .until(() -> !processRepository.getRunningProcessRest("acTest").isAlive());
+        processRepository.removeProcess("acTest");
+    }
+
+    @Test
+    void testPortHealthCheckFail() throws InterruptedException {
+        ProcessConfig processConfig = new ProcessConfig();
+        processConfig.setCommand("sleep");
+        processConfig.setArgs(List.of("100000"));
+        processConfig.setWorkingDirectory(".");
+        processConfig.setHealthCheckType(HealthCheckType.PORT);
+        PortHealthCheckConfig portHealthCheckConfig = new PortHealthCheckConfig();
+        portHealthCheckConfig.setHost("localhost");
+        portHealthCheckConfig.setPort(1000);
+        portHealthCheckConfig.setSuccessThreshold(1);
+        portHealthCheckConfig.setFailureThreshold(1);
+        portHealthCheckConfig.setPeriodSeconds(1);
+        processConfig.setPortHealthCheck(portHealthCheckConfig);
+
+        processRepository.addProcess("acTest",processConfig);
+        processManager.startProcess("acTest");
+        await().atMost(1, TimeUnit.MINUTES)
+                .until(() -> processRepository.getRunningProcessRest("acTest").getStatus().equals(ProcessStatus.unhealthy));
+        assertEquals(ProcessStatus.unhealthy, processRepository.getRunningProcessRest("acTest").getStatus());
         processManager.stopProcess("acTest");
         await().atMost(1, TimeUnit.MINUTES)
                 .until(() -> !processRepository.getRunningProcessRest("acTest").isAlive());
