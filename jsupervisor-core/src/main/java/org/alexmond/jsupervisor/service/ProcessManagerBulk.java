@@ -43,7 +43,7 @@ public class ProcessManagerBulk {
             try {
                 Thread.sleep(config.getAutoStartDelay().toMillis());
             } catch (InterruptedException e) {
-                log.error("Thread.sleep interrupted {}", e.getMessage(), e);
+                log.error("Thread.sleep interrupted {}", e.getMessage());
             }
         });
     }

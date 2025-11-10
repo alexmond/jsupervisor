@@ -1,7 +1,9 @@
 package org.alexmond.jsupervisor.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -91,6 +93,9 @@ public class ProcessStatusRest {
     public Map<String, Object> toMap() {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        objectMapper.configOverride(LocalDateTime.class)
+                .setFormat(JsonFormat.Value.forPattern("yyyy-MM-dd'T'HH:mm"));
         return objectMapper.convertValue(this, Map.class);
     }
 }

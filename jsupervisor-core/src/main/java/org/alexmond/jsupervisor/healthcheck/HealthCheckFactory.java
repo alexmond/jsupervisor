@@ -22,7 +22,6 @@ public class HealthCheckFactory {
                     config.getHttpHealthCheckConfig() != null ? new HttpHealthCheck(config.getHttpHealthCheckConfig(), runningProcess) : null;
             case PORT ->
                     config.getPortHealthCheck() != null ? new PortHealthCheck(config.getPortHealthCheck(), runningProcess) : null;
-            case NONE -> null;
             default -> null;
         };
     }

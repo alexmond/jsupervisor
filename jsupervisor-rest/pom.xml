@@ -11,7 +11,7 @@
     <version>0.0.2-SNAPSHOT</version>
     <name>jsupervisor-rest</name>
     <description>A Spring Boot-based process supervisor for managing and monitoring application processes</description>
-    <url>https://alexmond.github.io/jsupervisor/current/index.html</url>
+    <url>https://www.alexmond.org/jsupervisor/current/index.html</url>
     <issueManagement>
         <system>GitHub</system>
         <url>https://github.com/alexmond/jsupervisor/issues</url>
@@ -75,6 +75,11 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.restdocs</groupId>
+            <artifactId>spring-restdocs-mockmvc</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>

@@ -20,8 +20,4 @@ public class ProcessEvent extends ApplicationEvent {
         this.entry = entry;
     }
 
-    public ProcessEvent(ProcessEventEntry entry, Clock clock) {
-        super(entry, clock);
-        this.entry = entry;
-    }
 }

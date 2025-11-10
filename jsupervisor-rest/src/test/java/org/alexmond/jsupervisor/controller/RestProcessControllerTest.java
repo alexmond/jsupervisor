@@ -21,24 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class RestProcessControllerTest {
 
-//    @Autowired
-//    private RestProcessController restProcessController;
-
     @Autowired
     private MockMvc mockMvc;
-
-//    /**
-//     * Test case to verify that the startAllProcess method calls
-//     * ProcessManagerBulk's startAll method exactly once.
-//     */
-//    @Test
-//    void testStartAllProcess() throws IOException {
-//        // Act
-//        restProcessController.startAllProcess();
-//
-//        // Assert
-//        Mockito.verify(processManagerBulk, times(1)).startAll();
-//    }
 
     @Test
     void generateOpenApiSpec() throws Exception {
@@ -50,5 +34,7 @@ class RestProcessControllerTest {
                 })
                 .andExpect(status().isOk());
     }
+
+
 
 }

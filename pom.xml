@@ -14,7 +14,7 @@
     <artifactId>jsupervisor-root</artifactId>
     <packaging>pom</packaging>
     <name>jsupervisor root</name>
-    <url>https://alexmond.github.io/jsupervisor/current/index.html</url>
+    <url>https://www.alexmond.org/jsupervisor/current/index.html</url>
 
     <issueManagement>
         <system>GitHub</system>

@@ -10,7 +10,6 @@ spring:
         core-size: 8
         max-size: 20
         queue-capacity: 25
-
 logging:
   level:
     root: info
@@ -68,19 +67,6 @@ jsupervisor:
       stderr-logfile: sleep-stderr.log
       args:
         - "10"
-ui-config:
-  ui-status-class:
-    aborted: bg-warning
-    failed: bg-danger
-    finished: bg-success
-    not-started: bg-secondary
-    running: bg-primary
-    starting: bg-info
-    stopped: bg-success
-    stopping: bg-info
-    unknown: bg-info
-    healthy: bg-success
-    unhealthy: bg-warning
 
 
 
