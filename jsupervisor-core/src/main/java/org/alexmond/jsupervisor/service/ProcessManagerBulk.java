@@ -30,6 +30,9 @@ public class ProcessManagerBulk {
      * Manager for handling individual process operations.
      */
     private final ProcessManager processManager;
+    /**
+     * Configuration settings for the supervisor, including startup delays and other parameters.
+     */
     private final SupervisorConfig config;
 
     /**
@@ -48,6 +51,10 @@ public class ProcessManagerBulk {
         });
     }
 
+    /**
+     * Asynchronously starts all registered processes that have autoStart configuration enabled.
+     * Processes are started according to their defined order with configured delays between starts.
+     */
     @Async
     public void autoStartAll() {
         processRepository.getProcessOrders().forEach((key, value) -> {
@@ -77,7 +84,8 @@ public class ProcessManagerBulk {
     }
 
     /**
-     * Asynchronously stops all currently running processes.
+     * Asynchronously restarts all processes by stopping all running processes first,
+     * waiting for a brief period, and then starting them again.
      */
     @Async
     public void restartAll() {

@@ -12,13 +12,15 @@ import java.util.concurrent.CompletableFuture;
 /**
  * Monitors and manages the lifecycle of running processes.
  * This component tracks process execution, updates process status,
- * and handles process completion events.
+ * and handles process completion events. It works in conjunction with ProcessRepository
+ * to maintain process state and handle cleanup operations.
  * <p>
  * It is responsible for:
- * - Monitoring process execution state
- * - Updating process status based on exit codes
- * - Managing process lifecycle events
+ * - Monitoring process execution state through asynchronous execution
+ * - Updating process status based on exit codes in the repository
+ * - Managing process lifecycle events and state transitions
  * - Cleaning up process resources after completion
+ * - Logging process completion status and runtime information
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -28,18 +30,24 @@ public class ProcessManagerMonitor {
     /**
      * Asynchronously monitors a process until completion and updates its status.
      * Upon process completion, updates the process status based on exit code and performs cleanup.
+     * This method blocks until the process completes and then updates the process repository
+     * with the final status and execution details.
      * <p>
      * Process status transitions:
-     * - Exit code 0: Process transitions to 'finished' state
-     * - Exit code 1: Process transitions to 'failed' state
-     * - Exit code 143: Process transitions to 'stopped' state (graceful termination)
-     * - Exit code 137: Process transitions to 'aborted' state (forceful termination)
-     * - Other exit codes: Process transitions to 'unknown' state
+     * - Exit code 0: Process transitions to 'finished' state (successful completion)
+     * - Exit code 1: Process transitions to 'failed' state (error during execution)
+     * - Exit code 143: Process transitions to 'stopped' state (graceful termination via SIGTERM)
+     * - Exit code 137: Process transitions to 'aborted' state (forceful termination via SIGKILL)
+     * - Other exit codes: Process transitions to 'unknown' state (unexpected termination)
+     * <p>
+     * After status update, the method performs cleanup by nullifying the process
+     * and completable future references in the repository.
      *
      * @param name      the name of the process to monitor
      * @param proc      the Java Process object to monitor
      * @param startTime the time when the process started
      * @return CompletableFuture<Void> representing the completion of monitoring
+     * @throws InterruptedException if the monitoring thread is interrupted
      */
     @Async
     public CompletableFuture<Void> monitorProcessCompletion(String name, Process proc, LocalDateTime startTime) {

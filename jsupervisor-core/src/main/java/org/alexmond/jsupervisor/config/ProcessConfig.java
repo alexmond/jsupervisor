@@ -48,17 +48,9 @@ public class ProcessConfig {
      * Environment variables to be set for the process.
      * Keys represent environment variable names, values represent their corresponding values.
      */
-    /**
-     * Environment variables to be set for the process.
-     * Keys represent environment variable names, values represent their corresponding values.
-     */
     @Schema(description = "Environment variables to be set for the process. Keys represent environment variable names, values represent their corresponding values.")
     private Map<String, String> env = new HashMap<>();
 
-    /**
-     * Command-line arguments to be passed to the process.
-     * Each element in the list represents a single argument.
-     */
     /**
      * Command-line arguments to be passed to the process.
      * Each element in the list represents a single argument.
@@ -161,10 +153,6 @@ public class ProcessConfig {
     @Schema(description = "File path where the application log will be stored", example = "/var/log/app.log")
     private String applicationLog;
 
-    /**
-     * Type of health check to be performed on the process.
-     * Determines which method will be used to monitor process health.
-     */
     /**
      * Type of health check to be performed on the process.
      * Determines how the process health will be monitored: NONE, HTTP, TCP, or ACTUATOR.

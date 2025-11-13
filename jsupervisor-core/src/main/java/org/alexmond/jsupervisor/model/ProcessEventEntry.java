@@ -11,6 +11,11 @@ import org.springframework.data.keyvalue.annotation.KeySpace;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+/**
+ * Represents an event entry for process state changes and lifecycle events.
+ * This class stores information about process events including status changes,
+ * start/end times, and execution details.
+ */
 @Data
 //@Entity
 @KeySpace("ProcessEvents")
@@ -68,6 +73,12 @@ public class ProcessEventEntry {
      */
     private Duration processUptime;
 
+    /**
+     * Creates a new process event entry based on the running process and its new status.
+     *
+     * @param runningProcess the process for which the event is being created
+     * @param newStatus      the new status that the process is transitioning to
+     */
     public ProcessEventEntry(RunningProcess runningProcess, ProcessStatus newStatus) {
 
         if (runningProcess.getProcess() != null) {

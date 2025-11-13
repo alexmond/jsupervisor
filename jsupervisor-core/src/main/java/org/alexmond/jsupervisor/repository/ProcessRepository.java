@@ -37,6 +37,13 @@ public class ProcessRepository {
         }
     }
 
+    /**
+     * Adds a new process to the repository with specified configuration.
+     * Process is added to running processes map and ordered list based on its priority.
+     *
+     * @param processName   Name of the process to add
+     * @param processConfig Configuration for the process
+     */
     public void addProcess(String processName, ProcessConfig processConfig) {
         runningProcesses.put(processName, new RunningProcess(processName, processConfig, eventPublisher));
         int order = Integer.MAX_VALUE;
@@ -50,6 +57,12 @@ public class ProcessRepository {
         }
     }
 
+    /**
+     * Removes a process from the repository if it exists and is not running.
+     * Process is removed from both running processes map and ordered list.
+     *
+     * @param processName Name of the process to remove
+     */
     public void removeProcess(String processName) {
         if (runningProcesses.containsKey(processName) && !runningProcesses.get(processName).isProcessRunning()) {
             runningProcesses.remove(processName);
