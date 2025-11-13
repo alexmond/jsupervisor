@@ -1,11 +1,8 @@
 package org.alexmond.jsupervisor.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.alexmond.jsupervisor.JSupervisorAutoConfiguration;
 import org.alexmond.jsupervisor.config.ProcessConfig;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
-import org.alexmond.jsupervisor.model.ProcessEvent;
-import org.alexmond.jsupervisor.model.ProcessEventEntry;
 import org.alexmond.jsupervisor.model.ProcessStatus;
 import org.alexmond.jsupervisor.repository.EventRepository;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
@@ -64,25 +61,25 @@ public class ProcessManagerBulkTest {
     @Test
     void testStartupOrder() throws InterruptedException {
         supervisorConfig.setAutoStartDelay(Duration.ofSeconds(10));
-        var processConfig1 =  createBaseProcessConfig();
+        var processConfig1 = createBaseProcessConfig();
         processConfig1.setOrder(1);
-        var processConfig2 =  createBaseProcessConfig();
+        var processConfig2 = createBaseProcessConfig();
         processConfig2.setOrder(2);
-        var processConfig3 =  createBaseProcessConfig();
+        var processConfig3 = createBaseProcessConfig();
         processConfig3.setOrder(3);
         processRepository.addProcess("acTest1", processConfig1);
         processRepository.addProcess("acTest2", processConfig2);
         processRepository.addProcess("acTest3", processConfig3);
         processManagerBulk.startAll();
-        verifyProcessStatus("acTest3",5,ProcessStatus.running);
-        var acTest1Status =  processRepository.getRunningProcessRest("acTest1").getStartTime();
-        var acTest2Status =  processRepository.getRunningProcessRest("acTest2").getStartTime();
-        var acTest3Status =  processRepository.getRunningProcessRest("acTest3").getStartTime();
+        verifyProcessStatus("acTest3", 5, ProcessStatus.running);
+        var acTest1Status = processRepository.getRunningProcessRest("acTest1").getStartTime();
+        var acTest2Status = processRepository.getRunningProcessRest("acTest2").getStartTime();
+        var acTest3Status = processRepository.getRunningProcessRest("acTest3").getStartTime();
         log.info("Process start times - acTest1: {}, acTest2: {}, acTest3: {}", acTest1Status, acTest2Status, acTest3Status);
         assertTrue(Duration.between(acTest1Status, acTest2Status).toSeconds() >= 8);
         assertTrue(Duration.between(acTest2Status, acTest3Status).toSeconds() >= 8);
         processManagerBulk.stopAll();
-        verifyProcessStatus("acTest3",5,ProcessStatus.stopped);
+        verifyProcessStatus("acTest3", 5, ProcessStatus.stopped);
         processRepository.removeProcess("acTest1");
         processRepository.removeProcess("acTest2");
         processRepository.removeProcess("acTest3");
@@ -92,26 +89,26 @@ public class ProcessManagerBulkTest {
     void testAutostartAndOrder() throws InterruptedException {
         supervisorConfig.setAutoStartDelay(Duration.ofSeconds(10));
         supervisorConfig.setAutoStart(true);
-        var processConfig1 =  createBaseProcessConfig();
+        var processConfig1 = createBaseProcessConfig();
         processConfig1.setOrder(1);
         processConfig1.setAutoStart(true);
-        var processConfig2 =  createBaseProcessConfig();
+        var processConfig2 = createBaseProcessConfig();
         processConfig2.setOrder(2);
-        var processConfig3 =  createBaseProcessConfig();
+        var processConfig3 = createBaseProcessConfig();
         processConfig3.setOrder(3);
         processConfig3.setAutoStart(true);
         processRepository.addProcess("acTest1", processConfig1);
         processRepository.addProcess("acTest2", processConfig2);
         processRepository.addProcess("acTest3", processConfig3);
         processManagerBulk.autoStartAll();
-        verifyProcessStatus("acTest3",5,ProcessStatus.running);
+        verifyProcessStatus("acTest3", 5, ProcessStatus.running);
         assertEquals(ProcessStatus.not_started, processRepository.getRunningProcessRest("acTest2").getStatus());
-        var acTest1Status =  processRepository.getRunningProcessRest("acTest1").getStartTime();
-        var acTest3Status =  processRepository.getRunningProcessRest("acTest3").getStartTime();
+        var acTest1Status = processRepository.getRunningProcessRest("acTest1").getStartTime();
+        var acTest3Status = processRepository.getRunningProcessRest("acTest3").getStartTime();
         log.info("Process start times - acTest1: {}, acTest3: {}", acTest1Status, acTest3Status);
         assertTrue(Duration.between(acTest1Status, acTest3Status).toSeconds() >= 8);
         processManagerBulk.stopAll();
-        verifyProcessStatus("acTest3",5,ProcessStatus.stopped);
+        verifyProcessStatus("acTest3", 5, ProcessStatus.stopped);
         processRepository.removeProcess("acTest1");
         processRepository.removeProcess("acTest2");
         processRepository.removeProcess("acTest3");
@@ -124,7 +121,7 @@ public class ProcessManagerBulkTest {
         ProcessManager processManager = mock(ProcessManager.class);
         SupervisorConfig config = mock(SupervisorConfig.class);
 
-        ProcessManagerBulk processManagerBulk = Mockito.spy(new ProcessManagerBulk(processRepository, processManager,config));
+        ProcessManagerBulk processManagerBulk = Mockito.spy(new ProcessManagerBulk(processRepository, processManager, config));
 
         doNothing().when(processManagerBulk).stopAll();
         // Use RuntimeException instead of InterruptedException since startAll() doesn't declare checked exceptions
@@ -149,7 +146,7 @@ public class ProcessManagerBulkTest {
         return processConfig;
     }
 
-    private void verifyProcessStatus(String processName, Integer minutes,ProcessStatus expectedStatus) {
+    private void verifyProcessStatus(String processName, Integer minutes, ProcessStatus expectedStatus) {
         await().atMost(minutes, TimeUnit.MINUTES)
                 .until(() -> processRepository.getRunningProcessRest(processName).getStatus().equals(expectedStatus));
         assertEquals(expectedStatus, processRepository.getRunningProcessRest(processName).getStatus());

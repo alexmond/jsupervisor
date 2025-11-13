@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
@@ -49,16 +48,22 @@ public class ProcessConfig {
      * Environment variables to be set for the process.
      * Keys represent environment variable names, values represent their corresponding values.
      */
+    /**
+     * Environment variables to be set for the process.
+     * Keys represent environment variable names, values represent their corresponding values.
+     */
     @Schema(description = "Environment variables to be set for the process. Keys represent environment variable names, values represent their corresponding values.")
-
     private Map<String, String> env = new HashMap<>();
 
     /**
      * Command-line arguments to be passed to the process.
      * Each element in the list represents a single argument.
      */
+    /**
+     * Command-line arguments to be passed to the process.
+     * Each element in the list represents a single argument.
+     */
     @Schema(description = "Command-line arguments to be passed to the process. Each element in the list represents a single argument.")
-
     private List<String> args = new ArrayList<>();
 
     /**
@@ -81,7 +86,6 @@ public class ProcessConfig {
      * If false, existing log files will be overwritten when the process starts.
      */
     @Schema(description = "Determines if log files should be appended to or overwritten. If true, new log entries will be appended to existing log files. If false, existing log files will be overwritten when the process starts.", defaultValue = "true")
-
     private boolean appendLog = true;
 
     /**
@@ -90,7 +94,6 @@ public class ProcessConfig {
      * If false, stderr will be written to a separate file if specified.
      */
     @Schema(description = "Determines if the error stream should be redirected to the output stream. If true, stderr will be merged with stdout. If false, stderr will be written to a separate file if specified.", defaultValue = "true")
-
     private boolean redirectErrorStream = true;
 
     /**
@@ -127,7 +130,6 @@ public class ProcessConfig {
      * Defaults to 5 seconds.
      */
     @Schema(description = "The maximum time to wait for the process to shut down gracefully. After this duration, the process will be forcefully terminated if still running. Defaults to 5 seconds.", defaultValue = "5s")
-
     private Duration shutdownTimeout = Duration.ofSeconds(5);
 
     /**
@@ -139,7 +141,8 @@ public class ProcessConfig {
     private String shutdownUrl;
 
     /**
-     * URL to of the application
+     * URL of the application where it can be accessed once started.
+     * Used for monitoring and management purposes.
      */
     @Schema(description = "URL or command to execute the process", example = "http://localhost:8080/app")
     private String url;
@@ -162,8 +165,11 @@ public class ProcessConfig {
      * Type of health check to be performed on the process.
      * Determines which method will be used to monitor process health.
      */
+    /**
+     * Type of health check to be performed on the process.
+     * Determines how the process health will be monitored: NONE, HTTP, TCP, or ACTUATOR.
+     */
     @Schema(description = "Type of health check to be performed on the process")
-
     private HealthCheckType healthCheckType = HealthCheckType.NONE;
 
     /**

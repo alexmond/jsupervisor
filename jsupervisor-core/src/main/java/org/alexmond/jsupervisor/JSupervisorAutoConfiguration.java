@@ -15,6 +15,11 @@ import org.springframework.data.map.repository.config.EnableMapRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
+/**
+ * Auto-configuration class for JSupervisor framework.
+ * Sets up necessary beans and configurations for process supervision functionality.
+ * Enables async execution and map repositories for process management.
+ */
 @AutoConfiguration
 @ConditionalOnClass({ProcessManager.class, SupervisorConfig.class})
 //@ConditionalOnProperty(prefix = "jsupervisor", name = "enabled", havingValue = "true", matchIfMissing = true)
@@ -67,6 +72,12 @@ public class JSupervisorAutoConfiguration {
 
     /**
      * Creates a ProcessManager bean if none exists.
+     *
+     * @param supervisorConfig        Configuration for the supervisor
+     * @param processRepository       Repository for managing processes
+     * @param processManagerMonitor   Monitor for process lifecycle management
+     * @param threadPoolTaskScheduler Scheduler for async tasks
+     * @return ProcessManager instance
      */
     @Bean
     @ConditionalOnMissingBean(ProcessManager.class)
@@ -80,17 +91,25 @@ public class JSupervisorAutoConfiguration {
 
     /**
      * Creates a ProcessManagerBulk bean if none exists.
+     *
+     * @param processRepository Repository for managing processes
+     * @param processManager    Manager for individual process operations
+     * @param supervisorConfig  Configuration for the supervisor
+     * @return ProcessManagerBulk instance
      */
     @Bean
     @ConditionalOnMissingBean(ProcessManagerBulk.class)
     public ProcessManagerBulk processManagerBulk(ProcessRepository processRepository,
                                                  ProcessManager processManager,
                                                  SupervisorConfig supervisorConfig) {
-        return new ProcessManagerBulk(processRepository, processManager,supervisorConfig);
+        return new ProcessManagerBulk(processRepository, processManager, supervisorConfig);
     }
 
     /**
-     * Creates a ProcessManagerBulk bean if none exists.
+     * Creates a ProcessEventListener bean for handling process-related events.
+     *
+     * @param eventRepository Repository for storing process events
+     * @return ProcsessEventListener instance
      */
     @Bean
     public ProcsessEventListener procsessEventListener(EventRepository eventRepository) {

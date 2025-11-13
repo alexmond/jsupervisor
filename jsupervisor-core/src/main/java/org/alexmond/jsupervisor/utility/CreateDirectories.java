@@ -7,14 +7,23 @@ import org.alexmond.jsupervisor.config.SupervisorConfig;
 
 import java.util.Map;
 
+/**
+ * Utility class responsible for creating and managing directories required by the supervisor.
+ * This includes log directories for process stdout and stderr outputs.
+ */
 @RequiredArgsConstructor
 @Slf4j
 public class CreateDirectories {
 
+    /**
+     * Configuration object containing supervisor settings and process configurations.
+     */
     private final SupervisorConfig supervisorConfig;
 
     /**
-     * Initializes required directories
+     * Initializes required directories for all configured processes.
+     * Creates necessary log directories based on process configurations
+     * defined in the supervisor config.
      */
     private void initializeDirectories() {
         log.info("Initializing directories...");

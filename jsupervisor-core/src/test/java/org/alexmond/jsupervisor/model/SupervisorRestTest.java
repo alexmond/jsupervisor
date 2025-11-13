@@ -10,7 +10,6 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Test class for SupervisorRest.
@@ -19,7 +18,7 @@ import static org.mockito.Mockito.when;
  */
 @SpringBootTest
 class SupervisorRestTest {
-    
+
     @Autowired
     private SupervisorConfig supervisorConfig;
 

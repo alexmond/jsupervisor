@@ -24,10 +24,11 @@ public class LogbackLogger {
 
     /**
      * Creates a dynamic RollingFileAppender for a process (Java 17+ compatible).
+     *
      * @param processName Unique ID (e.g., "testapp1") for logger/appender name.
-     * @param logDir Base directory for logs.
-     * @param maxSize e.g., "10MB".
-     * @param maxHistory Days to keep backups.
+     * @param logDir      Base directory for logs.
+     * @param maxSize     e.g., "10MB".
+     * @param maxHistory  Days to keep backups.
      * @return Attached Logger for this appender.
      */
     @SuppressWarnings("unchecked")  // For generics in RollingFileAppender<Object>

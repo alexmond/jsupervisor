@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.ApplicationEvent;
 
-import java.time.Clock;
-
 /**
  * Represents an event that occurs during process lifecycle management.
  * This class captures various attributes and state changes of a managed process.

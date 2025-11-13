@@ -1,6 +1,6 @@
 name: jsupervisor
 title: JSupervisor
-version: 0.0.1
+version: true
 prerelease: true
 nav:
   - modules/ROOT/nav.adoc

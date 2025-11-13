@@ -49,6 +49,7 @@ public class ProcessRepository {
             processOrders.put(order, new ArrayList<>(List.of(processName)));
         }
     }
+
     public void removeProcess(String processName) {
         if (runningProcesses.containsKey(processName) && !runningProcesses.get(processName).isProcessRunning()) {
             runningProcesses.remove(processName);
@@ -60,7 +61,7 @@ public class ProcessRepository {
                     iterator.remove();
                 }
             }
-        }else{
+        } else {
             log.error("Process {} is running or does not exist", processName);
         }
     }

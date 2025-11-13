@@ -6,11 +6,11 @@ import org.alexmond.jsupervisor.repository.ProcessRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import static org.awaitility.Awaitility.await;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -81,7 +81,7 @@ public class HealthCheckTest {
     }
 
     @Test
-    void testHttpHealthCheck()  {
+    void testHttpHealthCheck() {
         ProcessConfig processConfig = createBaseProcessConfig();
         processConfig.setHealthCheckType(HealthCheckType.HTTP);
         HttpHealthCheckConfig httpHealthCheckConfig = new HttpHealthCheckConfig();
@@ -92,7 +92,7 @@ public class HealthCheckTest {
     }
 
     @Test
-    void testHttpHealthCheckNon200returnCode()  {
+    void testHttpHealthCheckNon200returnCode() {
         ProcessConfig processConfig = createBaseProcessConfig();
         processConfig.setHealthCheckType(HealthCheckType.HTTP);
         HttpHealthCheckConfig httpHealthCheckConfig = new HttpHealthCheckConfig();

@@ -1,6 +1,5 @@
 package org.alexmond.jsupervisor.controller;
 
-import org.alexmond.jsupervisor.repository.ProcessRepository;
 import org.alexmond.jsupervisor.service.ProcessManagerBulk;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

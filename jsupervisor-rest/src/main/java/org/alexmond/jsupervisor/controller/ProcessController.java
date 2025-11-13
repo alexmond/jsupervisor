@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.alexmond.jsupervisor.controller.model.ResponseMessage;
 import org.alexmond.jsupervisor.model.ProcessStatusRest;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
 import org.alexmond.jsupervisor.service.ProcessManager;
@@ -15,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import org.alexmond.jsupervisor.controller.model.ResponseMessage;
 
 /**
  * REST Controller for individual process management operations.
@@ -50,7 +50,7 @@ public class ProcessController {
     })
     public ProcessStatusRest getProcess(
             @Parameter(description = "Process name") @PathVariable String name) {
-            return processRepository.getRunningProcessRest(name);
+        return processRepository.getRunningProcessRest(name);
     }
 
     @PostMapping("/start/{name}")
@@ -147,6 +147,6 @@ public class ProcessController {
     })
     public ProcessStatusRest getProcessStatus(
             @Parameter(description = "Process name") @PathVariable String name) {
-            return processRepository.getRunningProcessRest(name);
+        return processRepository.getRunningProcessRest(name);
     }
 }
