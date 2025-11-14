@@ -6,10 +6,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.alexmond.jsupervisor.repository.ProcessRepository;
 import org.alexmond.jsupervisor.service.ProcessManagerBulk;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class BulkProcessController {
 
     private final ProcessManagerBulk processManagerBulk;
-    private final ProcessRepository processRepository;
 
     @PostMapping("/start")
     @Operation(summary = "Start all processes", description = "Start all configured processes that are not currently running")
@@ -38,16 +35,8 @@ public class BulkProcessController {
             @ApiResponse(responseCode = "409", description = "Some processes are already running")
     })
     public ResponseEntity<Void> startAll() {
-        try {
             processManagerBulk.startAll();
             return ResponseEntity.ok().build();
-        } catch (IllegalStateException e) {
-            log.error("Cannot start processes: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        } catch (Exception e) {
-            log.error("Error starting processes", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
     @PostMapping("/stop")
@@ -58,16 +47,8 @@ public class BulkProcessController {
             @ApiResponse(responseCode = "404", description = "No running processes found")
     })
     public ResponseEntity<Void> stopAll() {
-        try {
             processManagerBulk.stopAll();
             return ResponseEntity.ok().build();
-        } catch (IllegalStateException e) {
-            log.error("Cannot stop processes: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (Exception e) {
-            log.error("Error stopping processes", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
     @PostMapping("/restart")
@@ -77,12 +58,7 @@ public class BulkProcessController {
             @ApiResponse(responseCode = "500", description = "Error occurred while restarting processes")
     })
     public ResponseEntity<Void> restartAll() {
-        try {
             processManagerBulk.restartAll();
             return ResponseEntity.ok().build();
-        } catch (Exception e) {
-            log.error("Error restarting processes", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 }

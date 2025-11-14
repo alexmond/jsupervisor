@@ -1,4 +1,4 @@
-package org.alexmond.jsupervisor.controller;
+package org.alexmond.jsupervisor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

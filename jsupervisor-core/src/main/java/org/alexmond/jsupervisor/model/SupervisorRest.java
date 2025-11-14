@@ -3,7 +3,9 @@ package org.alexmond.jsupervisor.model;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
 import org.apache.commons.io.FileUtils;
@@ -24,6 +26,8 @@ import java.util.Map;
 @Schema(description = "Supervisor system information including hardware and OS details")
 @Data
 @Slf4j
+@NoArgsConstructor
+@AllArgsConstructor
 public class SupervisorRest {
 
     /**

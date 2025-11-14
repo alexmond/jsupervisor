@@ -62,6 +62,7 @@
         <module>jsupervisor-ui</module>
         <module>jsupervisor-rest</module>
         <module>jsupervisor</module>
+        <module>jsupervisor-apiclient</module>
     </modules>
     <build>
         <pluginManagement>

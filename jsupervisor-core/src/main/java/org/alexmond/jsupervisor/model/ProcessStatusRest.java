@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.alexmond.jsupervisor.config.ProcessConfig;
 import org.alexmond.jsupervisor.repository.RunningProcess;
 
@@ -24,6 +26,8 @@ import java.util.Map;
 
 @Data
 @Schema(description = "Represents process status information")
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProcessStatusRest {
 
     /**

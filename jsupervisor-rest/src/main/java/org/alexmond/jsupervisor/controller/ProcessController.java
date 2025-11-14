@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.controller.model.ResponseMessage;
+import org.alexmond.jsupervisor.model.ProcessStatus;
 import org.alexmond.jsupervisor.model.ProcessStatusRest;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
 import org.alexmond.jsupervisor.service.ProcessManager;
@@ -41,18 +42,6 @@ public class ProcessController {
         return processRepository.findAllProcessStatusRest();
     }
 
-    @GetMapping("/{name}")
-    @Operation(summary = "Get process details", description = "Retrieve detailed information about a specific process")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved process details"),
-            @ApiResponse(responseCode = "404", description = "Process not found"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
-    })
-    public ProcessStatusRest getProcess(
-            @Parameter(description = "Process name") @PathVariable String name) {
-        return processRepository.getRunningProcessRest(name);
-    }
-
     @PostMapping("/start/{name}")
     @Operation(summary = "Start process", description = "Start a specific process")
     @ApiResponses(value = {
@@ -62,22 +51,8 @@ public class ProcessController {
     })
     public ResponseEntity<ResponseMessage> startProcess(
             @Parameter(description = "Process name") @PathVariable String name) {
-        try {
-            processManager.startProcess(name);
-            ResponseMessage resp = new ResponseMessage();
-            resp.setMessage("Process start initiated: " + name);
-            return ResponseEntity.ok(resp);
-        } catch (IllegalArgumentException e) {
-            ResponseMessage resp = new ResponseMessage();
-            resp.setError("Invalid process configuration");
-            resp.setMessage(e.getMessage());
-            return ResponseEntity.status(400).body(resp);
-        } catch (Exception e) {
-            ResponseMessage resp = new ResponseMessage();
-            resp.setError("Failed to start process");
-            resp.setMessage(e.getMessage());
-            return ResponseEntity.status(500).body(resp);
-        }
+        processManager.startProcess(name);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/stop/{name}")
@@ -87,26 +62,10 @@ public class ProcessController {
             @ApiResponse(responseCode = "404", description = "Process not found"),
             @ApiResponse(responseCode = "500", description = "Failed to stop process")
     })
-    public ResponseEntity<ResponseMessage> stopProcess(
+    public ResponseEntity<Void> stopProcess(
             @Parameter(description = "Process name") @PathVariable String name) {
-        try {
-            ProcessStatusRest process = processRepository.getRunningProcessRest(name);
-            if (process == null) {
-                ResponseMessage resp = new ResponseMessage();
-                resp.setError("Process not found");
-                resp.setMessage(name);
-                return ResponseEntity.status(404).body(resp);
-            }
             processManager.stopProcess(name);
-            ResponseMessage resp = new ResponseMessage();
-            resp.setMessage("Process stop initiated: " + name);
-            return ResponseEntity.ok(resp);
-        } catch (Exception e) {
-            ResponseMessage resp = new ResponseMessage();
-            resp.setError("Failed to stop process");
-            resp.setMessage(e.getMessage());
-            return ResponseEntity.status(500).body(resp);
-        }
+            return ResponseEntity.ok().build();
     }
 
     @PostMapping("/restart/{name}")
@@ -116,26 +75,10 @@ public class ProcessController {
             @ApiResponse(responseCode = "404", description = "Process not found"),
             @ApiResponse(responseCode = "500", description = "Failed to restart process")
     })
-    public ResponseEntity<ResponseMessage> restartProcess(
+    public ResponseEntity<Void> restartProcess(
             @Parameter(description = "Process name") @PathVariable String name) {
-        try {
-            ProcessStatusRest process = processRepository.getRunningProcessRest(name);
-            if (process == null) {
-                ResponseMessage resp = new ResponseMessage();
-                resp.setError("Process not found");
-                resp.setMessage(name);
-                return ResponseEntity.status(404).body(resp);
-            }
             processManager.restartProcess(name);
-            ResponseMessage resp = new ResponseMessage();
-            resp.setMessage("Process restart initiated: " + name);
-            return ResponseEntity.ok(resp);
-        } catch (Exception e) {
-            ResponseMessage resp = new ResponseMessage();
-            resp.setError("Failed to restart process");
-            resp.setMessage(e.getMessage());
-            return ResponseEntity.status(500).body(resp);
-        }
+            return ResponseEntity.ok().build();
     }
 
     @GetMapping("/status/{name}")
