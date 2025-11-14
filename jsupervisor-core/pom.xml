@@ -5,10 +5,10 @@
     <parent>
         <groupId>org.alexmond</groupId>
         <artifactId>jsupervisor-root</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.2</version>
     </parent>
     <artifactId>jsupervisor-core</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.2</version>
     <name>jsupervisor-core</name>
     <description>A Spring Boot-based process supervisor for managing and monitoring application processes</description>
     <url>https://www.alexmond.org/jsupervisor/current/index.html</url>
