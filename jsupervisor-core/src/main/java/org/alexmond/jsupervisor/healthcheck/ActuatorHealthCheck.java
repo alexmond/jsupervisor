@@ -111,7 +111,7 @@ public class ActuatorHealthCheck implements HealthCheck {
             response = Map.of("status", "DOWN");
         }
         String status = (response != null && response.containsKey("status")) ? String.valueOf(response.get("status")) : "DOWN";
-        log.info("Health check status: {}", status);
+        log.debug("Health check status: {}", status);
         boolean currentHealth = "UP".equalsIgnoreCase(status);
 
         if (currentHealth) {

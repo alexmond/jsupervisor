@@ -17,6 +17,8 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @RequiredArgsConstructor
 public class ProcessManagerBulk {
+    //MultiProcessManager
+    //ProcessGroupManager
 
     /**
      * Stores CompletableFuture objects for tracking asynchronous process operations.

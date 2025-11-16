@@ -1,4 +1,10 @@
 = JSupervisor Documentation
+:description: Process management and supervision system documentation for monitoring and controlling applications
+:keywords: process management, supervision, monitoring, control, JSupervisor, Java
+:author: Alex Mondshain
+:email: alex.mondshain@gmail.com
+:revnumber: 0.0.2
+:revdate: 2025-11-16
 :toc: left
 :toclevels: 3
 :sectnums:
@@ -6,7 +12,9 @@
 
 == Overview
 
+[.lead]
 JSupervisor is a process management and supervision system that helps monitor and control applications running on a system.
+
 
 [.text-center]
 .JSupervisor UI Example
@@ -16,8 +24,8 @@ image::jsupervisor1.png[JSupervisor UI,800,align="center"]
 
 === Configuration json Schemas
 
-xref:attachment$jsupervisor-schema.json[jsupervisor-schema.json]
-xref:attachment$jsupervisor-schema.yaml[jsupervisor-schema.yaml]
+* xref:attachment$jsupervisor-schema.json[jsupervisor-schema.json]
+* xref:attachment$jsupervisor-schema.yaml[jsupervisor-schema.yaml]
 
 === Config Sample
 

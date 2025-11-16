@@ -185,10 +185,12 @@ public class RunningProcess {
      */
     @Synchronized
     public void setProcessStatus(ProcessStatus processStatus) {
-        log.info("setProcessStatus {}", processStatus);
-        eventPublisher.publishEvent(new ProcessEvent(new ProcessEventEntry(this, processStatus)));
+        if (this.processStatus != processStatus) {
+            log.info("setProcessStatus {}", processStatus);
+            eventPublisher.publishEvent(new ProcessEvent(new ProcessEventEntry(this, processStatus)));
 
-        this.processStatus = processStatus;
+            this.processStatus = processStatus;
+        }
     }
 
     /**

@@ -1,6 +1,6 @@
 {
   "$schema" : "https://json-schema.org/draft/2020-12/schema",
-  "$id" : "urn:uuid:your-schema-id",
+  "$id" : "http://www.alexmond.org/jsupervisor/current/jsupervisor-schema.json",
   "title" : "Spring Boot Configuration Properties",
   "description" : "Auto-generated schema from configuration metadata",
   "type" : "object",

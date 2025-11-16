@@ -62,7 +62,7 @@ jsupervisor:
         - "-Dspring.profiles.active=srv1"
         - "-Dspring.application.name=testapp1"
         - "-jar"
-        - ../spring-boot-test-app/target/spring-boot-test-app-0.0.1-SNAPSHOT.jar
+        - ../spring-boot-test-app/target/spring-boot-test-app-0.0.2-SNAPSHOT.jar
     testapp2:
       health-check-type: actuator
       actuator-health-check:
@@ -77,7 +77,7 @@ jsupervisor:
         SPRING_APPLICATION_NAME: testapp1
       args:
         - "-jar"
-        - target/spring-boot-test-app-0.0.1-SNAPSHOT.jar
+        - target/spring-boot-test-app-0.0.2-SNAPSHOT.jar
 
 
 

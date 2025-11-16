@@ -6,6 +6,16 @@
         <div class="col-12">
             <h1 class="mb-4" th:text="${pageModel.title}">Process Management</h1>
 
+            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${successMessage != null}">
+                <i class="fas fa-check-circle"></i> <span th:text="${successMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errorMessage != null}">
+                <i class="fas fa-exclamation-circle"></i> <span th:text="${errorMessage}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
             <div class="mb-3">
                 <button class="btn  btn-outline-primary" onclick="location.reload()">
                     <i class="fa-solid fa-arrows-rotate"></i> Refresh
@@ -15,6 +25,9 @@
                 </a>
                 <a class="btn btn-danger" href="/stopAll">
                     Stop All Processes
+                </a>
+                <a class="btn btn-danger" href="/restartAll">
+                    Restart All Processes
                 </a>
             </div>
 

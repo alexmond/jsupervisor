@@ -1,0 +1,14 @@
+
+logging:
+  level:
+    root: debug
+    sun:
+      rmi: info
+    jdk:
+      event:
+        security: info
+    javax:
+      management:
+        remote:
+          rmi: info
+

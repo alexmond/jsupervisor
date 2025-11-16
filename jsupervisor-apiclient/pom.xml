@@ -17,94 +17,15 @@
     <properties>
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <openapi.generator.version>7.17.0</openapi.generator.version>
         <openapi.spec>openapi.json</openapi.spec>
         <client.package>org.alexmond.jsupervisor.client</client.package>
     </properties>
 
-    <build>
-        <plugins>
-            <!-- OpenAPI code generation -->
-            <plugin>
-                <groupId>org.openapitools</groupId>
-                <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>${openapi.generator.version}</version>
-                <executions>
-                    <execution>
-                        <id>generate-client</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/${openapi.spec}</inputSpec>
-                            <generatorName>java</generatorName>
-                            <output>${project.build.directory}/generated-sources/openapi</output>
-                            <apiPackage>${client.package}.api</apiPackage>
-                            <modelPackage>${client.package}.model</modelPackage>
-                            <invokerPackage>${client.package}.invoker</invokerPackage>
-                            <library>restclient</library>
-                            <configOptions>
-                                <useSpringBoot3>true</useSpringBoot3>
-                                <useJakartaEe>true</useJakartaEe>
-                                <dateLibrary>java8</dateLibrary>
-                                <serializationLibrary>jackson</serializationLibrary>
-                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
-                                <useBeanValidation>true</useBeanValidation>
-                                <useOptional>true</useOptional>
-                                <performBeanValidation>true</performBeanValidation>
-                                <openApiNullable>false</openApiNullable>
-                            </configOptions>
-                            <!--              <globalProperties>-->
-                            <!--                <models>true</models>-->
-                            <!--                <apis>true</apis>-->
-                            <!--                <supportingFiles>true</supportingFiles>-->
-                            <!--              </globalProperties>-->
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Include generated sources in compilation -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.6.0</version>
-                <executions>
-                    <execution>
-                        <id>add-generated-sources</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>${project.build.directory}/generated-sources/openapi/src/main/java</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Ensure Java 17 -->
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <release>${java.version}</release>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
     <dependencies>
         <!-- Minimal runtime deps for generated client (managed by Spring Boot parent BOM) -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -125,7 +46,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
+            <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

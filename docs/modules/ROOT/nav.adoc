@@ -1,2 +1,3 @@
 * xref:index.adoc[JSupervisor]
+* xref:restapi.adoc[Rest Api]
 * xref:configuration_overview.adoc[]

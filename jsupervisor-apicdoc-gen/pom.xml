@@ -1,0 +1,78 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.alexmond</groupId>
+        <artifactId>jsupervisor-root</artifactId>
+        <version>0.0.2-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>jsupervisor-apicdoc-gen</artifactId>
+    <version>0.0.2-SNAPSHOT</version>
+    <name>jsupervisor-apicdoc-gen</name>
+    <packaging>jar</packaging>
+
+    <properties>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <openapi.generator.version>7.17.0</openapi.generator.version>
+        <openapi.spec>openapi.json</openapi.spec>
+        <client.package>org.alexmond.jsupervisor.client</client.package>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- OpenAPI code generation -->
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi.generator.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-asciidoc</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Input OpenAPI specification -->
+                            <inputSpec>${project.basedir}/openapi.json</inputSpec>
+
+                            <!-- Generator name for AsciiDoc -->
+                            <generatorName>asciidoc</generatorName>
+
+                            <!-- Output directory -->
+                            <output>${project.basedir}/../docs/modules/ROOT/pages/api</output>
+
+                            <!-- Skip generation of supporting files -->
+                            <skipOperationExample>false</skipOperationExample>
+
+                            <!-- Additional properties for AsciiDoc generator -->
+                            <additionalProperties>
+                                <additionalProperty>appName=JSupervisor API</additionalProperty>
+                                <additionalProperty>appDescription=JSupervisor REST API Documentation</additionalProperty>
+                                <additionalProperty>infoUrl=https://www.alexmond.org/jsupervisor</additionalProperty>
+                                <additionalProperty>infoEmail=alex.mondshain@gmail.com</additionalProperty>
+                                <additionalProperty>licenseInfo=Apache License 2.0</additionalProperty>
+                                <additionalProperty>licenseUrl=https://www.apache.org/licenses/LICENSE-2.0.txt</additionalProperty>
+                                <additionalProperty>generateExamples=true</additionalProperty>
+                            </additionalProperties>
+
+                            <!-- Configuration options -->
+                            <configOptions>
+                                <specDir>.</specDir>
+                                <snippetDir>snippets</snippetDir>
+                                <useIntroduction>true</useIntroduction>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <!-- Include generated sources in compilation -->
+        </plugins>
+    </build>
+
+</project>

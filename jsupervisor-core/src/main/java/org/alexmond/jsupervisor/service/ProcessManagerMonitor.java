@@ -54,6 +54,9 @@ public class ProcessManagerMonitor {
         try {
             int exitCode = proc.waitFor();
             LocalDateTime endTime = LocalDateTime.now();
+            if (processRepository.getRunningProcess(name).getScheduledFuture() != null) {
+                processRepository.getRunningProcess(name).getScheduledFuture().cancel(true);
+            }
             processRepository.getRunningProcess(name).setEndTime(endTime);
             processRepository.getRunningProcess(name).setExitCode(exitCode);
             ProcessStatus newStatus;

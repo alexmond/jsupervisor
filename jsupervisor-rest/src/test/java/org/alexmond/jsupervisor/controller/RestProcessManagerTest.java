@@ -44,6 +44,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RestProcessManagerTest {
 
     private String apiprefix = "/api/v1/processes";
+    private String docprefix = "api/v1/processes";
     @Autowired
     private MockMvc mockMvc;
 
@@ -74,7 +75,7 @@ public class RestProcessManagerTest {
 
         MvcResult result = mockMvc.perform(get(apiprefix))
                 .andExpect(status().isOk())
-                .andDo(document("get-status-process-by-name",
+                .andDo(document(docprefix+"/GET",
                         responseFields(
                                 fieldWithPath("[].name").description("Name of the process"),
                                 fieldWithPath("[].status").description("Current status of the process (e.g., running, stopped, failed)"),
@@ -105,7 +106,7 @@ public class RestProcessManagerTest {
 
         mockMvc.perform(post(apiprefix+"/start/{name}", processName))
                 .andExpect(status().isOk())
-                .andDo(document("start-process-by-name",
+                .andDo(document(docprefix+"/start"+"/POST",
                         pathParameters(
                                 parameterWithName("name").description("The process name to start")
                         )

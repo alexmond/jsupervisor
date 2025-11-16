@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
@@ -88,8 +89,9 @@ public class WebProcessController {
      * @return redirect to the main page
      */
     @GetMapping("/start/{name}")
-    public String startProcess(@PathVariable String name) {
+    public String startProcess(@PathVariable String name, RedirectAttributes redirectAttributes) {
         processManager.startProcess(name);
+        redirectAttributes.addFlashAttribute("successMessage", "Process "+name+" started");
         return "redirect:/";
     }
 
@@ -100,8 +102,9 @@ public class WebProcessController {
      * @return redirect to the main page
      */
     @GetMapping("/stop/{name}")
-    public String stopProcess(@PathVariable String name) {
+    public String stopProcess(@PathVariable String name, RedirectAttributes redirectAttributes) {
         processManager.stopProcess(name);
+        redirectAttributes.addFlashAttribute("successMessage", "Process "+name+" stopped");
         return "redirect:/";
     }
 
@@ -112,8 +115,9 @@ public class WebProcessController {
      * @return redirect to the main page
      */
     @GetMapping("/restart/{name}")
-    public String restartProcess(@PathVariable String name) {
+    public String restartProcess(@PathVariable String name, RedirectAttributes redirectAttributes) {
         processManager.restartProcess(name);
+        redirectAttributes.addFlashAttribute("successMessage", "Process "+name+" restarted");
         return "redirect:/";
     }
 
@@ -138,6 +142,12 @@ public class WebProcessController {
     @GetMapping("/stopAll")
     public String stopAll() throws IOException {
         processManagerBulk.stopAll();
+        return "redirect:/";
+    }
+
+    @GetMapping("/restartAll")
+    public String restartAll() throws IOException {
+        processManagerBulk.restartAll();
         return "redirect:/";
     }
 

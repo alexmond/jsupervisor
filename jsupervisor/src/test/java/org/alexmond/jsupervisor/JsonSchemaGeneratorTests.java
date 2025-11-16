@@ -1,6 +1,7 @@
 package org.alexmond.jsupervisor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.alexmond.config.json.schema.config.JsonConfigSchemaConfig;
 import org.alexmond.config.json.schema.service.JsonSchemaService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,15 @@ class JsonSchemaGeneratorTests {
     @Autowired
     private JsonSchemaService jsonSchemaService;
 
+    @Autowired
+    JsonConfigSchemaConfig config;
+
     @Test
     void generateJsonSchema() throws IOException {
 
+        config.setSchemaId("http://www.alexmond.org/jsupervisor/current/jsupervisor-schema.json");
         var jsonConfigSchemaJson = jsonSchemaService.generateFullSchemaJson();
+        config.setSchemaId("http://www.alexmond.org/jsupervisor/current/jsupervisor-schema.yaml");
         var jsonConfigSchemaYaml = jsonSchemaService.generateFullSchemaYaml();
         log.info("Writing json schema");
         Files.writeString(Paths.get("../docs//modules/ROOT/attachments/jsupervisor-schema.json"), jsonConfigSchemaJson, StandardCharsets.UTF_8);
