@@ -11,9 +11,9 @@
 
     <groupId>org.alexmond</groupId>
     <version>0.0.3-SNAPSHOT</version>
-    <artifactId>jsupervisor-root</artifactId>
+    <artifactId>jsupervisor-parent</artifactId>
     <packaging>pom</packaging>
-    <name>jsupervisor root</name>
+    <name>jsupervisor parent</name>
     <url>https://www.alexmond.org/jsupervisor/current/index.html</url>
 
     <issueManagement>

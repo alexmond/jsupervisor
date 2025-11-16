@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.alexmond</groupId>
-        <artifactId>jsupervisor-root</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <artifactId>jsupervisor-parent</artifactId>
+        <version>0.0.3-SNAPSHOT</version>
     </parent>
     <artifactId>jsupervisor-cli</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <name>jsupervisor-cli</name>
     <description>A Spring Boot-based command-line interface for managing and monitoring application processes with
         JSupervisor
@@ -43,7 +43,7 @@
         <dependency>
             <groupId>org.alexmond</groupId>
             <artifactId>jsupervisor-apiclient</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
+            <version>0.0.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
