@@ -8,7 +8,7 @@ JSupervisor provides a RESTful API for managing processes and monitoring their s
 This document provides an overview of the available endpoints and their functionality.
 
 * xref:attachment$openapi.json[openapi.json]
-[swagger-ui,path=./openapi.yaml]
+swagger-ui::api:attachment$openapi.json[]
 
 == Bulk Operations
 
