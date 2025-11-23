@@ -19,7 +19,7 @@ import org.springframework.core.annotation.Order;
 public class JSupervisorStartupManager implements ApplicationListener<ApplicationReadyEvent> {
     //
     private final SupervisorConfig supervisorConfig;
-    private final ProcessManagerBulk processManagerBulk;
+    private final ProcessGroupManager processGroupManager;
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
@@ -52,7 +52,7 @@ public class JSupervisorStartupManager implements ApplicationListener<Applicatio
         }
 
         log.info("Starting processes with auto-start enabled...");
-        processManagerBulk.autoStartAll();
+        processGroupManager.autoStartAll();
     }
 
 }

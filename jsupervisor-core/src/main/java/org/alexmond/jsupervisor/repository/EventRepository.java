@@ -2,13 +2,11 @@ package org.alexmond.jsupervisor.repository;
 
 import org.alexmond.jsupervisor.model.ProcessEventEntry;
 import org.alexmond.jsupervisor.model.ProcessStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
-
-import java.util.List;
 
 
 /**
@@ -18,44 +16,33 @@ import java.util.List;
  * and pagination capabilities.
  */
 @Repository
-@RepositoryRestResource(collectionResourceRel = "/api/v1/events", path = "events")
 public interface EventRepository extends CrudRepository<ProcessEventEntry, Long>,
         PagingAndSortingRepository<ProcessEventEntry, Long> {
-
-    /**
-     * Saves a ProcessEventEntry entity to the repository.
-     * This method is not exposed via REST API.
-     *
-     * @param entity the entity to save
-     * @return the saved entity
-     */
-    @RestResource(exported = false)
-    <S extends ProcessEventEntry> S save(S entity);
-
-    /**
-     * Deletes a ProcessEventEntry from the repository.
-     * This method is not exposed via REST API.
-     *
-     * @param entity the entity to delete
-     */
-    @RestResource(exported = false)
-    void delete(ProcessEventEntry entity);
 
     /**
      * Finds all process events associated with a specific process name.
      *
      * @param processName the name of the process to search for
-     * @return a list of ProcessEventEntry objects matching the process name
+     * @param pageable    pagination and sorting information
+     * @return a page of ProcessEventEntry objects matching the process name
      */
-    @RestResource(path = "byProcessName", rel = "byProcessName")
-    List<ProcessEventEntry> findByProcessName(String processName);
+    Page<ProcessEventEntry> findByProcessName(String processName, Pageable pageable);
 
     /**
      * Finds all process events with a specific status.
      *
-     * @param status the ProcessStatus to search for
-     * @return a list of ProcessEventEntry objects matching the status
+     * @param status   the ProcessStatus to search for
+     * @param pageable pagination and sorting information
+     * @return a page of ProcessEventEntry objects matching the status
      */
-    @RestResource(path = "byStatus", rel = "byStatus")
-    List<ProcessEventEntry> findByNewStatus(ProcessStatus status);
+    Page<ProcessEventEntry> findByNewStatus(ProcessStatus status, Pageable pageable);
+
+    /**
+     * Finds all events with pagination support.
+     *
+     * @param pageable pagination and sorting information
+     * @return a page of all ProcessEventEntry objects
+     */
+    @Override
+    Page<ProcessEventEntry> findAll(Pageable pageable);
 }

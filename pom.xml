@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.7</version>
+        <version>4.0.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -207,6 +207,12 @@
             <modules>
                 <module>spring-boot-test-app</module>
                 <module>jsupervisor-apicdoc-gen</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>api-gen</id>
+            <modules>
+                <module>jsupervisor-apiclient-gen</module>
             </modules>
         </profile>
         <profile>

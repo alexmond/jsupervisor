@@ -5,7 +5,6 @@ import org.alexmond.jsupervisor.config.ProcessConfig;
 import org.alexmond.jsupervisor.model.ProcessStatus;
 import org.alexmond.jsupervisor.repository.EventRepository;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
-import org.alexmond.jsupervisor.utility.CreateDirectories;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,13 +36,13 @@ public class ProcessManagerTest {
         processRepository.addProcess(processName, processConfig);
 
         processManager.startProcess(processName);
-        verifyProcessStatus(processName,1,ProcessStatus.running);
+        verifyProcessStatus(processName, 1, ProcessStatus.running);
         assertEquals(ProcessStatus.running, processRepository.getRunningProcessRest(processName).getStatus());
         processManager.restartProcess(processName);
-        verifyProcessStatus(processName,1,ProcessStatus.running);
+        verifyProcessStatus(processName, 1, ProcessStatus.running);
         assertEquals(ProcessStatus.running, processRepository.getRunningProcessRest(processName).getStatus());
         processManager.stopProcess(processName);
-        verifyProcessStatus(processName,1,ProcessStatus.stopped);
+        verifyProcessStatus(processName, 1, ProcessStatus.stopped);
         assertEquals(ProcessStatus.stopped, processRepository.getRunningProcessRest(processName).getStatus());
     }
 

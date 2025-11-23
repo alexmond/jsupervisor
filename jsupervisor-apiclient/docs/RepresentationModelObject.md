@@ -1,13 +1,10 @@
-
-
 # RepresentationModelObject
-
 
 ## Properties
 
-| Name | Type | Description | Notes |
-|------------ | ------------- | ------------- | -------------|
-|**links** | [**List&lt;Link&gt;**](Link.md) |  |  [optional] |
+| Name      | Type                            | Description | Notes      |
+|-----------|---------------------------------|-------------|------------|
+| **links** | [**List&lt;Link&gt;**](Link.md) |             | [optional] |
 
 
 

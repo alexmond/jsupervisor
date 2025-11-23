@@ -44,16 +44,16 @@ public class JSupervisorCliRunner implements ApplicationRunner {
 
         ProcessManagementApi processManagementApi = new ProcessManagementApi(defaultClient);
 
-        try{
+        try {
             switch (command) {
-                case "start" ->  processManagementApi.startProcess("testapp1");
+                case "start" -> processManagementApi.startProcess("testapp1");
                 case "stop" -> processManagementApi.stopProcess("testapp1");
                 case "restart" -> processManagementApi.restartProcess("testapp1");
                 case "help" -> printHelp();
                 default -> printHelp();
             }
         } catch (ApiException e) {
-            System.err.println("Exception when calling BulkProcessOperationsApi#restartAll");
+            System.err.println("Exception when calling GroupProcessOperationsApi#restartAll");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());

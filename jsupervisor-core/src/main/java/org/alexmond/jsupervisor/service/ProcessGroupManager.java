@@ -11,14 +11,12 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * Manages bulk operations for process management, allowing start and stop operations
+ * Manages Group operations for process management, allowing start and stop operations
  * to be performed on multiple processes simultaneously.
  */
 @Slf4j
 @RequiredArgsConstructor
-public class ProcessManagerBulk {
-    //MultiProcessManager
-    //ProcessGroupManager
+public class ProcessGroupManager {
 
     /**
      * Stores CompletableFuture objects for tracking asynchronous process operations.

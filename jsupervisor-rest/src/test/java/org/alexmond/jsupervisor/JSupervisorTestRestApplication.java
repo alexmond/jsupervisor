@@ -14,20 +14,20 @@ import org.springframework.test.context.ActiveProfiles;
                 title = "JSupervisor REST API",
                 version = "0.0.2",
                 description = """
-            JSupervisor is a process management and monitoring service that provides 
-            comprehensive control over application processes. This API enables you to:
-            
-            - Start, stop, and restart processes individually or in bulk
-            - Monitor process status and health
-            - Retrieve process logs and statistics
-            - Configure process behavior and auto-start settings
-            
-            The API follows RESTful principles and returns JSON responses.
-            """,
+                        JSupervisor is a process management and monitoring service that provides 
+                        comprehensive control over application processes. This API enables you to:
+                        
+                        - Start, stop, and restart processes individually or in bulk
+                        - Monitor process status and health
+                        - Retrieve process logs and statistics
+                        - Configure process behavior and auto-start settings
+                        
+                        The API follows RESTful principles and returns JSON responses.
+                        """,
                 contact = @Contact(
                         name = "Alex Mondshain",
                         email = "alex.mondshain@gmail.com",
-                        url = "https://www.alexmond.org/jsupervisor"
+                        url = "https://www.alexmond.org/jsupervisor/current/"
                 ),
                 license = @License(
                         name = "Apache License 2.0",

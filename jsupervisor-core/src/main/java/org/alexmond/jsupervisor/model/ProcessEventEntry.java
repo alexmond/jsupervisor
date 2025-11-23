@@ -2,6 +2,7 @@ package org.alexmond.jsupervisor.model;
 
 //import jakarta.persistence.Entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.alexmond.jsupervisor.repository.RunningProcess;
@@ -20,57 +21,68 @@ import java.time.LocalDateTime;
 //@Entity
 @KeySpace("ProcessEvents")
 @NoArgsConstructor
+@Schema(description = "Represents an event entry for process state changes and lifecycle events")
 public class ProcessEventEntry {
 
     /**
      * Unique identifier for the process event
      */
     @Id
+    @Schema(description = "Unique identifier for the process event", example = "1")
     private Long id;
 
     /**
      * Process ID of the running process
      */
+    @Schema(description = "Process ID of the running process", example = "12345")
     private Long pid;
 
     /**
      * Timestamp when the event occurred
      */
+    @Schema(description = "Timestamp when the event occurred", example = "2025-11-17T10:30:00")
     private LocalDateTime eventTime;
 
     /**
      * Name of the managed process
      */
+    @Schema(description = "Name of the managed process", example = "my-application")
     private String processName;
 
     /**
      * Timestamp when the process was started
      */
+    @Schema(description = "Timestamp when the process was started", example = "2025-11-17T10:00:00")
     private LocalDateTime startTime;
 
     /**
      * Timestamp when the process ended, null if still running
      */
+    @Schema(description = "Timestamp when the process ended, null if still running", example = "2025-11-17T10:15:00")
     private LocalDateTime endTime;
 
     /**
      * Exit code of the process, null if still running
      */
+    @Schema(description = "Exit code of the process, null if still running", example = "0")
     private Integer exitCode;
 
     /**
      * New status of the process after the event
      */
+    @Schema(description = "New status of the process after the event")
     private ProcessStatus newStatus;
 
     /**
      * Previous status of the process before the event
      */
+    @Schema(description = "Previous status of the process before the event")
     private ProcessStatus oldStatus;
 
     /**
      * Duration for which the process has been running
      */
+    @Schema(description = "Duration for which the process has been running", example = "PT15M")
     private Duration processUptime;
 
     /**

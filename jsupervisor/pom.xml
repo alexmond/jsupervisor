@@ -96,6 +96,11 @@
             <artifactId>spring-boot-actuator-sanitizer-starter</artifactId>
             <version>${spring-boot-actuator-sanitizer.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-webmvc-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
 

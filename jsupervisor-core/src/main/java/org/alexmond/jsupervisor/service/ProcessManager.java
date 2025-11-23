@@ -3,8 +3,9 @@ package org.alexmond.jsupervisor.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.ProcessConfig;
-import org.alexmond.jsupervisor.config.SupervisorConfig;
+import org.alexmond.jsupervisor.exception.JSupervisorException;
 import org.alexmond.jsupervisor.model.ProcessStatus;
+import org.alexmond.jsupervisor.model.ProcessStatusRest;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
 import org.alexmond.jsupervisor.repository.RunningProcess;
 import org.springframework.scheduling.annotation.Async;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -27,7 +29,6 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 @RequiredArgsConstructor
 public class ProcessManager {
-    private final SupervisorConfig supervisorConfig;
     private final ProcessRepository processRepository;
     private final ProcessManagerMonitor processManagerMonitor;
     private final ThreadPoolTaskScheduler threadPoolTaskScheduler;
@@ -57,7 +58,7 @@ public class ProcessManager {
         var runningProcess = processRepository.getRunningProcess(name);
         ProcessConfig processConfig = runningProcess.getProcessConfig();
         if (processConfig == null) {
-            throw new IllegalArgumentException("No process config found for: " + name);
+            throw new JSupervisorException("No process config found for: " + name);
         }
 
         if (runningProcess.getProcess() != null) {
@@ -168,4 +169,11 @@ public class ProcessManager {
     }
 
 
+    public ProcessStatusRest getRunningProcess(String name) {
+        return new ProcessStatusRest(name, processRepository.getRunningProcess(name));
+    }
+
+    public Collection<ProcessStatusRest> getAllProcessStatusRest() {
+        return processRepository.findAllProcessStatusRest();
+    }
 }

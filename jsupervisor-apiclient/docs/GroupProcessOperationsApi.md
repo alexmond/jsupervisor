@@ -1,14 +1,12 @@
-# BulkProcessOperationsApi
+# GroupProcessOperationsApi
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *http://localhost:8086*
 
-| Method | HTTP request | Description |
-|------------- | ------------- | -------------|
-| [**restartAll**](BulkProcessOperationsApi.md#restartAll) | **POST** /api/v1/processes/bulk/restart | Restart all processes |
-| [**startAll**](BulkProcessOperationsApi.md#startAll) | **POST** /api/v1/processes/bulk/start | Start all processes |
-| [**stopAll**](BulkProcessOperationsApi.md#stopAll) | **POST** /api/v1/processes/bulk/stop | Stop all processes |
-
-
+| Method                                                    | HTTP request                             | Description           |
+|-----------------------------------------------------------|------------------------------------------|-----------------------|
+| [**restartAll**](GroupProcessOperationsApi.md#restartAll) | **POST** /api/v1/processes/group/restart | Restart all processes |
+| [**startAll**](GroupProcessOperationsApi.md#startAll)     | **POST** /api/v1/processes/group/start   | Start all processes   |
+| [**stopAll**](GroupProcessOperationsApi.md#stopAll)       | **POST** /api/v1/processes/group/stop    | Stop all processes    |
 
 ## restartAll
 
@@ -22,22 +20,23 @@ Restart all configured processes
 
 ```java
 // Import classes:
+
 import org.alexmond.jsupervisor.client.invoker.ApiClient;
 import org.alexmond.jsupervisor.client.invoker.ApiException;
 import org.alexmond.jsupervisor.client.invoker.Configuration;
 import org.alexmond.jsupervisor.client.invoker.models.*;
-import org.alexmond.jsupervisor.client.api.BulkProcessOperationsApi;
+import org.alexmond.jsupervisor.client.api.GroupProcessOperationsApi;
 
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://localhost");
+        defaultClient.setBasePath("http://localhost:8086");
 
-        BulkProcessOperationsApi apiInstance = new BulkProcessOperationsApi(defaultClient);
+        GroupProcessOperationsApi apiInstance = new GroupProcessOperationsApi(defaultClient);
         try {
             apiInstance.restartAll();
         } catch (ApiException e) {
-            System.err.println("Exception when calling BulkProcessOperationsApi#restartAll");
+            System.err.println("Exception when calling GroupProcessOperationsApi#restartAll");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -64,13 +63,12 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
-
 ### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | All processes restarted successfully |  -  |
-| **500** | Error occurred while restarting processes |  -  |
 
+| Status code | Description                               | Response headers |
+|-------------|-------------------------------------------|------------------|
+| **200**     | All processes restarted successfully      | -                |
+| **500**     | Error occurred while restarting processes | -                |
 
 ## startAll
 
@@ -84,22 +82,23 @@ Start all configured processes that are not currently running
 
 ```java
 // Import classes:
+
 import org.alexmond.jsupervisor.client.invoker.ApiClient;
 import org.alexmond.jsupervisor.client.invoker.ApiException;
 import org.alexmond.jsupervisor.client.invoker.Configuration;
 import org.alexmond.jsupervisor.client.invoker.models.*;
-import org.alexmond.jsupervisor.client.api.BulkProcessOperationsApi;
+import org.alexmond.jsupervisor.client.api.GroupProcessOperationsApi;
 
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://localhost");
+        defaultClient.setBasePath("http://localhost:8086");
 
-        BulkProcessOperationsApi apiInstance = new BulkProcessOperationsApi(defaultClient);
+        GroupProcessOperationsApi apiInstance = new GroupProcessOperationsApi(defaultClient);
         try {
             apiInstance.startAll();
         } catch (ApiException e) {
-            System.err.println("Exception when calling BulkProcessOperationsApi#startAll");
+            System.err.println("Exception when calling GroupProcessOperationsApi#startAll");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -126,14 +125,13 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
-
 ### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | All processes started successfully |  -  |
-| **500** | Error occurred while starting processes |  -  |
-| **409** | Some processes are already running |  -  |
 
+| Status code | Description                             | Response headers |
+|-------------|-----------------------------------------|------------------|
+| **200**     | All processes started successfully      | -                |
+| **500**     | Error occurred while starting processes | -                |
+| **409**     | Some processes are already running      | -                |
 
 ## stopAll
 
@@ -147,22 +145,23 @@ Stop all currently running processes
 
 ```java
 // Import classes:
+
 import org.alexmond.jsupervisor.client.invoker.ApiClient;
 import org.alexmond.jsupervisor.client.invoker.ApiException;
 import org.alexmond.jsupervisor.client.invoker.Configuration;
 import org.alexmond.jsupervisor.client.invoker.models.*;
-import org.alexmond.jsupervisor.client.api.BulkProcessOperationsApi;
+import org.alexmond.jsupervisor.client.api.GroupProcessOperationsApi;
 
 public class Example {
     public static void main(String[] args) {
         ApiClient defaultClient = Configuration.getDefaultApiClient();
-        defaultClient.setBasePath("http://localhost");
+        defaultClient.setBasePath("http://localhost:8086");
 
-        BulkProcessOperationsApi apiInstance = new BulkProcessOperationsApi(defaultClient);
+        GroupProcessOperationsApi apiInstance = new GroupProcessOperationsApi(defaultClient);
         try {
             apiInstance.stopAll();
         } catch (ApiException e) {
-            System.err.println("Exception when calling BulkProcessOperationsApi#stopAll");
+            System.err.println("Exception when calling GroupProcessOperationsApi#stopAll");
             System.err.println("Status code: " + e.getCode());
             System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
@@ -189,11 +188,11 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: Not defined
 
-
 ### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | All processes stopped successfully |  -  |
-| **500** | Error occurred while stopping processes |  -  |
-| **404** | No running processes found |  -  |
+
+| Status code | Description                             | Response headers |
+|-------------|-----------------------------------------|------------------|
+| **200**     | All processes stopped successfully      | -                |
+| **500**     | Error occurred while stopping processes | -                |
+| **404**     | No running processes found              | -                |
 

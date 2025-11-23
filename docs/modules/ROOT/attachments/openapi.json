@@ -5,7 +5,7 @@
     "description": "JSupervisor is a process management and monitoring service that provides\ncomprehensive control over application processes. This API enables you to:\n\n- Start, stop, and restart processes individually or in bulk\n- Monitor process status and health\n- Retrieve process logs and statistics\n- Configure process behavior and auto-start settings\n\nThe API follows RESTful principles and returns JSON responses.\n",
     "contact": {
       "name": "Alex Mondshain",
-      "url": "https://www.alexmond.org/jsupervisor",
+      "url": "https://www.alexmond.org/jsupervisor/current/",
       "email": "alex.mondshain@gmail.com"
     },
     "license": {
@@ -26,7 +26,11 @@
       "description": "APIs for supervisor system information and monitoring"
     },
     {
-      "name": "Bulk Process Operations",
+      "name": "Event Management",
+      "description": "Operations for managing and querying process event history"
+    },
+    {
+      "name": "Group Process Operations",
       "description": "APIs for managing multiple processes simultaneously"
     },
     {
@@ -35,7 +39,7 @@
     }
   ],
   "paths": {
-    "/api/v1/events": {
+    "/api/v1/processEventEntries": {
       "get": {
         "tags": [
           "process-event-entry-entity-controller"
@@ -100,9 +104,38 @@
             }
           }
         }
+      },
+      "post": {
+        "tags": [
+          "process-event-entry-entity-controller"
+        ],
+        "description": "create-processevententry",
+        "operationId": "postCollectionResource-processevententry-post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessEventEntryRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityModelProcessEventEntry"
+                }
+              }
+            }
+          }
+        }
       }
     },
-    "/api/v1/events/search/byProcessName": {
+    "/api/v1/processEventEntries/search/byProcessName": {
       "get": {
         "tags": [
           "process-event-entry-search-controller"
@@ -115,6 +148,40 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 20,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           }
         ],
         "responses": {
@@ -123,7 +190,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/CollectionModelEntityModelProcessEventEntry"
+                  "$ref": "#/components/schemas/PagedModelEntityModelProcessEventEntry"
                 }
               }
             }
@@ -134,7 +201,7 @@
         }
       }
     },
-    "/api/v1/events/search/byStatus": {
+    "/api/v1/processEventEntries/search/byStatus": {
       "get": {
         "tags": [
           "process-event-entry-search-controller"
@@ -161,6 +228,40 @@
                 "unhealthy"
               ]
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 0,
+              "minimum": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 20,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           }
         ],
         "responses": {
@@ -169,7 +270,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/CollectionModelEntityModelProcessEventEntry"
+                  "$ref": "#/components/schemas/PagedModelEntityModelProcessEventEntry"
                 }
               }
             }
@@ -180,7 +281,7 @@
         }
       }
     },
-    "/api/v1/events/{id}": {
+    "/api/v1/processEventEntries/{id}": {
       "get": {
         "tags": [
           "process-event-entry-entity-controller"
@@ -212,6 +313,125 @@
             "description": "Not Found"
           }
         }
+      },
+      "put": {
+        "tags": [
+          "process-event-entry-entity-controller"
+        ],
+        "description": "update-processevententry",
+        "operationId": "putItemResource-processevententry-put",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessEventEntryRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityModelProcessEventEntry"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityModelProcessEventEntry"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "process-event-entry-entity-controller"
+        ],
+        "description": "delete-processevententry",
+        "operationId": "deleteItemResource-processevententry-delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "process-event-entry-entity-controller"
+        ],
+        "description": "patch-processevententry",
+        "operationId": "patchItemResource-processevententry-patch",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProcessEventEntryRequestBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/EntityModelProcessEventEntry"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          }
+        }
       }
     },
     "/api/v1/profile": {
@@ -234,7 +454,7 @@
         }
       }
     },
-    "/api/v1/profile/events": {
+    "/api/v1/profile/processEventEntries": {
       "get": {
         "tags": [
           "profile-controller"
@@ -381,10 +601,10 @@
         }
       }
     },
-    "/api/v1/processes/bulk/stop": {
+    "/api/v1/processes/group/stop": {
       "post": {
         "tags": [
-          "Bulk Process Operations"
+          "Group Process Operations"
         ],
         "summary": "Stop all processes",
         "description": "Stop all currently running processes",
@@ -402,10 +622,10 @@
         }
       }
     },
-    "/api/v1/processes/bulk/start": {
+    "/api/v1/processes/group/start": {
       "post": {
         "tags": [
-          "Bulk Process Operations"
+          "Group Process Operations"
         ],
         "summary": "Start all processes",
         "description": "Start all configured processes that are not currently running",
@@ -423,10 +643,10 @@
         }
       }
     },
-    "/api/v1/processes/bulk/restart": {
+    "/api/v1/processes/group/restart": {
       "post": {
         "tags": [
-          "Bulk Process Operations"
+          "Group Process Operations"
         ],
         "summary": "Restart all processes",
         "description": "Restart all configured processes",
@@ -534,6 +754,359 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ProcessStatusRest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/events": {
+      "get": {
+        "tags": [
+          "Event Management"
+        ],
+        "summary": "Get paginated events",
+        "description": "Retrieves a paginated list of all process events with customizable sorting",
+        "operationId": "getEvents",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (0-based)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "example": 0
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Number of items per page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1
+            },
+            "example": 20
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Field to sort by",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "eventTime",
+                "processName",
+                "newStatus",
+                "oldStatus",
+                "pid"
+              ]
+            },
+            "example": "eventTime"
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "description": "Sort direction",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "example": "desc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid pagination or sorting parameters",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageProcessEventEntry"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/events/{id}": {
+      "get": {
+        "tags": [
+          "Event Management"
+        ],
+        "summary": "Get event by ID",
+        "description": "Retrieves detailed information about a specific process event",
+        "operationId": "getEventById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Event ID",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "example": 123
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessEventEntry"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Event not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProcessEventEntry"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/events/count": {
+      "get": {
+        "tags": [
+          "Event Management"
+        ],
+        "summary": "Get total event count",
+        "description": "Returns the total number of events in the system",
+        "operationId": "getTotalEventsCount",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved count",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "integer",
+                    "format": "int64"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/events/by-status/{status}": {
+      "get": {
+        "tags": [
+          "Event Management"
+        ],
+        "summary": "Get events by status",
+        "description": "Retrieves paginated events matching a specific process status",
+        "operationId": "getEventsByStatus",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "path",
+            "description": "Process status to filter by",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "not_started",
+                "running",
+                "finished",
+                "unknown",
+                "failed",
+                "failed_to_start",
+                "stopped",
+                "stopping",
+                "aborted",
+                "starting",
+                "healthy",
+                "unhealthy"
+              ]
+            },
+            "example": "running"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (0-based)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "example": 0
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Number of items per page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            },
+            "example": 20
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Field to sort by",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "eventTime"
+            },
+            "example": "eventTime"
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "description": "Sort direction",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "desc"
+            },
+            "example": "desc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved events",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageProcessEventEntry"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageProcessEventEntry"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/events/by-process/{processName}": {
+      "get": {
+        "tags": [
+          "Event Management"
+        ],
+        "summary": "Get events by process name",
+        "description": "Retrieves paginated events for a specific process",
+        "operationId": "getEventsByProcess",
+        "parameters": [
+          {
+            "name": "processName",
+            "in": "path",
+            "description": "Process name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "myapp"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (0-based)",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "example": 0
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Number of items per page",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            },
+            "example": 20
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Field to sort by",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "eventTime"
+            },
+            "example": "eventTime"
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "description": "Sort direction",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "desc"
+            },
+            "example": "desc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved events",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageProcessEventEntry"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Process not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageProcessEventEntry"
                 }
               }
             }
@@ -653,38 +1226,54 @@
           }
         }
       },
-      "EntityModelProcessEventEntry": {
+      "ProcessEventEntry": {
         "type": "object",
+        "description": "Represents an event entry for process state changes and lifecycle events",
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "description": "Unique identifier for the process event",
+            "example": 1
           },
           "pid": {
             "type": "integer",
-            "format": "int64"
+            "format": "int64",
+            "description": "Process ID of the running process",
+            "example": 12345
           },
           "eventTime": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "description": "Timestamp when the event occurred",
+            "example": "2025-11-17T10:30:00"
           },
           "processName": {
-            "type": "string"
+            "type": "string",
+            "description": "Name of the managed process",
+            "example": "my-application"
           },
           "startTime": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "description": "Timestamp when the process was started",
+            "example": "2025-11-17T10:00:00"
           },
           "endTime": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "description": "Timestamp when the process ended, null if still running",
+            "example": "2025-11-17T10:15:00"
           },
           "exitCode": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "description": "Exit code of the process, null if still running",
+            "example": 0
           },
           "newStatus": {
             "type": "string",
+            "description": "New status of the process after the event",
             "enum": [
               "not_started",
               "running",
@@ -702,6 +1291,7 @@
           },
           "oldStatus": {
             "type": "string",
+            "description": "Previous status of the process before the event",
             "enum": [
               "not_started",
               "running",
@@ -718,7 +1308,96 @@
             ]
           },
           "processUptime": {
-            "type": "string"
+            "type": "string",
+            "description": "Duration for which the process has been running",
+            "example": "PT15M"
+          }
+        }
+      },
+      "EntityModelProcessEventEntry": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unique identifier for the process event",
+            "example": 1
+          },
+          "pid": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Process ID of the running process",
+            "example": 12345
+          },
+          "eventTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the event occurred",
+            "example": "2025-11-17T10:30:00"
+          },
+          "processName": {
+            "type": "string",
+            "description": "Name of the managed process",
+            "example": "my-application"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the process was started",
+            "example": "2025-11-17T10:00:00"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the process ended, null if still running",
+            "example": "2025-11-17T10:15:00"
+          },
+          "exitCode": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Exit code of the process, null if still running",
+            "example": 0
+          },
+          "newStatus": {
+            "type": "string",
+            "description": "New status of the process after the event",
+            "enum": [
+              "not_started",
+              "running",
+              "finished",
+              "unknown",
+              "failed",
+              "failed_to_start",
+              "stopped",
+              "stopping",
+              "aborted",
+              "starting",
+              "healthy",
+              "unhealthy"
+            ]
+          },
+          "oldStatus": {
+            "type": "string",
+            "description": "Previous status of the process before the event",
+            "enum": [
+              "not_started",
+              "running",
+              "finished",
+              "unknown",
+              "failed",
+              "failed_to_start",
+              "stopped",
+              "stopping",
+              "aborted",
+              "starting",
+              "healthy",
+              "unhealthy"
+            ]
+          },
+          "processUptime": {
+            "type": "string",
+            "description": "Duration for which the process has been running",
+            "example": "PT15M"
           },
           "links": {
             "type": "array",
@@ -769,20 +1448,91 @@
           }
         }
       },
-      "CollectionModelEntityModelProcessEventEntry": {
+      "ProcessEventEntryRequestBody": {
         "type": "object",
+        "description": "Represents an event entry for process state changes and lifecycle events",
         "properties": {
-          "links": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Link"
-            }
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unique identifier for the process event",
+            "example": 1
           },
-          "content": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/EntityModelProcessEventEntry"
-            }
+          "pid": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Process ID of the running process",
+            "example": 12345
+          },
+          "eventTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the event occurred",
+            "example": "2025-11-17T10:30:00"
+          },
+          "processName": {
+            "type": "string",
+            "description": "Name of the managed process",
+            "example": "my-application"
+          },
+          "startTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the process was started",
+            "example": "2025-11-17T10:00:00"
+          },
+          "endTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the process ended, null if still running",
+            "example": "2025-11-17T10:15:00"
+          },
+          "exitCode": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Exit code of the process, null if still running",
+            "example": 0
+          },
+          "newStatus": {
+            "type": "string",
+            "description": "New status of the process after the event",
+            "enum": [
+              "not_started",
+              "running",
+              "finished",
+              "unknown",
+              "failed",
+              "failed_to_start",
+              "stopped",
+              "stopping",
+              "aborted",
+              "starting",
+              "healthy",
+              "unhealthy"
+            ]
+          },
+          "oldStatus": {
+            "type": "string",
+            "description": "Previous status of the process before the event",
+            "enum": [
+              "not_started",
+              "running",
+              "finished",
+              "unknown",
+              "failed",
+              "failed_to_start",
+              "stopped",
+              "stopping",
+              "aborted",
+              "starting",
+              "healthy",
+              "unhealthy"
+            ]
+          },
+          "processUptime": {
+            "type": "string",
+            "description": "Duration for which the process has been running",
+            "example": "PT15M"
           }
         }
       },
@@ -906,6 +1656,136 @@
             "description": "Error log content when process failed to start"
           },
           "alive": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Page": {
+        "type": "object",
+        "properties": {
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {}
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "empty": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PageableObject": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "pageNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unpaged": {
+            "type": "boolean"
+          },
+          "paged": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SortObject": {
+        "type": "object",
+        "properties": {
+          "empty": {
+            "type": "boolean"
+          },
+          "sorted": {
+            "type": "boolean"
+          },
+          "unsorted": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PageProcessEventEntry": {
+        "type": "object",
+        "properties": {
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProcessEventEntry"
+            }
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "$ref": "#/components/schemas/SortObject"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "numberOfElements": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "empty": {
             "type": "boolean"
           }
         }

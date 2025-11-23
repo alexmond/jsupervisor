@@ -7,42 +7,11 @@
 JSupervisor provides a RESTful API for managing processes and monitoring their status.
 This document provides an overview of the available endpoints and their functionality.
 
+=== Rest api documentation
+
+* xref:attachment$index.html[Rest api html documentation]
+
+=== Rest api sec files
+
 * xref:attachment$openapi.json[openapi.json]
-swagger-ui::api:attachment$openapi.json[]
-
-== Bulk Operations
-
-The API supports bulk operations for managing multiple processes simultaneously:
-
-=== Start All Processes
-
-* `POST /api/v1/process/start-all`
-* Starts all registered processes that are not currently running
-* Processes are started according to their defined order with configured delays
-
-=== Auto-Start All Processes
-
-* `POST /api/v1/process/auto-start-all`
-* Starts all processes with autoStart configuration enabled
-* Respects process order and configured startup delays
-
-=== Stop All Processes
-
-* `POST /api/v1/process/stop-all`
-* Stops all currently running processes
-
-=== Restart All Processes
-
-* `POST /api/v1/process/restart-all`
-* Stops all running processes and then starts them again
-* Includes a brief delay between stop and start operations
-
-== Response Format
-
-API responses are returned in JSON format and include:
-
-* HTTP status code indicating success or failure
-* Response body containing requested data or error details
-* Error messages when applicable
-
-For detailed API documentation including request/response examples, see the generated OpenAPI documentation in the api/ directory.
+* xref:attachment$openapi.yaml[openapi.yaml]

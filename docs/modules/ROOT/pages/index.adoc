@@ -15,7 +15,6 @@
 [.lead]
 JSupervisor is a process management and supervision system that helps monitor and control applications running on a system.
 
-
 [.text-center]
 .JSupervisor UI Example
 image::jsupervisor1.png[JSupervisor UI,800,align="center"]

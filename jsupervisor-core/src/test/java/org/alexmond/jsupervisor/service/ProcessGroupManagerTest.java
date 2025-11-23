@@ -26,9 +26,9 @@ import static org.mockito.Mockito.*;
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @Slf4j
-public class ProcessManagerBulkTest {
+public class ProcessGroupManagerTest {
     @Autowired
-    private ProcessManagerBulk processManagerBulk;
+    private ProcessGroupManager processGroupManager;
     @Autowired
     private ProcessManager processManager;
     @Autowired
@@ -41,17 +41,17 @@ public class ProcessManagerBulkTest {
     @Test
     void testRestartAllInvokesStopAllAndStartAll() throws InterruptedException {
 
-        processManagerBulk.startAll();
+        processGroupManager.startAll();
         Thread.sleep(100);
         processRepository.findAllProcessStatusRest().forEach(process -> {
             assertEquals(ProcessStatus.running, process.getStatus());
         });
-        processManagerBulk.stopAll();
+        processGroupManager.stopAll();
         Thread.sleep(100);
         processRepository.findAllProcessStatusRest().forEach(process -> {
             assertEquals(ProcessStatus.stopped, process.getStatus());
         });
-        processManagerBulk.restartAll();
+        processGroupManager.restartAll();
         Thread.sleep(1000);
         processRepository.findAllProcessStatusRest().forEach(process -> {
             assertEquals(ProcessStatus.running, process.getStatus());
@@ -70,7 +70,7 @@ public class ProcessManagerBulkTest {
         processRepository.addProcess("acTest1", processConfig1);
         processRepository.addProcess("acTest2", processConfig2);
         processRepository.addProcess("acTest3", processConfig3);
-        processManagerBulk.startAll();
+        processGroupManager.startAll();
         verifyProcessStatus("acTest3", 5, ProcessStatus.running);
         var acTest1Status = processRepository.getRunningProcessRest("acTest1").getStartTime();
         var acTest2Status = processRepository.getRunningProcessRest("acTest2").getStartTime();
@@ -78,7 +78,7 @@ public class ProcessManagerBulkTest {
         log.info("Process start times - acTest1: {}, acTest2: {}, acTest3: {}", acTest1Status, acTest2Status, acTest3Status);
         assertTrue(Duration.between(acTest1Status, acTest2Status).toSeconds() >= 8);
         assertTrue(Duration.between(acTest2Status, acTest3Status).toSeconds() >= 8);
-        processManagerBulk.stopAll();
+        processGroupManager.stopAll();
         verifyProcessStatus("acTest3", 5, ProcessStatus.stopped);
         processRepository.removeProcess("acTest1");
         processRepository.removeProcess("acTest2");
@@ -100,14 +100,14 @@ public class ProcessManagerBulkTest {
         processRepository.addProcess("acTest1", processConfig1);
         processRepository.addProcess("acTest2", processConfig2);
         processRepository.addProcess("acTest3", processConfig3);
-        processManagerBulk.autoStartAll();
+        processGroupManager.autoStartAll();
         verifyProcessStatus("acTest3", 5, ProcessStatus.running);
         assertEquals(ProcessStatus.not_started, processRepository.getRunningProcessRest("acTest2").getStatus());
         var acTest1Status = processRepository.getRunningProcessRest("acTest1").getStartTime();
         var acTest3Status = processRepository.getRunningProcessRest("acTest3").getStartTime();
         log.info("Process start times - acTest1: {}, acTest3: {}", acTest1Status, acTest3Status);
         assertTrue(Duration.between(acTest1Status, acTest3Status).toSeconds() >= 8);
-        processManagerBulk.stopAll();
+        processGroupManager.stopAll();
         verifyProcessStatus("acTest3", 5, ProcessStatus.stopped);
         processRepository.removeProcess("acTest1");
         processRepository.removeProcess("acTest2");
@@ -121,21 +121,21 @@ public class ProcessManagerBulkTest {
         ProcessManager processManager = mock(ProcessManager.class);
         SupervisorConfig config = mock(SupervisorConfig.class);
 
-        ProcessManagerBulk processManagerBulk = Mockito.spy(new ProcessManagerBulk(processRepository, processManager, config));
+        ProcessGroupManager processGroupManager = Mockito.spy(new ProcessGroupManager(processRepository, processManager, config));
 
-        doNothing().when(processManagerBulk).stopAll();
+        doNothing().when(processGroupManager).stopAll();
         // Use RuntimeException instead of InterruptedException since startAll() doesn't declare checked exceptions
-        doThrow(new RuntimeException("Unexpected error")).when(processManagerBulk).startAll();
+        doThrow(new RuntimeException("Unexpected error")).when(processGroupManager).startAll();
 
         // Act & Assert - verify that even with an exception, the method attempts to call both operations
         try {
-            processManagerBulk.restartAll();
+            processGroupManager.restartAll();
         } catch (RuntimeException e) {
             // Exception is expected
         }
 
-        verify(processManagerBulk, times(1)).stopAll();
-        verify(processManagerBulk, times(1)).startAll();
+        verify(processGroupManager, times(1)).stopAll();
+        verify(processGroupManager, times(1)).startAll();
     }
 
     private ProcessConfig createBaseProcessConfig() {

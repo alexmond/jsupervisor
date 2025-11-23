@@ -19,4 +19,6 @@ public class BaseModel {
      * The currently active page identifier, e.g., "processes"
      */
     private String activePage;            // "processes"
+
+    private String content;
 }

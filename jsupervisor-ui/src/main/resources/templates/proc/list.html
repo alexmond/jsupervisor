@@ -8,12 +8,12 @@
 
             <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${successMessage != null}">
                 <i class="fas fa-check-circle"></i> <span th:text="${successMessage}"></span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
             </div>
 
             <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errorMessage != null}">
                 <i class="fas fa-exclamation-circle"></i> <span th:text="${errorMessage}"></span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
             </div>
 
             <div class="mb-3">

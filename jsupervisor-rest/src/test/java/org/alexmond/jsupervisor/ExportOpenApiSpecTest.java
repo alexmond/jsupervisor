@@ -1,9 +1,10 @@
 package org.alexmond.jsupervisor;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.nio.file.Files;
@@ -25,14 +26,27 @@ class ExportOpenApiSpecTest {
     private MockMvc mockMvc;
 
     @Test
-    void generateOpenApiSpec() throws Exception {
+    void generateOpenApiSpecJson() throws Exception {
         mockMvc.perform(get("/v3/api-docs"))
                 .andDo(print())
                 .andDo(result -> {
                     String content = result.getResponse().getContentAsString();
-                    Files.write(Paths.get("openapi.json"), content.getBytes());
+                    ObjectMapper mapper = new ObjectMapper();
+                    Object json = mapper.readValue(content, Object.class);
+                    String prettyJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+                    Files.write(Paths.get("../docs/modules/ROOT/attachments/openapi.json"), prettyJson.getBytes());
                 })
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void generateOpenApiSpecYaml() throws Exception {
+        mockMvc.perform(get("/v3/api-docs.yaml"))
+                .andExpect(status().isOk())
+                .andDo(result2 -> {
+                    String yamlContent = result2.getResponse().getContentAsString();
+                    Files.write(Paths.get("../docs/modules/ROOT/attachments/openapi.yaml"), yamlContent.getBytes());
+                });
     }
 
 

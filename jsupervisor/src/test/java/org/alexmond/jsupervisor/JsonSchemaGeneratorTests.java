@@ -17,10 +17,9 @@ import java.nio.file.Paths;
 class JsonSchemaGeneratorTests {
 
     @Autowired
-    private JsonSchemaService jsonSchemaService;
-
-    @Autowired
     JsonConfigSchemaConfig config;
+    @Autowired
+    private JsonSchemaService jsonSchemaService;
 
     @Test
     void generateJsonSchema() throws IOException {

@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.controller.model.ResponseMessage;
-import org.alexmond.jsupervisor.model.ProcessStatus;
 import org.alexmond.jsupervisor.model.ProcessStatusRest;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
 import org.alexmond.jsupervisor.service.ProcessManager;
@@ -64,8 +63,8 @@ public class ProcessController {
     })
     public ResponseEntity<Void> stopProcess(
             @Parameter(description = "Process name") @PathVariable String name) {
-            processManager.stopProcess(name);
-            return ResponseEntity.ok().build();
+        processManager.stopProcess(name);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/restart/{name}")
@@ -77,8 +76,8 @@ public class ProcessController {
     })
     public ResponseEntity<Void> restartProcess(
             @Parameter(description = "Process name") @PathVariable String name) {
-            processManager.restartProcess(name);
-            return ResponseEntity.ok().build();
+        processManager.restartProcess(name);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/status/{name}")

@@ -73,7 +73,6 @@ public class JSupervisorAutoConfiguration {
     /**
      * Creates a ProcessManager bean if none exists.
      *
-     * @param supervisorConfig        Configuration for the supervisor
      * @param processRepository       Repository for managing processes
      * @param processManagerMonitor   Monitor for process lifecycle management
      * @param threadPoolTaskScheduler Scheduler for async tasks
@@ -81,11 +80,27 @@ public class JSupervisorAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean(ProcessManager.class)
-    public ProcessManager processManager(SupervisorConfig supervisorConfig,
-                                         ProcessRepository processRepository,
+    public ProcessManager processManager(ProcessRepository processRepository,
                                          ProcessManagerMonitor processManagerMonitor,
                                          ThreadPoolTaskScheduler threadPoolTaskScheduler) {
-        return new ProcessManager(supervisorConfig, processRepository, processManagerMonitor,
+        return new ProcessManager(processRepository, processManagerMonitor,
+                threadPoolTaskScheduler);
+    }
+
+    /**
+     * Creates a ProcessManager bean if none exists.
+     *
+     * @param processRepository       Repository for managing processes
+     * @param processManagerMonitor   Monitor for process lifecycle management
+     * @param threadPoolTaskScheduler Scheduler for async tasks
+     * @return ProcessManager instance
+     */
+    @Bean
+    @ConditionalOnMissingBean(ProcessManagerLocal.class)
+    public ProcessManagerLocal processManagerLocal(ProcessRepository processRepository,
+                                                   ProcessManagerMonitor processManagerMonitor,
+                                                   ThreadPoolTaskScheduler threadPoolTaskScheduler) {
+        return new ProcessManagerLocal(processRepository, processManagerMonitor,
                 threadPoolTaskScheduler);
     }
 
@@ -98,11 +113,11 @@ public class JSupervisorAutoConfiguration {
      * @return ProcessManagerBulk instance
      */
     @Bean
-    @ConditionalOnMissingBean(ProcessManagerBulk.class)
-    public ProcessManagerBulk processManagerBulk(ProcessRepository processRepository,
-                                                 ProcessManager processManager,
-                                                 SupervisorConfig supervisorConfig) {
-        return new ProcessManagerBulk(processRepository, processManager, supervisorConfig);
+    @ConditionalOnMissingBean(ProcessGroupManager.class)
+    public ProcessGroupManager processManagerBulk(ProcessRepository processRepository,
+                                                  ProcessManager processManager,
+                                                  SupervisorConfig supervisorConfig) {
+        return new ProcessGroupManager(processRepository, processManager, supervisorConfig);
     }
 
     /**
@@ -122,8 +137,8 @@ public class JSupervisorAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(JSupervisorStartupManager.class)
     public JSupervisorStartupManager jSupervisorStartupManager(SupervisorConfig supervisorConfig,
-                                                               ProcessManagerBulk processManagerBulk) {
-        return new JSupervisorStartupManager(supervisorConfig, processManagerBulk);
+                                                               ProcessGroupManager processGroupManager) {
+        return new JSupervisorStartupManager(supervisorConfig, processGroupManager);
     }
 
 
