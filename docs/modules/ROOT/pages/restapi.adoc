@@ -9,7 +9,7 @@ This document provides an overview of the available endpoints and their function
 
 === Rest api documentation
 
-* xref:attachment$restapi.html[Rest api html documentation]
+* xref:attachment$restapidoc.html[Rest api html documentation,window=_blank]
 
 === Rest api sec files
 
