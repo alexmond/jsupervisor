@@ -1,6 +1,6 @@
 /*
  * JSupervisor REST API
- * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses.
+ * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses. 
  *
  * The version of the OpenAPI document: 0.0.2
  * Contact: alex.mondshain@gmail.com
@@ -13,467 +13,474 @@
 package org.alexmond.jsupervisor.client.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.alexmond.jsupervisor.client.invoker.*;
+
+import org.alexmond.jsupervisor.client.invoker.ApiException;
+import org.alexmond.jsupervisor.client.invoker.ApiClient;
+import org.alexmond.jsupervisor.client.invoker.BaseApi;
+import org.alexmond.jsupervisor.client.invoker.Configuration;
+import org.alexmond.jsupervisor.client.invoker.Pair;
+
+import org.alexmond.jsupervisor.client.model.ErrorResponse;
 import org.alexmond.jsupervisor.client.model.Page;
 import org.alexmond.jsupervisor.client.model.PageProcessEventEntry;
 import org.alexmond.jsupervisor.client.model.ProcessEventEntry;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.StringJoiner;
+
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0")
 public class EventManagementApi extends BaseApi {
 
-    public EventManagementApi() {
-        super(Configuration.getDefaultApiClient());
+  public EventManagementApi() {
+    super(Configuration.getDefaultApiClient());
+  }
+
+  public EventManagementApi(ApiClient apiClient) {
+    super(apiClient);
+  }
+
+  /**
+   * Get event by ID
+   * Retrieves detailed information about a specific process event
+   * @param id Event ID (required)
+   * @return ProcessEventEntry
+   * @throws ApiException if fails to make API call
+   */
+  public ProcessEventEntry getEventById(@jakarta.annotation.Nonnull Long id) throws ApiException {
+    return this.getEventById(id, Collections.emptyMap());
+  }
+
+
+  /**
+   * Get event by ID
+   * Retrieves detailed information about a specific process event
+   * @param id Event ID (required)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return ProcessEventEntry
+   * @throws ApiException if fails to make API call
+   */
+  public ProcessEventEntry getEventById(@jakarta.annotation.Nonnull Long id, Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'id' is set
+    if (id == null) {
+      throw new ApiException(400, "Missing the required parameter 'id' when calling getEventById");
     }
+    
+    // create path and map variables
+    String localVarPath = "/api/v1/events/{id}"
+      .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(apiClient.parameterToString(id)));
 
-    public EventManagementApi(ApiClient apiClient) {
-        super(apiClient);
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    
+    final String[] localVarAccepts = {
+      "*/*"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    TypeReference<ProcessEventEntry> localVarReturnType = new TypeReference<ProcessEventEntry>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "GET",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
+  /**
+   * Get paginated events
+   * Retrieves a paginated list of all process events with customizable sorting
+   * @param page Page number (0-based) (optional)
+   * @param size Number of items per page (optional)
+   * @param sortBy Field to sort by (optional)
+   * @param sortDirection Sort direction (optional)
+   * @return Page
+   * @throws ApiException if fails to make API call
+   */
+  public Page getEvents(@jakarta.annotation.Nullable Integer page, @jakarta.annotation.Nullable Integer size, @jakarta.annotation.Nullable String sortBy, @jakarta.annotation.Nullable String sortDirection) throws ApiException {
+    return this.getEvents(page, size, sortBy, sortDirection, Collections.emptyMap());
+  }
+
+
+  /**
+   * Get paginated events
+   * Retrieves a paginated list of all process events with customizable sorting
+   * @param page Page number (0-based) (optional)
+   * @param size Number of items per page (optional)
+   * @param sortBy Field to sort by (optional)
+   * @param sortDirection Sort direction (optional)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return Page
+   * @throws ApiException if fails to make API call
+   */
+  public Page getEvents(@jakarta.annotation.Nullable Integer page, @jakarta.annotation.Nullable Integer size, @jakarta.annotation.Nullable String sortBy, @jakarta.annotation.Nullable String sortDirection, Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/api/v1/events";
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPair("page", page));
+    localVarQueryParams.addAll(apiClient.parameterToPair("size", size));
+    localVarQueryParams.addAll(apiClient.parameterToPair("sortBy", sortBy));
+    localVarQueryParams.addAll(apiClient.parameterToPair("sortDirection", sortDirection));
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    
+    final String[] localVarAccepts = {
+      "*/*", "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    TypeReference<Page> localVarReturnType = new TypeReference<Page>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "GET",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
+  /**
+   * Get events by process name
+   * Retrieves paginated events for a specific process
+   * @param processName Process name (required)
+   * @param page Page number (0-based) (optional, default to 0)
+   * @param size Number of items per page (optional, default to 20)
+   * @param sortBy Field to sort by (optional, default to eventTime)
+   * @param sortDirection Sort direction (optional, default to desc)
+   * @return PageProcessEventEntry
+   * @throws ApiException if fails to make API call
+   */
+  public PageProcessEventEntry getEventsByProcess(@jakarta.annotation.Nonnull String processName, @jakarta.annotation.Nullable Integer page, @jakarta.annotation.Nullable Integer size, @jakarta.annotation.Nullable String sortBy, @jakarta.annotation.Nullable String sortDirection) throws ApiException {
+    return this.getEventsByProcess(processName, page, size, sortBy, sortDirection, Collections.emptyMap());
+  }
+
+
+  /**
+   * Get events by process name
+   * Retrieves paginated events for a specific process
+   * @param processName Process name (required)
+   * @param page Page number (0-based) (optional, default to 0)
+   * @param size Number of items per page (optional, default to 20)
+   * @param sortBy Field to sort by (optional, default to eventTime)
+   * @param sortDirection Sort direction (optional, default to desc)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return PageProcessEventEntry
+   * @throws ApiException if fails to make API call
+   */
+  public PageProcessEventEntry getEventsByProcess(@jakarta.annotation.Nonnull String processName, @jakarta.annotation.Nullable Integer page, @jakarta.annotation.Nullable Integer size, @jakarta.annotation.Nullable String sortBy, @jakarta.annotation.Nullable String sortDirection, Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'processName' is set
+    if (processName == null) {
+      throw new ApiException(400, "Missing the required parameter 'processName' when calling getEventsByProcess");
     }
+    
+    // create path and map variables
+    String localVarPath = "/api/v1/events/by-process/{processName}"
+      .replaceAll("\\{" + "processName" + "\\}", apiClient.escapeString(apiClient.parameterToString(processName)));
 
-    /**
-     * Get event by ID
-     * Retrieves detailed information about a specific process event
-     *
-     * @param id Event ID (required)
-     * @return ProcessEventEntry
-     * @throws ApiException if fails to make API call
-     */
-    public ProcessEventEntry getEventById(@jakarta.annotation.Nonnull Long id) throws ApiException {
-        return this.getEventById(id, Collections.emptyMap());
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPair("page", page));
+    localVarQueryParams.addAll(apiClient.parameterToPair("size", size));
+    localVarQueryParams.addAll(apiClient.parameterToPair("sortBy", sortBy));
+    localVarQueryParams.addAll(apiClient.parameterToPair("sortDirection", sortDirection));
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    
+    final String[] localVarAccepts = {
+      "*/*"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    TypeReference<PageProcessEventEntry> localVarReturnType = new TypeReference<PageProcessEventEntry>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "GET",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
+  /**
+   * Get events by status
+   * Retrieves paginated events matching a specific process status
+   * @param status Process status to filter by (required)
+   * @param page Page number (0-based) (optional, default to 0)
+   * @param size Number of items per page (optional, default to 20)
+   * @param sortBy Field to sort by (optional, default to eventTime)
+   * @param sortDirection Sort direction (optional, default to desc)
+   * @return PageProcessEventEntry
+   * @throws ApiException if fails to make API call
+   */
+  public PageProcessEventEntry getEventsByStatus(@jakarta.annotation.Nonnull String status, @jakarta.annotation.Nullable Integer page, @jakarta.annotation.Nullable Integer size, @jakarta.annotation.Nullable String sortBy, @jakarta.annotation.Nullable String sortDirection) throws ApiException {
+    return this.getEventsByStatus(status, page, size, sortBy, sortDirection, Collections.emptyMap());
+  }
+
+
+  /**
+   * Get events by status
+   * Retrieves paginated events matching a specific process status
+   * @param status Process status to filter by (required)
+   * @param page Page number (0-based) (optional, default to 0)
+   * @param size Number of items per page (optional, default to 20)
+   * @param sortBy Field to sort by (optional, default to eventTime)
+   * @param sortDirection Sort direction (optional, default to desc)
+   * @param additionalHeaders additionalHeaders for this call
+   * @return PageProcessEventEntry
+   * @throws ApiException if fails to make API call
+   */
+  public PageProcessEventEntry getEventsByStatus(@jakarta.annotation.Nonnull String status, @jakarta.annotation.Nullable Integer page, @jakarta.annotation.Nullable Integer size, @jakarta.annotation.Nullable String sortBy, @jakarta.annotation.Nullable String sortDirection, Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // verify the required parameter 'status' is set
+    if (status == null) {
+      throw new ApiException(400, "Missing the required parameter 'status' when calling getEventsByStatus");
     }
-
-
-    /**
-     * Get event by ID
-     * Retrieves detailed information about a specific process event
-     *
-     * @param id                Event ID (required)
-     * @param additionalHeaders additionalHeaders for this call
-     * @return ProcessEventEntry
-     * @throws ApiException if fails to make API call
-     */
-    public ProcessEventEntry getEventById(@jakarta.annotation.Nonnull Long id, Map<String, String> additionalHeaders) throws ApiException {
-        Object localVarPostBody = null;
-
-        // verify the required parameter 'id' is set
-        if (id == null) {
-            throw new ApiException(400, "Missing the required parameter 'id' when calling getEventById");
-        }
-
-        // create path and map variables
-        String localVarPath = "/api/v1/events/{id}"
-                .replaceAll("\\{" + "id" + "\\}", apiClient.escapeString(apiClient.parameterToString(id)));
-
-        StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-        String localVarQueryParameterBaseName;
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-        localVarHeaderParams.putAll(additionalHeaders);
-
-
-        final String[] localVarAccepts = {
-                "*/*"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{};
-
-        TypeReference<ProcessEventEntry> localVarReturnType = new TypeReference<ProcessEventEntry>() {
-        };
-        return apiClient.invokeAPI(
-                localVarPath,
-                "GET",
-                localVarQueryParams,
-                localVarCollectionQueryParams,
-                localVarQueryStringJoiner.toString(),
-                localVarPostBody,
-                localVarHeaderParams,
-                localVarCookieParams,
-                localVarFormParams,
-                localVarAccept,
-                localVarContentType,
-                localVarAuthNames,
-                localVarReturnType
-        );
-    }
-
-    /**
-     * Get paginated events
-     * Retrieves a paginated list of all process events with customizable sorting
-     *
-     * @param page          Page number (0-based) (optional)
-     * @param size          Number of items per page (optional)
-     * @param sortBy        Field to sort by (optional)
-     * @param sortDirection Sort direction (optional)
-     * @return Page
-     * @throws ApiException if fails to make API call
-     */
-    public Page getEvents(@jakarta.annotation.Nullable Integer page, @jakarta.annotation.Nullable Integer size, @jakarta.annotation.Nullable String sortBy, @jakarta.annotation.Nullable String sortDirection) throws ApiException {
-        return this.getEvents(page, size, sortBy, sortDirection, Collections.emptyMap());
-    }
-
-
-    /**
-     * Get paginated events
-     * Retrieves a paginated list of all process events with customizable sorting
-     *
-     * @param page              Page number (0-based) (optional)
-     * @param size              Number of items per page (optional)
-     * @param sortBy            Field to sort by (optional)
-     * @param sortDirection     Sort direction (optional)
-     * @param additionalHeaders additionalHeaders for this call
-     * @return Page
-     * @throws ApiException if fails to make API call
-     */
-    public Page getEvents(@jakarta.annotation.Nullable Integer page, @jakarta.annotation.Nullable Integer size, @jakarta.annotation.Nullable String sortBy, @jakarta.annotation.Nullable String sortDirection, Map<String, String> additionalHeaders) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/api/v1/events";
-
-        StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-        String localVarQueryParameterBaseName;
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        localVarQueryParams.addAll(apiClient.parameterToPair("page", page));
-        localVarQueryParams.addAll(apiClient.parameterToPair("size", size));
-        localVarQueryParams.addAll(apiClient.parameterToPair("sortBy", sortBy));
-        localVarQueryParams.addAll(apiClient.parameterToPair("sortDirection", sortDirection));
-
-        localVarHeaderParams.putAll(additionalHeaders);
-
-
-        final String[] localVarAccepts = {
-                "application/json", "*/*"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{};
-
-        TypeReference<Page> localVarReturnType = new TypeReference<Page>() {
-        };
-        return apiClient.invokeAPI(
-                localVarPath,
-                "GET",
-                localVarQueryParams,
-                localVarCollectionQueryParams,
-                localVarQueryStringJoiner.toString(),
-                localVarPostBody,
-                localVarHeaderParams,
-                localVarCookieParams,
-                localVarFormParams,
-                localVarAccept,
-                localVarContentType,
-                localVarAuthNames,
-                localVarReturnType
-        );
-    }
-
-    /**
-     * Get events by process name
-     * Retrieves paginated events for a specific process
-     *
-     * @param processName   Process name (required)
-     * @param page          Page number (0-based) (optional, default to 0)
-     * @param size          Number of items per page (optional, default to 20)
-     * @param sortBy        Field to sort by (optional, default to eventTime)
-     * @param sortDirection Sort direction (optional, default to desc)
-     * @return PageProcessEventEntry
-     * @throws ApiException if fails to make API call
-     */
-    public PageProcessEventEntry getEventsByProcess(@jakarta.annotation.Nonnull String processName, @jakarta.annotation.Nullable Integer page, @jakarta.annotation.Nullable Integer size, @jakarta.annotation.Nullable String sortBy, @jakarta.annotation.Nullable String sortDirection) throws ApiException {
-        return this.getEventsByProcess(processName, page, size, sortBy, sortDirection, Collections.emptyMap());
-    }
-
-
-    /**
-     * Get events by process name
-     * Retrieves paginated events for a specific process
-     *
-     * @param processName       Process name (required)
-     * @param page              Page number (0-based) (optional, default to 0)
-     * @param size              Number of items per page (optional, default to 20)
-     * @param sortBy            Field to sort by (optional, default to eventTime)
-     * @param sortDirection     Sort direction (optional, default to desc)
-     * @param additionalHeaders additionalHeaders for this call
-     * @return PageProcessEventEntry
-     * @throws ApiException if fails to make API call
-     */
-    public PageProcessEventEntry getEventsByProcess(@jakarta.annotation.Nonnull String processName, @jakarta.annotation.Nullable Integer page, @jakarta.annotation.Nullable Integer size, @jakarta.annotation.Nullable String sortBy, @jakarta.annotation.Nullable String sortDirection, Map<String, String> additionalHeaders) throws ApiException {
-        Object localVarPostBody = null;
-
-        // verify the required parameter 'processName' is set
-        if (processName == null) {
-            throw new ApiException(400, "Missing the required parameter 'processName' when calling getEventsByProcess");
-        }
-
-        // create path and map variables
-        String localVarPath = "/api/v1/events/by-process/{processName}"
-                .replaceAll("\\{" + "processName" + "\\}", apiClient.escapeString(apiClient.parameterToString(processName)));
-
-        StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-        String localVarQueryParameterBaseName;
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        localVarQueryParams.addAll(apiClient.parameterToPair("page", page));
-        localVarQueryParams.addAll(apiClient.parameterToPair("size", size));
-        localVarQueryParams.addAll(apiClient.parameterToPair("sortBy", sortBy));
-        localVarQueryParams.addAll(apiClient.parameterToPair("sortDirection", sortDirection));
-
-        localVarHeaderParams.putAll(additionalHeaders);
-
-
-        final String[] localVarAccepts = {
-                "*/*"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{};
-
-        TypeReference<PageProcessEventEntry> localVarReturnType = new TypeReference<PageProcessEventEntry>() {
-        };
-        return apiClient.invokeAPI(
-                localVarPath,
-                "GET",
-                localVarQueryParams,
-                localVarCollectionQueryParams,
-                localVarQueryStringJoiner.toString(),
-                localVarPostBody,
-                localVarHeaderParams,
-                localVarCookieParams,
-                localVarFormParams,
-                localVarAccept,
-                localVarContentType,
-                localVarAuthNames,
-                localVarReturnType
-        );
-    }
-
-    /**
-     * Get events by status
-     * Retrieves paginated events matching a specific process status
-     *
-     * @param status        Process status to filter by (required)
-     * @param page          Page number (0-based) (optional, default to 0)
-     * @param size          Number of items per page (optional, default to 20)
-     * @param sortBy        Field to sort by (optional, default to eventTime)
-     * @param sortDirection Sort direction (optional, default to desc)
-     * @return PageProcessEventEntry
-     * @throws ApiException if fails to make API call
-     */
-    public PageProcessEventEntry getEventsByStatus(@jakarta.annotation.Nonnull String status, @jakarta.annotation.Nullable Integer page, @jakarta.annotation.Nullable Integer size, @jakarta.annotation.Nullable String sortBy, @jakarta.annotation.Nullable String sortDirection) throws ApiException {
-        return this.getEventsByStatus(status, page, size, sortBy, sortDirection, Collections.emptyMap());
-    }
-
-
-    /**
-     * Get events by status
-     * Retrieves paginated events matching a specific process status
-     *
-     * @param status            Process status to filter by (required)
-     * @param page              Page number (0-based) (optional, default to 0)
-     * @param size              Number of items per page (optional, default to 20)
-     * @param sortBy            Field to sort by (optional, default to eventTime)
-     * @param sortDirection     Sort direction (optional, default to desc)
-     * @param additionalHeaders additionalHeaders for this call
-     * @return PageProcessEventEntry
-     * @throws ApiException if fails to make API call
-     */
-    public PageProcessEventEntry getEventsByStatus(@jakarta.annotation.Nonnull String status, @jakarta.annotation.Nullable Integer page, @jakarta.annotation.Nullable Integer size, @jakarta.annotation.Nullable String sortBy, @jakarta.annotation.Nullable String sortDirection, Map<String, String> additionalHeaders) throws ApiException {
-        Object localVarPostBody = null;
-
-        // verify the required parameter 'status' is set
-        if (status == null) {
-            throw new ApiException(400, "Missing the required parameter 'status' when calling getEventsByStatus");
-        }
-
-        // create path and map variables
-        String localVarPath = "/api/v1/events/by-status/{status}"
-                .replaceAll("\\{" + "status" + "\\}", apiClient.escapeString(apiClient.parameterToString(status)));
-
-        StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-        String localVarQueryParameterBaseName;
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        localVarQueryParams.addAll(apiClient.parameterToPair("page", page));
-        localVarQueryParams.addAll(apiClient.parameterToPair("size", size));
-        localVarQueryParams.addAll(apiClient.parameterToPair("sortBy", sortBy));
-        localVarQueryParams.addAll(apiClient.parameterToPair("sortDirection", sortDirection));
-
-        localVarHeaderParams.putAll(additionalHeaders);
-
-
-        final String[] localVarAccepts = {
-                "*/*"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{};
-
-        TypeReference<PageProcessEventEntry> localVarReturnType = new TypeReference<PageProcessEventEntry>() {
-        };
-        return apiClient.invokeAPI(
-                localVarPath,
-                "GET",
-                localVarQueryParams,
-                localVarCollectionQueryParams,
-                localVarQueryStringJoiner.toString(),
-                localVarPostBody,
-                localVarHeaderParams,
-                localVarCookieParams,
-                localVarFormParams,
-                localVarAccept,
-                localVarContentType,
-                localVarAuthNames,
-                localVarReturnType
-        );
-    }
-
-    /**
-     * Get total event count
-     * Returns the total number of events in the system
-     *
-     * @return Map&lt;String, Long&gt;
-     * @throws ApiException if fails to make API call
-     */
-    public Map<String, Long> getTotalEventsCount() throws ApiException {
-        return this.getTotalEventsCount(Collections.emptyMap());
-    }
-
-
-    /**
-     * Get total event count
-     * Returns the total number of events in the system
-     *
-     * @param additionalHeaders additionalHeaders for this call
-     * @return Map&lt;String, Long&gt;
-     * @throws ApiException if fails to make API call
-     */
-    public Map<String, Long> getTotalEventsCount(Map<String, String> additionalHeaders) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/api/v1/events/count";
-
-        StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-        String localVarQueryParameterBaseName;
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-        localVarHeaderParams.putAll(additionalHeaders);
-
-
-        final String[] localVarAccepts = {
-                "*/*"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{};
-
-        TypeReference<Map<String, Long>> localVarReturnType = new TypeReference<Map<String, Long>>() {
-        };
-        return apiClient.invokeAPI(
-                localVarPath,
-                "GET",
-                localVarQueryParams,
-                localVarCollectionQueryParams,
-                localVarQueryStringJoiner.toString(),
-                localVarPostBody,
-                localVarHeaderParams,
-                localVarCookieParams,
-                localVarFormParams,
-                localVarAccept,
-                localVarContentType,
-                localVarAuthNames,
-                localVarReturnType
-        );
-    }
-
-    @Override
-    public <T> T invokeAPI(String url, String method, Object request, TypeReference<T> returnType, Map<String, String> additionalHeaders) throws ApiException {
-        String localVarPath = url.replace(apiClient.getBaseURL(), "");
-        StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        localVarHeaderParams.putAll(additionalHeaders);
-
-        final String[] localVarAccepts = {
-                "*/*"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{};
-
-        return apiClient.invokeAPI(
-                localVarPath,
-                method,
-                localVarQueryParams,
-                localVarCollectionQueryParams,
-                localVarQueryStringJoiner.toString(),
-                request,
-                localVarHeaderParams,
-                localVarCookieParams,
-                localVarFormParams,
-                localVarAccept,
-                localVarContentType,
-                localVarAuthNames,
-                returnType
-        );
-    }
+    
+    // create path and map variables
+    String localVarPath = "/api/v1/events/by-status/{status}"
+      .replaceAll("\\{" + "status" + "\\}", apiClient.escapeString(apiClient.parameterToString(status)));
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarQueryParams.addAll(apiClient.parameterToPair("page", page));
+    localVarQueryParams.addAll(apiClient.parameterToPair("size", size));
+    localVarQueryParams.addAll(apiClient.parameterToPair("sortBy", sortBy));
+    localVarQueryParams.addAll(apiClient.parameterToPair("sortDirection", sortDirection));
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    
+    final String[] localVarAccepts = {
+      "*/*"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    TypeReference<PageProcessEventEntry> localVarReturnType = new TypeReference<PageProcessEventEntry>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "GET",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
+  /**
+   * Get total event count
+   * Returns the total number of events in the system
+   * @return Map&lt;String, Long&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public Map<String, Long> getTotalEventsCount() throws ApiException {
+    return this.getTotalEventsCount(Collections.emptyMap());
+  }
+
+
+  /**
+   * Get total event count
+   * Returns the total number of events in the system
+   * @param additionalHeaders additionalHeaders for this call
+   * @return Map&lt;String, Long&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public Map<String, Long> getTotalEventsCount(Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/api/v1/events/count";
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    
+    final String[] localVarAccepts = {
+      "*/*"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    TypeReference<Map<String, Long>> localVarReturnType = new TypeReference<Map<String, Long>>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "GET",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
+
+  @Override
+  public <T> T invokeAPI(String url, String method, Object request, TypeReference<T> returnType, Map<String, String> additionalHeaders) throws ApiException {
+    String localVarPath = url.replace(apiClient.getBaseURL(), "");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    final String[] localVarAccepts = {
+      "*/*"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    return apiClient.invokeAPI(
+      localVarPath,
+        method,
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        request,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        returnType
+    );
+  }
 }

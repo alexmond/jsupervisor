@@ -1,6 +1,6 @@
 /*
  * JSupervisor REST API
- * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses.
+ * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses. 
  *
  * The version of the OpenAPI document: 0.0.2
  * Contact: alex.mondshain@gmail.com
@@ -13,225 +13,231 @@
 
 package org.alexmond.jsupervisor.client.model;
 
+import java.util.Objects;
+import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+import org.hibernate.validator.constraints.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Locale;
-import java.util.Objects;
 import java.util.StringJoiner;
 
 /**
  * SortObject
  */
 @JsonPropertyOrder({
-        SortObject.JSON_PROPERTY_EMPTY,
-        SortObject.JSON_PROPERTY_SORTED,
-        SortObject.JSON_PROPERTY_UNSORTED
+  SortObject.JSON_PROPERTY_EMPTY,
+  SortObject.JSON_PROPERTY_SORTED,
+  SortObject.JSON_PROPERTY_UNSORTED
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0")
 public class SortObject {
-    public static final String JSON_PROPERTY_EMPTY = "empty";
-    public static final String JSON_PROPERTY_SORTED = "sorted";
-    public static final String JSON_PROPERTY_UNSORTED = "unsorted";
-    @jakarta.annotation.Nullable
-    private Boolean empty;
-    @jakarta.annotation.Nullable
-    private Boolean sorted;
-    @jakarta.annotation.Nullable
-    private Boolean unsorted;
+  public static final String JSON_PROPERTY_EMPTY = "empty";
+  @jakarta.annotation.Nullable
+  private Boolean empty;
 
-    public SortObject() {
+  public static final String JSON_PROPERTY_SORTED = "sorted";
+  @jakarta.annotation.Nullable
+  private Boolean sorted;
+
+  public static final String JSON_PROPERTY_UNSORTED = "unsorted";
+  @jakarta.annotation.Nullable
+  private Boolean unsorted;
+
+  public SortObject() {
+  }
+
+  public SortObject empty(@jakarta.annotation.Nullable Boolean empty) {
+    
+    this.empty = empty;
+    return this;
+  }
+
+  /**
+   * Get empty
+   * @return empty
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_EMPTY, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Boolean getEmpty() {
+    return empty;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_EMPTY, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setEmpty(@jakarta.annotation.Nullable Boolean empty) {
+    this.empty = empty;
+  }
+
+  public SortObject sorted(@jakarta.annotation.Nullable Boolean sorted) {
+    
+    this.sorted = sorted;
+    return this;
+  }
+
+  /**
+   * Get sorted
+   * @return sorted
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_SORTED, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Boolean getSorted() {
+    return sorted;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_SORTED, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSorted(@jakarta.annotation.Nullable Boolean sorted) {
+    this.sorted = sorted;
+  }
+
+  public SortObject unsorted(@jakarta.annotation.Nullable Boolean unsorted) {
+    
+    this.unsorted = unsorted;
+    return this;
+  }
+
+  /**
+   * Get unsorted
+   * @return unsorted
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_UNSORTED, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Boolean getUnsorted() {
+    return unsorted;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_UNSORTED, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUnsorted(@jakarta.annotation.Nullable Boolean unsorted) {
+    this.unsorted = unsorted;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    SortObject sortObject = (SortObject) o;
+    return Objects.equals(this.empty, sortObject.empty) &&
+        Objects.equals(this.sorted, sortObject.sorted) &&
+        Objects.equals(this.unsorted, sortObject.unsorted);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(empty, sorted, unsorted);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class SortObject {\n");
+    sb.append("    empty: ").append(toIndentedString(empty)).append("\n");
+    sb.append("    sorted: ").append(toIndentedString(sorted)).append("\n");
+    sb.append("    unsorted: ").append(toIndentedString(unsorted)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
+      prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
 
-    public SortObject empty(@jakarta.annotation.Nullable Boolean empty) {
+    StringJoiner joiner = new StringJoiner("&");
 
-        this.empty = empty;
-        return this;
+    // add `empty` to the URL query string
+    if (getEmpty() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%sempty%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEmpty()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
-    /**
-     * Get empty
-     *
-     * @return empty
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_EMPTY, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public Boolean getEmpty() {
-        return empty;
+    // add `sorted` to the URL query string
+    if (getSorted() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%ssorted%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSorted()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
-
-    @JsonProperty(value = JSON_PROPERTY_EMPTY, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setEmpty(@jakarta.annotation.Nullable Boolean empty) {
-        this.empty = empty;
+    // add `unsorted` to the URL query string
+    if (getUnsorted() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%sunsorted%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUnsorted()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
-    public SortObject sorted(@jakarta.annotation.Nullable Boolean sorted) {
-
-        this.sorted = sorted;
-        return this;
-    }
-
-    /**
-     * Get sorted
-     *
-     * @return sorted
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_SORTED, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public Boolean getSorted() {
-        return sorted;
-    }
-
-
-    @JsonProperty(value = JSON_PROPERTY_SORTED, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setSorted(@jakarta.annotation.Nullable Boolean sorted) {
-        this.sorted = sorted;
-    }
-
-    public SortObject unsorted(@jakarta.annotation.Nullable Boolean unsorted) {
-
-        this.unsorted = unsorted;
-        return this;
-    }
-
-    /**
-     * Get unsorted
-     *
-     * @return unsorted
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_UNSORTED, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public Boolean getUnsorted() {
-        return unsorted;
-    }
-
-
-    @JsonProperty(value = JSON_PROPERTY_UNSORTED, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setUnsorted(@jakarta.annotation.Nullable Boolean unsorted) {
-        this.unsorted = unsorted;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        SortObject sortObject = (SortObject) o;
-        return Objects.equals(this.empty, sortObject.empty) &&
-                Objects.equals(this.sorted, sortObject.sorted) &&
-                Objects.equals(this.unsorted, sortObject.unsorted);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(empty, sorted, unsorted);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class SortObject {\n");
-        sb.append("    empty: ").append(toIndentedString(empty)).append("\n");
-        sb.append("    sorted: ").append(toIndentedString(sorted)).append("\n");
-        sb.append("    unsorted: ").append(toIndentedString(unsorted)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
-
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @return URL query string
-     */
-    public String toUrlQueryString() {
-        return toUrlQueryString(null);
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @param prefix prefix of the query string
-     * @return URL query string
-     */
-    public String toUrlQueryString(String prefix) {
-        String suffix = "";
-        String containerSuffix = "";
-        String containerPrefix = "";
-        if (prefix == null) {
-            // style=form, explode=true, e.g. /pet?name=cat&type=manx
-            prefix = "";
-        } else {
-            // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-            prefix = prefix + "[";
-            suffix = "]";
-            containerSuffix = "]";
-            containerPrefix = "[";
-        }
-
-        StringJoiner joiner = new StringJoiner("&");
-
-        // add `empty` to the URL query string
-        if (getEmpty() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%sempty%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEmpty()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `sorted` to the URL query string
-        if (getSorted() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%ssorted%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getSorted()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `unsorted` to the URL query string
-        if (getUnsorted() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%sunsorted%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUnsorted()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        return joiner.toString();
-    }
+    return joiner.toString();
+  }
 
 }
 

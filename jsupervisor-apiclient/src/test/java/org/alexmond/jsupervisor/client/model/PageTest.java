@@ -1,6 +1,6 @@
 /*
  * JSupervisor REST API
- * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses.
+ * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses. 
  *
  * The version of the OpenAPI document: 0.0.2
  * Contact: alex.mondshain@gmail.com
@@ -13,6 +13,18 @@
 
 package org.alexmond.jsupervisor.client.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.alexmond.jsupervisor.client.model.PageableObject;
+import org.alexmond.jsupervisor.client.model.SortObject;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -30,19 +42,19 @@ class PageTest {
     }
 
     /**
-     * Test the property 'totalPages'
-     */
-    @Test
-    void totalPagesTest() {
-        // TODO: test totalPages
-    }
-
-    /**
      * Test the property 'totalElements'
      */
     @Test
     void totalElementsTest() {
         // TODO: test totalElements
+    }
+
+    /**
+     * Test the property 'totalPages'
+     */
+    @Test
+    void totalPagesTest() {
+        // TODO: test totalPages
     }
 
     /**
@@ -94,19 +106,19 @@ class PageTest {
     }
 
     /**
-     * Test the property 'pageable'
-     */
-    @Test
-    void pageableTest() {
-        // TODO: test pageable
-    }
-
-    /**
      * Test the property 'numberOfElements'
      */
     @Test
     void numberOfElementsTest() {
         // TODO: test numberOfElements
+    }
+
+    /**
+     * Test the property 'pageable'
+     */
+    @Test
+    void pageableTest() {
+        // TODO: test pageable
     }
 
     /**

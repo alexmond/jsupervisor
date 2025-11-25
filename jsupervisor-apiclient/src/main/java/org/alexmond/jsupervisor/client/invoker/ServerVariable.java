@@ -1,6 +1,6 @@
 /*
  * JSupervisor REST API
- * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses.
+ * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses. 
  *
  * The version of the OpenAPI document: 0.0.2
  * Contact: alex.mondshain@gmail.com
@@ -25,9 +25,9 @@ public class ServerVariable {
     public HashSet<String> enumValues = null;
 
     /**
-     * @param description  A description for the server variable.
+     * @param description A description for the server variable.
      * @param defaultValue The default value to use for substitution.
-     * @param enumValues   An enumeration of string values to be used if the substitution options are from a limited set.
+     * @param enumValues An enumeration of string values to be used if the substitution options are from a limited set.
      */
     public ServerVariable(String description, String defaultValue, HashSet<String> enumValues) {
         this.description = description;

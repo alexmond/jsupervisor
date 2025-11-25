@@ -2,13 +2,15 @@
 
 All URIs are relative to *http://localhost:8086*
 
-| Method                                                           | HTTP request                              | Description        |
-|------------------------------------------------------------------|-------------------------------------------|--------------------|
-| [**getAllProcesses**](ProcessManagementApi.md#getAllProcesses)   | **GET** /api/v1/processes                 | List all processes |
-| [**getProcessStatus**](ProcessManagementApi.md#getProcessStatus) | **GET** /api/v1/processes/status/{name}   | Get process status |
-| [**restartProcess**](ProcessManagementApi.md#restartProcess)     | **POST** /api/v1/processes/restart/{name} | Restart process    |
-| [**startProcess**](ProcessManagementApi.md#startProcess)         | **POST** /api/v1/processes/start/{name}   | Start process      |
-| [**stopProcess**](ProcessManagementApi.md#stopProcess)           | **POST** /api/v1/processes/stop/{name}    | Stop process       |
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**getAllProcesses**](ProcessManagementApi.md#getAllProcesses) | **GET** /api/v1/processes | List all processes |
+| [**getProcessStatus**](ProcessManagementApi.md#getProcessStatus) | **GET** /api/v1/processes/status/{name} | Get process status |
+| [**restartProcess**](ProcessManagementApi.md#restartProcess) | **POST** /api/v1/processes/restart/{name} | Restart process |
+| [**startProcess**](ProcessManagementApi.md#startProcess) | **POST** /api/v1/processes/start/{name} | Start process |
+| [**stopProcess**](ProcessManagementApi.md#stopProcess) | **POST** /api/v1/processes/stop/{name} | Stop process |
+
+
 
 ## getAllProcesses
 
@@ -22,7 +24,6 @@ Retrieve status information for all configured processes
 
 ```java
 // Import classes:
-
 import org.alexmond.jsupervisor.client.invoker.ApiClient;
 import org.alexmond.jsupervisor.client.invoker.ApiException;
 import org.alexmond.jsupervisor.client.invoker.Configuration;
@@ -66,11 +67,14 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: */*
 
-### HTTP response details
 
-| Status code | Description                              | Response headers |
-|-------------|------------------------------------------|------------------|
-| **200**     | Successfully retrieved list of processes | -                |
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Business error |  -  |
+| **500** | Internal server error |  -  |
+| **200** | Successfully retrieved list of processes |  -  |
+
 
 ## getProcessStatus
 
@@ -84,7 +88,6 @@ Get the current status of a specific process
 
 ```java
 // Import classes:
-
 import org.alexmond.jsupervisor.client.invoker.ApiClient;
 import org.alexmond.jsupervisor.client.invoker.ApiException;
 import org.alexmond.jsupervisor.client.invoker.Configuration;
@@ -114,9 +117,10 @@ public class Example {
 
 ### Parameters
 
-| Name     | Type       | Description  | Notes |
-|----------|------------|--------------|-------|
-| **name** | **String** | Process name |       |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **name** | **String**| Process name | |
 
 ### Return type
 
@@ -131,13 +135,15 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: */*
 
-### HTTP response details
 
-| Status code | Description                           | Response headers |
-|-------------|---------------------------------------|------------------|
-| **200**     | Successfully retrieved process status | -                |
-| **404**     | Process not found                     | -                |
-| **500**     | Failed to retrieve process status     | -                |
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Business error |  -  |
+| **500** | Failed to retrieve process status |  -  |
+| **200** | Successfully retrieved process status |  -  |
+| **404** | Process not found |  -  |
+
 
 ## restartProcess
 
@@ -151,7 +157,6 @@ Restart a specific process
 
 ```java
 // Import classes:
-
 import org.alexmond.jsupervisor.client.invoker.ApiClient;
 import org.alexmond.jsupervisor.client.invoker.ApiException;
 import org.alexmond.jsupervisor.client.invoker.Configuration;
@@ -180,9 +185,10 @@ public class Example {
 
 ### Parameters
 
-| Name     | Type       | Description  | Notes |
-|----------|------------|--------------|-------|
-| **name** | **String** | Process name |       |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **name** | **String**| Process name | |
 
 ### Return type
 
@@ -195,15 +201,17 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: */*
+
 
 ### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Business error |  -  |
+| **500** | Failed to restart process |  -  |
+| **200** | Process restart initiated successfully |  -  |
+| **404** | Process not found |  -  |
 
-| Status code | Description                            | Response headers |
-|-------------|----------------------------------------|------------------|
-| **200**     | Process restart initiated successfully | -                |
-| **404**     | Process not found                      | -                |
-| **500**     | Failed to restart process              | -                |
 
 ## startProcess
 
@@ -217,7 +225,6 @@ Start a specific process
 
 ```java
 // Import classes:
-
 import org.alexmond.jsupervisor.client.invoker.ApiClient;
 import org.alexmond.jsupervisor.client.invoker.ApiException;
 import org.alexmond.jsupervisor.client.invoker.Configuration;
@@ -247,9 +254,10 @@ public class Example {
 
 ### Parameters
 
-| Name     | Type       | Description  | Notes |
-|----------|------------|--------------|-------|
-| **name** | **String** | Process name |       |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **name** | **String**| Process name | |
 
 ### Return type
 
@@ -264,13 +272,14 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: */*
 
-### HTTP response details
 
-| Status code | Description                          | Response headers |
-|-------------|--------------------------------------|------------------|
-| **200**     | Process start initiated successfully | -                |
-| **400**     | Invalid process configuration        | -                |
-| **500**     | Failed to start process              | -                |
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Invalid process configuration |  -  |
+| **500** | Failed to start process |  -  |
+| **200** | Process start initiated successfully |  -  |
+
 
 ## stopProcess
 
@@ -284,7 +293,6 @@ Stop a specific process
 
 ```java
 // Import classes:
-
 import org.alexmond.jsupervisor.client.invoker.ApiClient;
 import org.alexmond.jsupervisor.client.invoker.ApiException;
 import org.alexmond.jsupervisor.client.invoker.Configuration;
@@ -313,9 +321,10 @@ public class Example {
 
 ### Parameters
 
-| Name     | Type       | Description  | Notes |
-|----------|------------|--------------|-------|
-| **name** | **String** | Process name |       |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **name** | **String**| Process name | |
 
 ### Return type
 
@@ -328,13 +337,14 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: */*
+
 
 ### HTTP response details
-
-| Status code | Description                         | Response headers |
-|-------------|-------------------------------------|------------------|
-| **200**     | Process stop initiated successfully | -                |
-| **404**     | Process not found                   | -                |
-| **500**     | Failed to stop process              | -                |
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Business error |  -  |
+| **500** | Failed to stop process |  -  |
+| **200** | Process stop initiated successfully |  -  |
+| **404** | Process not found |  -  |
 

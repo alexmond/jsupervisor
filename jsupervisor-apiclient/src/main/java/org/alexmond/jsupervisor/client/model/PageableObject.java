@@ -1,6 +1,6 @@
 /*
  * JSupervisor REST API
- * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses.
+ * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses. 
  *
  * The version of the OpenAPI document: 0.0.2
  * Contact: alex.mondshain@gmail.com
@@ -13,351 +13,357 @@
 
 package org.alexmond.jsupervisor.client.model;
 
+import java.util.Objects;
+import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
+import org.alexmond.jsupervisor.client.model.SortObject;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
-
+import org.hibernate.validator.constraints.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Locale;
-import java.util.Objects;
 import java.util.StringJoiner;
 
 /**
  * PageableObject
  */
 @JsonPropertyOrder({
-        PageableObject.JSON_PROPERTY_OFFSET,
-        PageableObject.JSON_PROPERTY_SORT,
-        PageableObject.JSON_PROPERTY_PAGE_NUMBER,
-        PageableObject.JSON_PROPERTY_PAGE_SIZE,
-        PageableObject.JSON_PROPERTY_UNPAGED,
-        PageableObject.JSON_PROPERTY_PAGED
+  PageableObject.JSON_PROPERTY_OFFSET,
+  PageableObject.JSON_PROPERTY_SORT,
+  PageableObject.JSON_PROPERTY_PAGE_NUMBER,
+  PageableObject.JSON_PROPERTY_PAGE_SIZE,
+  PageableObject.JSON_PROPERTY_UNPAGED,
+  PageableObject.JSON_PROPERTY_PAGED
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0")
 public class PageableObject {
-    public static final String JSON_PROPERTY_OFFSET = "offset";
-    public static final String JSON_PROPERTY_SORT = "sort";
-    public static final String JSON_PROPERTY_PAGE_NUMBER = "pageNumber";
-    public static final String JSON_PROPERTY_PAGE_SIZE = "pageSize";
-    public static final String JSON_PROPERTY_UNPAGED = "unpaged";
-    public static final String JSON_PROPERTY_PAGED = "paged";
-    @jakarta.annotation.Nullable
-    private Long offset;
-    @jakarta.annotation.Nullable
-    private SortObject sort;
-    @jakarta.annotation.Nullable
-    private Integer pageNumber;
-    @jakarta.annotation.Nullable
-    private Integer pageSize;
-    @jakarta.annotation.Nullable
-    private Boolean unpaged;
-    @jakarta.annotation.Nullable
-    private Boolean paged;
+  public static final String JSON_PROPERTY_OFFSET = "offset";
+  @jakarta.annotation.Nullable
+  private Long offset;
 
-    public PageableObject() {
+  public static final String JSON_PROPERTY_SORT = "sort";
+  @jakarta.annotation.Nullable
+  private SortObject sort;
+
+  public static final String JSON_PROPERTY_PAGE_NUMBER = "pageNumber";
+  @jakarta.annotation.Nullable
+  private Integer pageNumber;
+
+  public static final String JSON_PROPERTY_PAGE_SIZE = "pageSize";
+  @jakarta.annotation.Nullable
+  private Integer pageSize;
+
+  public static final String JSON_PROPERTY_UNPAGED = "unpaged";
+  @jakarta.annotation.Nullable
+  private Boolean unpaged;
+
+  public static final String JSON_PROPERTY_PAGED = "paged";
+  @jakarta.annotation.Nullable
+  private Boolean paged;
+
+  public PageableObject() {
+  }
+
+  public PageableObject offset(@jakarta.annotation.Nullable Long offset) {
+    
+    this.offset = offset;
+    return this;
+  }
+
+  /**
+   * Get offset
+   * @return offset
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_OFFSET, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Long getOffset() {
+    return offset;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_OFFSET, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setOffset(@jakarta.annotation.Nullable Long offset) {
+    this.offset = offset;
+  }
+
+  public PageableObject sort(@jakarta.annotation.Nullable SortObject sort) {
+    
+    this.sort = sort;
+    return this;
+  }
+
+  /**
+   * Get sort
+   * @return sort
+   */
+  @jakarta.annotation.Nullable
+  @Valid
+
+  @JsonProperty(value = JSON_PROPERTY_SORT, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public SortObject getSort() {
+    return sort;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_SORT, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setSort(@jakarta.annotation.Nullable SortObject sort) {
+    this.sort = sort;
+  }
+
+  public PageableObject pageNumber(@jakarta.annotation.Nullable Integer pageNumber) {
+    
+    this.pageNumber = pageNumber;
+    return this;
+  }
+
+  /**
+   * Get pageNumber
+   * @return pageNumber
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_PAGE_NUMBER, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getPageNumber() {
+    return pageNumber;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_PAGE_NUMBER, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPageNumber(@jakarta.annotation.Nullable Integer pageNumber) {
+    this.pageNumber = pageNumber;
+  }
+
+  public PageableObject pageSize(@jakarta.annotation.Nullable Integer pageSize) {
+    
+    this.pageSize = pageSize;
+    return this;
+  }
+
+  /**
+   * Get pageSize
+   * @return pageSize
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_PAGE_SIZE, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getPageSize() {
+    return pageSize;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_PAGE_SIZE, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPageSize(@jakarta.annotation.Nullable Integer pageSize) {
+    this.pageSize = pageSize;
+  }
+
+  public PageableObject unpaged(@jakarta.annotation.Nullable Boolean unpaged) {
+    
+    this.unpaged = unpaged;
+    return this;
+  }
+
+  /**
+   * Get unpaged
+   * @return unpaged
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_UNPAGED, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Boolean getUnpaged() {
+    return unpaged;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_UNPAGED, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setUnpaged(@jakarta.annotation.Nullable Boolean unpaged) {
+    this.unpaged = unpaged;
+  }
+
+  public PageableObject paged(@jakarta.annotation.Nullable Boolean paged) {
+    
+    this.paged = paged;
+    return this;
+  }
+
+  /**
+   * Get paged
+   * @return paged
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_PAGED, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Boolean getPaged() {
+    return paged;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_PAGED, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPaged(@jakarta.annotation.Nullable Boolean paged) {
+    this.paged = paged;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    PageableObject pageableObject = (PageableObject) o;
+    return Objects.equals(this.offset, pageableObject.offset) &&
+        Objects.equals(this.sort, pageableObject.sort) &&
+        Objects.equals(this.pageNumber, pageableObject.pageNumber) &&
+        Objects.equals(this.pageSize, pageableObject.pageSize) &&
+        Objects.equals(this.unpaged, pageableObject.unpaged) &&
+        Objects.equals(this.paged, pageableObject.paged);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(offset, sort, pageNumber, pageSize, unpaged, paged);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class PageableObject {\n");
+    sb.append("    offset: ").append(toIndentedString(offset)).append("\n");
+    sb.append("    sort: ").append(toIndentedString(sort)).append("\n");
+    sb.append("    pageNumber: ").append(toIndentedString(pageNumber)).append("\n");
+    sb.append("    pageSize: ").append(toIndentedString(pageSize)).append("\n");
+    sb.append("    unpaged: ").append(toIndentedString(unpaged)).append("\n");
+    sb.append("    paged: ").append(toIndentedString(paged)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
+      prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
 
-    public PageableObject offset(@jakarta.annotation.Nullable Long offset) {
+    StringJoiner joiner = new StringJoiner("&");
 
-        this.offset = offset;
-        return this;
+    // add `offset` to the URL query string
+    if (getOffset() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%soffset%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOffset()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
-    /**
-     * Get offset
-     *
-     * @return offset
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_OFFSET, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public Long getOffset() {
-        return offset;
+    // add `sort` to the URL query string
+    if (getSort() != null) {
+      joiner.add(getSort().toUrlQueryString(prefix + "sort" + suffix));
     }
 
-
-    @JsonProperty(value = JSON_PROPERTY_OFFSET, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setOffset(@jakarta.annotation.Nullable Long offset) {
-        this.offset = offset;
+    // add `pageNumber` to the URL query string
+    if (getPageNumber() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%spageNumber%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPageNumber()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
-    public PageableObject sort(@jakarta.annotation.Nullable SortObject sort) {
-
-        this.sort = sort;
-        return this;
+    // add `pageSize` to the URL query string
+    if (getPageSize() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%spageSize%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPageSize()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
-    /**
-     * Get sort
-     *
-     * @return sort
-     */
-    @jakarta.annotation.Nullable
-    @Valid
-
-    @JsonProperty(value = JSON_PROPERTY_SORT, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public SortObject getSort() {
-        return sort;
+    // add `unpaged` to the URL query string
+    if (getUnpaged() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%sunpaged%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUnpaged()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
-
-    @JsonProperty(value = JSON_PROPERTY_SORT, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setSort(@jakarta.annotation.Nullable SortObject sort) {
-        this.sort = sort;
+    // add `paged` to the URL query string
+    if (getPaged() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%spaged%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPaged()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
-    public PageableObject pageNumber(@jakarta.annotation.Nullable Integer pageNumber) {
-
-        this.pageNumber = pageNumber;
-        return this;
-    }
-
-    /**
-     * Get pageNumber
-     *
-     * @return pageNumber
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_PAGE_NUMBER, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public Integer getPageNumber() {
-        return pageNumber;
-    }
-
-
-    @JsonProperty(value = JSON_PROPERTY_PAGE_NUMBER, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setPageNumber(@jakarta.annotation.Nullable Integer pageNumber) {
-        this.pageNumber = pageNumber;
-    }
-
-    public PageableObject pageSize(@jakarta.annotation.Nullable Integer pageSize) {
-
-        this.pageSize = pageSize;
-        return this;
-    }
-
-    /**
-     * Get pageSize
-     *
-     * @return pageSize
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_PAGE_SIZE, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-
-    @JsonProperty(value = JSON_PROPERTY_PAGE_SIZE, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setPageSize(@jakarta.annotation.Nullable Integer pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public PageableObject unpaged(@jakarta.annotation.Nullable Boolean unpaged) {
-
-        this.unpaged = unpaged;
-        return this;
-    }
-
-    /**
-     * Get unpaged
-     *
-     * @return unpaged
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_UNPAGED, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public Boolean getUnpaged() {
-        return unpaged;
-    }
-
-
-    @JsonProperty(value = JSON_PROPERTY_UNPAGED, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setUnpaged(@jakarta.annotation.Nullable Boolean unpaged) {
-        this.unpaged = unpaged;
-    }
-
-    public PageableObject paged(@jakarta.annotation.Nullable Boolean paged) {
-
-        this.paged = paged;
-        return this;
-    }
-
-    /**
-     * Get paged
-     *
-     * @return paged
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_PAGED, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public Boolean getPaged() {
-        return paged;
-    }
-
-
-    @JsonProperty(value = JSON_PROPERTY_PAGED, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setPaged(@jakarta.annotation.Nullable Boolean paged) {
-        this.paged = paged;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        PageableObject pageableObject = (PageableObject) o;
-        return Objects.equals(this.offset, pageableObject.offset) &&
-                Objects.equals(this.sort, pageableObject.sort) &&
-                Objects.equals(this.pageNumber, pageableObject.pageNumber) &&
-                Objects.equals(this.pageSize, pageableObject.pageSize) &&
-                Objects.equals(this.unpaged, pageableObject.unpaged) &&
-                Objects.equals(this.paged, pageableObject.paged);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(offset, sort, pageNumber, pageSize, unpaged, paged);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class PageableObject {\n");
-        sb.append("    offset: ").append(toIndentedString(offset)).append("\n");
-        sb.append("    sort: ").append(toIndentedString(sort)).append("\n");
-        sb.append("    pageNumber: ").append(toIndentedString(pageNumber)).append("\n");
-        sb.append("    pageSize: ").append(toIndentedString(pageSize)).append("\n");
-        sb.append("    unpaged: ").append(toIndentedString(unpaged)).append("\n");
-        sb.append("    paged: ").append(toIndentedString(paged)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
-
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @return URL query string
-     */
-    public String toUrlQueryString() {
-        return toUrlQueryString(null);
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @param prefix prefix of the query string
-     * @return URL query string
-     */
-    public String toUrlQueryString(String prefix) {
-        String suffix = "";
-        String containerSuffix = "";
-        String containerPrefix = "";
-        if (prefix == null) {
-            // style=form, explode=true, e.g. /pet?name=cat&type=manx
-            prefix = "";
-        } else {
-            // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-            prefix = prefix + "[";
-            suffix = "]";
-            containerSuffix = "]";
-            containerPrefix = "[";
-        }
-
-        StringJoiner joiner = new StringJoiner("&");
-
-        // add `offset` to the URL query string
-        if (getOffset() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%soffset%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOffset()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `sort` to the URL query string
-        if (getSort() != null) {
-            joiner.add(getSort().toUrlQueryString(prefix + "sort" + suffix));
-        }
-
-        // add `pageNumber` to the URL query string
-        if (getPageNumber() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%spageNumber%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPageNumber()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `pageSize` to the URL query string
-        if (getPageSize() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%spageSize%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPageSize()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `unpaged` to the URL query string
-        if (getUnpaged() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%sunpaged%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getUnpaged()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `paged` to the URL query string
-        if (getPaged() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%spaged%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPaged()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        return joiner.toString();
-    }
+    return joiner.toString();
+  }
 
 }
 

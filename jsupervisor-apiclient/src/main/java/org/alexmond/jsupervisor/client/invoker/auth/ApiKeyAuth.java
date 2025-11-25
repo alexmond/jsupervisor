@@ -1,6 +1,6 @@
 /*
  * JSupervisor REST API
- * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses.
+ * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses. 
  *
  * The version of the OpenAPI document: 0.0.2
  * Contact: alex.mondshain@gmail.com
@@ -15,63 +15,63 @@ package org.alexmond.jsupervisor.client.invoker.auth;
 
 import org.alexmond.jsupervisor.client.invoker.Pair;
 
-import java.util.List;
 import java.util.Map;
+import java.util.List;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0")
 public class ApiKeyAuth implements Authentication {
-    private final String location;
-    private final String paramName;
+  private final String location;
+  private final String paramName;
 
-    private String apiKey;
-    private String apiKeyPrefix;
+  private String apiKey;
+  private String apiKeyPrefix;
 
-    public ApiKeyAuth(String location, String paramName) {
-        this.location = location;
-        this.paramName = paramName;
+  public ApiKeyAuth(String location, String paramName) {
+    this.location = location;
+    this.paramName = paramName;
+  }
+
+  public String getLocation() {
+    return location;
+  }
+
+  public String getParamName() {
+    return paramName;
+  }
+
+  public String getApiKey() {
+    return apiKey;
+  }
+
+  public void setApiKey(String apiKey) {
+    this.apiKey = apiKey;
+  }
+
+  public String getApiKeyPrefix() {
+    return apiKeyPrefix;
+  }
+
+  public void setApiKeyPrefix(String apiKeyPrefix) {
+    this.apiKeyPrefix = apiKeyPrefix;
+  }
+
+  @Override
+  public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
+    if (apiKey == null) {
+      return;
     }
-
-    public String getLocation() {
-        return location;
+    String value;
+    if (apiKeyPrefix != null) {
+      value = apiKeyPrefix + " " + apiKey;
+    } else {
+      value = apiKey;
     }
-
-    public String getParamName() {
-        return paramName;
+    if ("query".equals(location)) {
+      queryParams.add(new Pair(paramName, value));
+    } else if ("header".equals(location)) {
+      headerParams.put(paramName, value);
+    } else if ("cookie".equals(location)) {
+      cookieParams.put(paramName, value);
     }
-
-    public String getApiKey() {
-        return apiKey;
-    }
-
-    public void setApiKey(String apiKey) {
-        this.apiKey = apiKey;
-    }
-
-    public String getApiKeyPrefix() {
-        return apiKeyPrefix;
-    }
-
-    public void setApiKeyPrefix(String apiKeyPrefix) {
-        this.apiKeyPrefix = apiKeyPrefix;
-    }
-
-    @Override
-    public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
-        if (apiKey == null) {
-            return;
-        }
-        String value;
-        if (apiKeyPrefix != null) {
-            value = apiKeyPrefix + " " + apiKey;
-        } else {
-            value = apiKey;
-        }
-        if ("query".equals(location)) {
-            queryParams.add(new Pair(paramName, value));
-        } else if ("header".equals(location)) {
-            headerParams.put(paramName, value);
-        } else if ("cookie".equals(location)) {
-            cookieParams.put(paramName, value);
-        }
-    }
+  }
 }

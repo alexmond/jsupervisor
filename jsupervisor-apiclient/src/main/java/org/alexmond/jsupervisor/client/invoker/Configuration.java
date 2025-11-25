@@ -1,6 +1,6 @@
 /*
  * JSupervisor REST API
- * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses.
+ * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses. 
  *
  * The version of the OpenAPI document: 0.0.2
  * Contact: alex.mondshain@gmail.com
@@ -19,45 +19,45 @@ import java.util.function.Supplier;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0")
 public class Configuration {
-    public static final String VERSION = "0.0.2";
+  public static final String VERSION = "0.0.2";
 
-    private static final AtomicReference<ApiClient> defaultApiClient = new AtomicReference<>();
-    private static volatile Supplier<ApiClient> apiClientFactory = ApiClient::new;
+  private static final AtomicReference<ApiClient> defaultApiClient = new AtomicReference<>();
+  private static volatile Supplier<ApiClient> apiClientFactory = ApiClient::new;
 
-    private Configuration() {
-    }
-
-    /**
-     * Get the default API client, which would be used when creating API instances without providing an API client.
-     *
-     * @return Default API client
-     */
-    public static ApiClient getDefaultApiClient() {
-        ApiClient client = defaultApiClient.get();
-        if (client == null) {
-            client = defaultApiClient.updateAndGet(val -> {
-                if (val != null) { // changed by another thread
-                    return val;
-                }
-                return apiClientFactory.get();
-            });
+  /**
+   * Get the default API client, which would be used when creating API instances without providing an API client.
+   *
+   * @return Default API client
+   */
+  public static ApiClient getDefaultApiClient() {
+    ApiClient client = defaultApiClient.get();
+    if (client == null) {
+      client = defaultApiClient.updateAndGet(val -> {
+        if (val != null) { // changed by another thread
+          return val;
         }
-        return client;
+        return apiClientFactory.get();
+      });
     }
+    return client;
+  }
 
-    /**
-     * Set the default API client, which would be used when creating API instances without providing an API client.
-     *
-     * @param apiClient API client
-     */
-    public static void setDefaultApiClient(ApiClient apiClient) {
-        defaultApiClient.set(apiClient);
-    }
+  /**
+   * Set the default API client, which would be used when creating API instances without providing an API client.
+   *
+   * @param apiClient API client
+   */
+  public static void setDefaultApiClient(ApiClient apiClient) {
+    defaultApiClient.set(apiClient);
+  }
 
-    /**
-     * set the callback used to create new ApiClient objects
-     */
-    public static void setApiClientFactory(Supplier<ApiClient> factory) {
-        apiClientFactory = Objects.requireNonNull(factory);
-    }
+  /**
+   * set the callback used to create new ApiClient objects
+   */
+  public static void setApiClientFactory(Supplier<ApiClient> factory) {
+    apiClientFactory = Objects.requireNonNull(factory);
+  }
+
+  private Configuration() {
+  }
 }

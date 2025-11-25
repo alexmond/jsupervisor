@@ -1,6 +1,6 @@
 /*
  * JSupervisor REST API
- * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses.
+ * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses. 
  *
  * The version of the OpenAPI document: 0.0.2
  * Contact: alex.mondshain@gmail.com
@@ -13,354 +13,360 @@
 
 package org.alexmond.jsupervisor.client.model;
 
+import java.util.Objects;
+import java.util.Arrays;
+import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
+import org.hibernate.validator.constraints.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Locale;
-import java.util.Objects;
 import java.util.StringJoiner;
 
 /**
  * Supervisor system information including hardware and OS details
  */
 @JsonPropertyOrder({
-        SupervisorRest.JSON_PROPERTY_NODE_NAME,
-        SupervisorRest.JSON_PROPERTY_DESCRIPTION,
-        SupervisorRest.JSON_PROPERTY_PHYSICAL_MEMORY,
-        SupervisorRest.JSON_PROPERTY_PHYSICAL_CPU,
-        SupervisorRest.JSON_PROPERTY_OPERATING_SYSTEM,
-        SupervisorRest.JSON_PROPERTY_AVAILABLE_MEMORY
+  SupervisorRest.JSON_PROPERTY_NODE_NAME,
+  SupervisorRest.JSON_PROPERTY_DESCRIPTION,
+  SupervisorRest.JSON_PROPERTY_PHYSICAL_MEMORY,
+  SupervisorRest.JSON_PROPERTY_PHYSICAL_CPU,
+  SupervisorRest.JSON_PROPERTY_OPERATING_SYSTEM,
+  SupervisorRest.JSON_PROPERTY_AVAILABLE_MEMORY
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0")
 public class SupervisorRest {
-    public static final String JSON_PROPERTY_NODE_NAME = "nodeName";
-    public static final String JSON_PROPERTY_DESCRIPTION = "description";
-    public static final String JSON_PROPERTY_PHYSICAL_MEMORY = "physicalMemory";
-    public static final String JSON_PROPERTY_PHYSICAL_CPU = "physicalCpu";
-    public static final String JSON_PROPERTY_OPERATING_SYSTEM = "operatingSystem";
-    public static final String JSON_PROPERTY_AVAILABLE_MEMORY = "availableMemory";
-    @jakarta.annotation.Nullable
-    private String nodeName;
-    @jakarta.annotation.Nullable
-    private String description;
-    @jakarta.annotation.Nullable
-    private String physicalMemory;
-    @jakarta.annotation.Nullable
-    private Integer physicalCpu;
-    @jakarta.annotation.Nullable
-    private String operatingSystem;
-    @jakarta.annotation.Nullable
-    private String availableMemory;
+  public static final String JSON_PROPERTY_NODE_NAME = "nodeName";
+  @jakarta.annotation.Nullable
+  private String nodeName;
 
-    public SupervisorRest() {
+  public static final String JSON_PROPERTY_DESCRIPTION = "description";
+  @jakarta.annotation.Nullable
+  private String description;
+
+  public static final String JSON_PROPERTY_PHYSICAL_MEMORY = "physicalMemory";
+  @jakarta.annotation.Nullable
+  private String physicalMemory;
+
+  public static final String JSON_PROPERTY_PHYSICAL_CPU = "physicalCpu";
+  @jakarta.annotation.Nullable
+  private Integer physicalCpu;
+
+  public static final String JSON_PROPERTY_OPERATING_SYSTEM = "operatingSystem";
+  @jakarta.annotation.Nullable
+  private String operatingSystem;
+
+  public static final String JSON_PROPERTY_AVAILABLE_MEMORY = "availableMemory";
+  @jakarta.annotation.Nullable
+  private String availableMemory;
+
+  public SupervisorRest() {
+  }
+
+  public SupervisorRest nodeName(@jakarta.annotation.Nullable String nodeName) {
+    
+    this.nodeName = nodeName;
+    return this;
+  }
+
+  /**
+   * The name of the node in the supervisor system
+   * @return nodeName
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_NODE_NAME, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getNodeName() {
+    return nodeName;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_NODE_NAME, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setNodeName(@jakarta.annotation.Nullable String nodeName) {
+    this.nodeName = nodeName;
+  }
+
+  public SupervisorRest description(@jakarta.annotation.Nullable String description) {
+    
+    this.description = description;
+    return this;
+  }
+
+  /**
+   * Description of the node
+   * @return description
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_DESCRIPTION, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getDescription() {
+    return description;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_DESCRIPTION, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setDescription(@jakarta.annotation.Nullable String description) {
+    this.description = description;
+  }
+
+  public SupervisorRest physicalMemory(@jakarta.annotation.Nullable String physicalMemory) {
+    
+    this.physicalMemory = physicalMemory;
+    return this;
+  }
+
+  /**
+   * Total physical memory available in the system
+   * @return physicalMemory
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_PHYSICAL_MEMORY, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getPhysicalMemory() {
+    return physicalMemory;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_PHYSICAL_MEMORY, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPhysicalMemory(@jakarta.annotation.Nullable String physicalMemory) {
+    this.physicalMemory = physicalMemory;
+  }
+
+  public SupervisorRest physicalCpu(@jakarta.annotation.Nullable Integer physicalCpu) {
+    
+    this.physicalCpu = physicalCpu;
+    return this;
+  }
+
+  /**
+   * Number of physical CPU cores
+   * @return physicalCpu
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_PHYSICAL_CPU, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getPhysicalCpu() {
+    return physicalCpu;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_PHYSICAL_CPU, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPhysicalCpu(@jakarta.annotation.Nullable Integer physicalCpu) {
+    this.physicalCpu = physicalCpu;
+  }
+
+  public SupervisorRest operatingSystem(@jakarta.annotation.Nullable String operatingSystem) {
+    
+    this.operatingSystem = operatingSystem;
+    return this;
+  }
+
+  /**
+   * Operating system information
+   * @return operatingSystem
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_OPERATING_SYSTEM, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getOperatingSystem() {
+    return operatingSystem;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_OPERATING_SYSTEM, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setOperatingSystem(@jakarta.annotation.Nullable String operatingSystem) {
+    this.operatingSystem = operatingSystem;
+  }
+
+  public SupervisorRest availableMemory(@jakarta.annotation.Nullable String availableMemory) {
+    
+    this.availableMemory = availableMemory;
+    return this;
+  }
+
+  /**
+   * Currently available memory in the system
+   * @return availableMemory
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_AVAILABLE_MEMORY, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getAvailableMemory() {
+    return availableMemory;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_AVAILABLE_MEMORY, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAvailableMemory(@jakarta.annotation.Nullable String availableMemory) {
+    this.availableMemory = availableMemory;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    SupervisorRest supervisorRest = (SupervisorRest) o;
+    return Objects.equals(this.nodeName, supervisorRest.nodeName) &&
+        Objects.equals(this.description, supervisorRest.description) &&
+        Objects.equals(this.physicalMemory, supervisorRest.physicalMemory) &&
+        Objects.equals(this.physicalCpu, supervisorRest.physicalCpu) &&
+        Objects.equals(this.operatingSystem, supervisorRest.operatingSystem) &&
+        Objects.equals(this.availableMemory, supervisorRest.availableMemory);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(nodeName, description, physicalMemory, physicalCpu, operatingSystem, availableMemory);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class SupervisorRest {\n");
+    sb.append("    nodeName: ").append(toIndentedString(nodeName)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    physicalMemory: ").append(toIndentedString(physicalMemory)).append("\n");
+    sb.append("    physicalCpu: ").append(toIndentedString(physicalCpu)).append("\n");
+    sb.append("    operatingSystem: ").append(toIndentedString(operatingSystem)).append("\n");
+    sb.append("    availableMemory: ").append(toIndentedString(availableMemory)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
+      prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
 
-    public SupervisorRest nodeName(@jakarta.annotation.Nullable String nodeName) {
+    StringJoiner joiner = new StringJoiner("&");
 
-        this.nodeName = nodeName;
-        return this;
+    // add `nodeName` to the URL query string
+    if (getNodeName() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%snodeName%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNodeName()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
-    /**
-     * The name of the node in the supervisor system
-     *
-     * @return nodeName
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_NODE_NAME, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public String getNodeName() {
-        return nodeName;
+    // add `description` to the URL query string
+    if (getDescription() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%sdescription%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDescription()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
-
-    @JsonProperty(value = JSON_PROPERTY_NODE_NAME, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setNodeName(@jakarta.annotation.Nullable String nodeName) {
-        this.nodeName = nodeName;
+    // add `physicalMemory` to the URL query string
+    if (getPhysicalMemory() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%sphysicalMemory%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPhysicalMemory()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
-    public SupervisorRest description(@jakarta.annotation.Nullable String description) {
-
-        this.description = description;
-        return this;
+    // add `physicalCpu` to the URL query string
+    if (getPhysicalCpu() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%sphysicalCpu%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPhysicalCpu()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
-    /**
-     * Description of the node
-     *
-     * @return description
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_DESCRIPTION, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public String getDescription() {
-        return description;
+    // add `operatingSystem` to the URL query string
+    if (getOperatingSystem() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%soperatingSystem%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOperatingSystem()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
-
-    @JsonProperty(value = JSON_PROPERTY_DESCRIPTION, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setDescription(@jakarta.annotation.Nullable String description) {
-        this.description = description;
+    // add `availableMemory` to the URL query string
+    if (getAvailableMemory() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%savailableMemory%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getAvailableMemory()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
-    public SupervisorRest physicalMemory(@jakarta.annotation.Nullable String physicalMemory) {
-
-        this.physicalMemory = physicalMemory;
-        return this;
-    }
-
-    /**
-     * Total physical memory available in the system
-     *
-     * @return physicalMemory
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_PHYSICAL_MEMORY, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public String getPhysicalMemory() {
-        return physicalMemory;
-    }
-
-
-    @JsonProperty(value = JSON_PROPERTY_PHYSICAL_MEMORY, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setPhysicalMemory(@jakarta.annotation.Nullable String physicalMemory) {
-        this.physicalMemory = physicalMemory;
-    }
-
-    public SupervisorRest physicalCpu(@jakarta.annotation.Nullable Integer physicalCpu) {
-
-        this.physicalCpu = physicalCpu;
-        return this;
-    }
-
-    /**
-     * Number of physical CPU cores
-     *
-     * @return physicalCpu
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_PHYSICAL_CPU, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public Integer getPhysicalCpu() {
-        return physicalCpu;
-    }
-
-
-    @JsonProperty(value = JSON_PROPERTY_PHYSICAL_CPU, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setPhysicalCpu(@jakarta.annotation.Nullable Integer physicalCpu) {
-        this.physicalCpu = physicalCpu;
-    }
-
-    public SupervisorRest operatingSystem(@jakarta.annotation.Nullable String operatingSystem) {
-
-        this.operatingSystem = operatingSystem;
-        return this;
-    }
-
-    /**
-     * Operating system information
-     *
-     * @return operatingSystem
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_OPERATING_SYSTEM, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public String getOperatingSystem() {
-        return operatingSystem;
-    }
-
-
-    @JsonProperty(value = JSON_PROPERTY_OPERATING_SYSTEM, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setOperatingSystem(@jakarta.annotation.Nullable String operatingSystem) {
-        this.operatingSystem = operatingSystem;
-    }
-
-    public SupervisorRest availableMemory(@jakarta.annotation.Nullable String availableMemory) {
-
-        this.availableMemory = availableMemory;
-        return this;
-    }
-
-    /**
-     * Currently available memory in the system
-     *
-     * @return availableMemory
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_AVAILABLE_MEMORY, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public String getAvailableMemory() {
-        return availableMemory;
-    }
-
-
-    @JsonProperty(value = JSON_PROPERTY_AVAILABLE_MEMORY, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setAvailableMemory(@jakarta.annotation.Nullable String availableMemory) {
-        this.availableMemory = availableMemory;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        SupervisorRest supervisorRest = (SupervisorRest) o;
-        return Objects.equals(this.nodeName, supervisorRest.nodeName) &&
-                Objects.equals(this.description, supervisorRest.description) &&
-                Objects.equals(this.physicalMemory, supervisorRest.physicalMemory) &&
-                Objects.equals(this.physicalCpu, supervisorRest.physicalCpu) &&
-                Objects.equals(this.operatingSystem, supervisorRest.operatingSystem) &&
-                Objects.equals(this.availableMemory, supervisorRest.availableMemory);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(nodeName, description, physicalMemory, physicalCpu, operatingSystem, availableMemory);
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class SupervisorRest {\n");
-        sb.append("    nodeName: ").append(toIndentedString(nodeName)).append("\n");
-        sb.append("    description: ").append(toIndentedString(description)).append("\n");
-        sb.append("    physicalMemory: ").append(toIndentedString(physicalMemory)).append("\n");
-        sb.append("    physicalCpu: ").append(toIndentedString(physicalCpu)).append("\n");
-        sb.append("    operatingSystem: ").append(toIndentedString(operatingSystem)).append("\n");
-        sb.append("    availableMemory: ").append(toIndentedString(availableMemory)).append("\n");
-        sb.append("}");
-        return sb.toString();
-    }
-
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
-        }
-        return o.toString().replace("\n", "\n    ");
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @return URL query string
-     */
-    public String toUrlQueryString() {
-        return toUrlQueryString(null);
-    }
-
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @param prefix prefix of the query string
-     * @return URL query string
-     */
-    public String toUrlQueryString(String prefix) {
-        String suffix = "";
-        String containerSuffix = "";
-        String containerPrefix = "";
-        if (prefix == null) {
-            // style=form, explode=true, e.g. /pet?name=cat&type=manx
-            prefix = "";
-        } else {
-            // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-            prefix = prefix + "[";
-            suffix = "]";
-            containerSuffix = "]";
-            containerPrefix = "[";
-        }
-
-        StringJoiner joiner = new StringJoiner("&");
-
-        // add `nodeName` to the URL query string
-        if (getNodeName() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%snodeName%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getNodeName()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `description` to the URL query string
-        if (getDescription() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%sdescription%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getDescription()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `physicalMemory` to the URL query string
-        if (getPhysicalMemory() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%sphysicalMemory%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPhysicalMemory()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `physicalCpu` to the URL query string
-        if (getPhysicalCpu() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%sphysicalCpu%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPhysicalCpu()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `operatingSystem` to the URL query string
-        if (getOperatingSystem() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%soperatingSystem%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getOperatingSystem()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `availableMemory` to the URL query string
-        if (getAvailableMemory() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%savailableMemory%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getAvailableMemory()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        return joiner.toString();
-    }
+    return joiner.toString();
+  }
 
 }
 

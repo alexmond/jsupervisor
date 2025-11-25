@@ -1,6 +1,6 @@
 /*
  * JSupervisor REST API
- * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses.
+ * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses. 
  *
  * The version of the OpenAPI document: 0.0.2
  * Contact: alex.mondshain@gmail.com
@@ -13,254 +13,268 @@
 package org.alexmond.jsupervisor.client.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.alexmond.jsupervisor.client.invoker.*;
 
-import java.util.*;
+import org.alexmond.jsupervisor.client.invoker.ApiException;
+import org.alexmond.jsupervisor.client.invoker.ApiClient;
+import org.alexmond.jsupervisor.client.invoker.BaseApi;
+import org.alexmond.jsupervisor.client.invoker.Configuration;
+import org.alexmond.jsupervisor.client.invoker.Pair;
+
+import org.alexmond.jsupervisor.client.model.ErrorResponse;
+
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.StringJoiner;
+
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0")
 public class GroupProcessOperationsApi extends BaseApi {
 
-    public GroupProcessOperationsApi() {
-        super(Configuration.getDefaultApiClient());
-    }
+  public GroupProcessOperationsApi() {
+    super(Configuration.getDefaultApiClient());
+  }
 
-    public GroupProcessOperationsApi(ApiClient apiClient) {
-        super(apiClient);
-    }
+  public GroupProcessOperationsApi(ApiClient apiClient) {
+    super(apiClient);
+  }
 
-    /**
-     * Restart all processes
-     * Restart all configured processes
-     *
-     * @throws ApiException if fails to make API call
-     */
-    public void restartAll() throws ApiException {
-        this.restartAll(Collections.emptyMap());
-    }
-
-
-    /**
-     * Restart all processes
-     * Restart all configured processes
-     *
-     * @param additionalHeaders additionalHeaders for this call
-     * @throws ApiException if fails to make API call
-     */
-    public void restartAll(Map<String, String> additionalHeaders) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/api/v1/processes/group/restart";
-
-        StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-        String localVarQueryParameterBaseName;
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+  /**
+   * Restart all processes
+   * Restart all configured processes
+   * @throws ApiException if fails to make API call
+   */
+  public void restartAll() throws ApiException {
+    this.restartAll(Collections.emptyMap());
+  }
 
 
-        localVarHeaderParams.putAll(additionalHeaders);
+  /**
+   * Restart all processes
+   * Restart all configured processes
+   * @param additionalHeaders additionalHeaders for this call
+   * @throws ApiException if fails to make API call
+   */
+  public void restartAll(Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/api/v1/processes/group/restart";
+
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+    
+    localVarHeaderParams.putAll(additionalHeaders);
+
+    
+    
+    final String[] localVarAccepts = {
+      "*/*"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    apiClient.invokeAPI(
+        localVarPath,
+        "POST",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        null
+    );
+  }
+
+  /**
+   * Start all processes
+   * Start all configured processes that are not currently running
+   * @throws ApiException if fails to make API call
+   */
+  public void startAll() throws ApiException {
+    this.startAll(Collections.emptyMap());
+  }
 
 
-        final String[] localVarAccepts = {
+  /**
+   * Start all processes
+   * Start all configured processes that are not currently running
+   * @param additionalHeaders additionalHeaders for this call
+   * @throws ApiException if fails to make API call
+   */
+  public void startAll(Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/api/v1/processes/group/start";
 
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        final String[] localVarContentTypes = {
+    
+    localVarHeaderParams.putAll(additionalHeaders);
 
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    
+    
+    final String[] localVarAccepts = {
+      "*/*"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        String[] localVarAuthNames = new String[]{};
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        apiClient.invokeAPI(
-                localVarPath,
-                "POST",
-                localVarQueryParams,
-                localVarCollectionQueryParams,
-                localVarQueryStringJoiner.toString(),
-                localVarPostBody,
-                localVarHeaderParams,
-                localVarCookieParams,
-                localVarFormParams,
-                localVarAccept,
-                localVarContentType,
-                localVarAuthNames,
-                null
-        );
-    }
+    String[] localVarAuthNames = new String[] {  };
 
-    /**
-     * Start all processes
-     * Start all configured processes that are not currently running
-     *
-     * @throws ApiException if fails to make API call
-     */
-    public void startAll() throws ApiException {
-        this.startAll(Collections.emptyMap());
-    }
+    apiClient.invokeAPI(
+        localVarPath,
+        "POST",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        null
+    );
+  }
 
-
-    /**
-     * Start all processes
-     * Start all configured processes that are not currently running
-     *
-     * @param additionalHeaders additionalHeaders for this call
-     * @throws ApiException if fails to make API call
-     */
-    public void startAll(Map<String, String> additionalHeaders) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/api/v1/processes/group/start";
-
-        StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-        String localVarQueryParameterBaseName;
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-        localVarHeaderParams.putAll(additionalHeaders);
-
-
-        final String[] localVarAccepts = {
-
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{};
-
-        apiClient.invokeAPI(
-                localVarPath,
-                "POST",
-                localVarQueryParams,
-                localVarCollectionQueryParams,
-                localVarQueryStringJoiner.toString(),
-                localVarPostBody,
-                localVarHeaderParams,
-                localVarCookieParams,
-                localVarFormParams,
-                localVarAccept,
-                localVarContentType,
-                localVarAuthNames,
-                null
-        );
-    }
-
-    /**
-     * Stop all processes
-     * Stop all currently running processes
-     *
-     * @throws ApiException if fails to make API call
-     */
-    public void stopAll() throws ApiException {
-        this.stopAll(Collections.emptyMap());
-    }
+  /**
+   * Stop all processes
+   * Stop all currently running processes
+   * @throws ApiException if fails to make API call
+   */
+  public void stopAll() throws ApiException {
+    this.stopAll(Collections.emptyMap());
+  }
 
 
-    /**
-     * Stop all processes
-     * Stop all currently running processes
-     *
-     * @param additionalHeaders additionalHeaders for this call
-     * @throws ApiException if fails to make API call
-     */
-    public void stopAll(Map<String, String> additionalHeaders) throws ApiException {
-        Object localVarPostBody = null;
+  /**
+   * Stop all processes
+   * Stop all currently running processes
+   * @param additionalHeaders additionalHeaders for this call
+   * @throws ApiException if fails to make API call
+   */
+  public void stopAll(Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/api/v1/processes/group/stop";
 
-        // create path and map variables
-        String localVarPath = "/api/v1/processes/group/stop";
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-        String localVarQueryParameterBaseName;
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+    
+    localVarHeaderParams.putAll(additionalHeaders);
 
+    
+    
+    final String[] localVarAccepts = {
+      "*/*"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        localVarHeaderParams.putAll(additionalHeaders);
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
+    String[] localVarAuthNames = new String[] {  };
 
-        final String[] localVarAccepts = {
+    apiClient.invokeAPI(
+        localVarPath,
+        "POST",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        null
+    );
+  }
 
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+  @Override
+  public <T> T invokeAPI(String url, String method, Object request, TypeReference<T> returnType, Map<String, String> additionalHeaders) throws ApiException {
+    String localVarPath = url.replace(apiClient.getBaseURL(), "");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        final String[] localVarContentTypes = {
+    localVarHeaderParams.putAll(additionalHeaders);
 
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    final String[] localVarAccepts = {
+      "*/*"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        String[] localVarAuthNames = new String[]{};
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        apiClient.invokeAPI(
-                localVarPath,
-                "POST",
-                localVarQueryParams,
-                localVarCollectionQueryParams,
-                localVarQueryStringJoiner.toString(),
-                localVarPostBody,
-                localVarHeaderParams,
-                localVarCookieParams,
-                localVarFormParams,
-                localVarAccept,
-                localVarContentType,
-                localVarAuthNames,
-                null
-        );
-    }
+    String[] localVarAuthNames = new String[] {  };
 
-    @Override
-    public <T> T invokeAPI(String url, String method, Object request, TypeReference<T> returnType, Map<String, String> additionalHeaders) throws ApiException {
-        String localVarPath = url.replace(apiClient.getBaseURL(), "");
-        StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-        localVarHeaderParams.putAll(additionalHeaders);
-
-        final String[] localVarAccepts = {
-
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-        final String[] localVarContentTypes = {
-
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-        String[] localVarAuthNames = new String[]{};
-
-        return apiClient.invokeAPI(
-                localVarPath,
-                method,
-                localVarQueryParams,
-                localVarCollectionQueryParams,
-                localVarQueryStringJoiner.toString(),
-                request,
-                localVarHeaderParams,
-                localVarCookieParams,
-                localVarFormParams,
-                localVarAccept,
-                localVarContentType,
-                localVarAuthNames,
-                returnType
-        );
-    }
+    return apiClient.invokeAPI(
+      localVarPath,
+        method,
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        request,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        returnType
+    );
+  }
 }

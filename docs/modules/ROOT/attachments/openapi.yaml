@@ -20,357 +20,78 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.txt
   version: 0.0.2
 servers:
-  - url: http://localhost:8086
-    description: Local Development Server
+- url: http://localhost:8086
+  description: Local Development Server
 tags:
-  - name: Supervisor Information
-    description: APIs for supervisor system information and monitoring
-  - name: Event Management
-    description: Operations for managing and querying process event history
-  - name: Group Process Operations
-    description: APIs for managing multiple processes simultaneously
-  - name: Process Management
-    description: APIs for managing individual processes
+- name: Supervisor Information
+  description: APIs for supervisor system information and monitoring
+- name: Event Management
+  description: Operations for managing and querying process event history
+- name: Group Process Operations
+  description: APIs for managing multiple processes simultaneously
+- name: Process Management
+  description: APIs for managing individual processes
 paths:
-  /api/v1/processEventEntries:
-    get:
-      tags:
-        - process-event-entry-entity-controller
-      description: get-processevententry
-      operationId: getCollectionResource-processevententry-get
-      parameters:
-        - name: page
-          in: query
-          description: Zero-based page index (0..N)
-          required: false
-          schema:
-            type: integer
-            default: 0
-            minimum: 0
-        - name: size
-          in: query
-          description: The size of the page to be returned
-          required: false
-          schema:
-            type: integer
-            default: 20
-            minimum: 1
-        - name: sort
-          in: query
-          description: "Sorting criteria in the format: property,(asc|desc). Default\
-          \ sort order is ascending. Multiple sort criteria are supported."
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/PagedModelEntityModelProcessEventEntry"
-            application/x-spring-data-compact+json:
-              schema:
-                $ref: "#/components/schemas/PagedModelEntityModelProcessEventEntry"
-            text/uri-list:
-              schema:
-                type: string
-    post:
-      tags:
-        - process-event-entry-entity-controller
-      description: create-processevententry
-      operationId: postCollectionResource-processevententry-post
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ProcessEventEntryRequestBody"
-        required: true
-      responses:
-        "201":
-          description: Created
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/EntityModelProcessEventEntry"
-  /api/v1/processEventEntries/search/byProcessName:
-    get:
-      tags:
-        - process-event-entry-search-controller
-      operationId: executeSearch-processevententry-get
-      parameters:
-        - name: processName
-          in: query
-          schema:
-            type: string
-        - name: page
-          in: query
-          description: Zero-based page index (0..N)
-          required: false
-          schema:
-            type: integer
-            default: 0
-            minimum: 0
-        - name: size
-          in: query
-          description: The size of the page to be returned
-          required: false
-          schema:
-            type: integer
-            default: 20
-            minimum: 1
-        - name: sort
-          in: query
-          description: "Sorting criteria in the format: property,(asc|desc). Default\
-          \ sort order is ascending. Multiple sort criteria are supported."
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/PagedModelEntityModelProcessEventEntry"
-        "404":
-          description: Not Found
-  /api/v1/processEventEntries/search/byStatus:
-    get:
-      tags:
-        - process-event-entry-search-controller
-      operationId: executeSearch-processevententry-get_1
-      parameters:
-        - name: status
-          in: query
-          schema:
-            type: string
-            enum:
-              - not_started
-              - running
-              - finished
-              - unknown
-              - failed
-              - failed_to_start
-              - stopped
-              - stopping
-              - aborted
-              - starting
-              - healthy
-              - unhealthy
-        - name: page
-          in: query
-          description: Zero-based page index (0..N)
-          required: false
-          schema:
-            type: integer
-            default: 0
-            minimum: 0
-        - name: size
-          in: query
-          description: The size of the page to be returned
-          required: false
-          schema:
-            type: integer
-            default: 20
-            minimum: 1
-        - name: sort
-          in: query
-          description: "Sorting criteria in the format: property,(asc|desc). Default\
-          \ sort order is ascending. Multiple sort criteria are supported."
-          required: false
-          schema:
-            type: array
-            items:
-              type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/PagedModelEntityModelProcessEventEntry"
-        "404":
-          description: Not Found
-  /api/v1/processEventEntries/{id}:
-    get:
-      tags:
-        - process-event-entry-entity-controller
-      description: get-processevententry
-      operationId: getItemResource-processevententry-get
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/EntityModelProcessEventEntry"
-        "404":
-          description: Not Found
-    put:
-      tags:
-        - process-event-entry-entity-controller
-      description: update-processevententry
-      operationId: putItemResource-processevententry-put
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ProcessEventEntryRequestBody"
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/EntityModelProcessEventEntry"
-        "201":
-          description: Created
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/EntityModelProcessEventEntry"
-        "204":
-          description: No Content
-    delete:
-      tags:
-        - process-event-entry-entity-controller
-      description: delete-processevententry
-      operationId: deleteItemResource-processevententry-delete
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "204":
-          description: No Content
-        "404":
-          description: Not Found
-    patch:
-      tags:
-        - process-event-entry-entity-controller
-      description: patch-processevententry
-      operationId: patchItemResource-processevententry-patch
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ProcessEventEntryRequestBody"
-        required: true
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/EntityModelProcessEventEntry"
-        "204":
-          description: No Content
-  /api/v1/profile:
-    get:
-      tags:
-        - profile-controller
-      operationId: listAllFormsOfMetadata
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/RepresentationModelObject"
-  /api/v1/profile/processEventEntries:
-    get:
-      tags:
-        - profile-controller
-      operationId: descriptor
-      responses:
-        "200":
-          description: OK
-          content:
-            '*/*':
-              schema:
-                type: string
-            application/alps+json:
-              schema:
-                type: string
-            application/schema+json:
-              schema:
-                $ref: "#/components/schemas/JsonSchema"
   /api/v1/processes/stop/{name}:
     post:
       tags:
-        - Process Management
+      - Process Management
       summary: Stop process
       description: Stop a specific process
       operationId: stopProcess
       parameters:
-        - name: name
-          in: path
-          description: Process name
-          required: true
-          schema:
-            type: string
+      - name: name
+        in: path
+        description: Process name
+        required: true
+        schema:
+          type: string
       responses:
+        "400":
+          description: Business error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Failed to stop process
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "200":
           description: Process stop initiated successfully
         "404":
           description: Process not found
-        "500":
-          description: Failed to stop process
   /api/v1/processes/start/{name}:
     post:
       tags:
-        - Process Management
+      - Process Management
       summary: Start process
       description: Start a specific process
       operationId: startProcess
       parameters:
-        - name: name
-          in: path
-          description: Process name
-          required: true
-          schema:
-            type: string
+      - name: name
+        in: path
+        description: Process name
+        required: true
+        schema:
+          type: string
       responses:
-        "200":
-          description: Process start initiated successfully
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ResponseMessage"
         "400":
           description: Invalid process configuration
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/ResponseMessage"
+                $ref: "#/components/schemas/ErrorResponse"
         "500":
           description: Failed to start process
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "200":
+          description: Process start initiated successfully
           content:
             '*/*':
               schema:
@@ -378,72 +99,124 @@ paths:
   /api/v1/processes/restart/{name}:
     post:
       tags:
-        - Process Management
+      - Process Management
       summary: Restart process
       description: Restart a specific process
       operationId: restartProcess
       parameters:
-        - name: name
-          in: path
-          description: Process name
-          required: true
-          schema:
-            type: string
+      - name: name
+        in: path
+        description: Process name
+        required: true
+        schema:
+          type: string
       responses:
+        "400":
+          description: Business error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Failed to restart process
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "200":
           description: Process restart initiated successfully
         "404":
           description: Process not found
-        "500":
-          description: Failed to restart process
   /api/v1/processes/group/stop:
     post:
       tags:
-        - Group Process Operations
+      - Group Process Operations
       summary: Stop all processes
       description: Stop all currently running processes
       operationId: stopAll
       responses:
-        "200":
-          description: All processes stopped successfully
+        "400":
+          description: Business error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "500":
           description: Error occurred while stopping processes
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "200":
+          description: All processes stopped successfully
         "404":
           description: No running processes found
   /api/v1/processes/group/start:
     post:
       tags:
-        - Group Process Operations
+      - Group Process Operations
       summary: Start all processes
       description: Start all configured processes that are not currently running
       operationId: startAll
       responses:
-        "200":
-          description: All processes started successfully
+        "400":
+          description: Business error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "500":
           description: Error occurred while starting processes
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "200":
+          description: All processes started successfully
         "409":
           description: Some processes are already running
   /api/v1/processes/group/restart:
     post:
       tags:
-        - Group Process Operations
+      - Group Process Operations
       summary: Restart all processes
       description: Restart all configured processes
       operationId: restartAll
       responses:
-        "200":
-          description: All processes restarted successfully
+        "400":
+          description: Business error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "500":
           description: Error occurred while restarting processes
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "200":
+          description: All processes restarted successfully
   /api/v1/supervisor/info:
     get:
       tags:
-        - Supervisor Information
+      - Supervisor Information
       summary: Get supervisor info
       description: Retrieve basic supervisor information
       operationId: getSupervisorInfo
       responses:
+        "400":
+          description: Business error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "200":
           description: OK
           content:
@@ -453,11 +226,23 @@ paths:
   /api/v1/processes:
     get:
       tags:
-        - Process Management
+      - Process Management
       summary: List all processes
       description: Retrieve status information for all configured processes
       operationId: getAllProcesses
       responses:
+        "400":
+          description: Business error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "200":
           description: Successfully retrieved list of processes
           content:
@@ -469,18 +254,30 @@ paths:
   /api/v1/processes/status/{name}:
     get:
       tags:
-        - Process Management
+      - Process Management
       summary: Get process status
       description: Get the current status of a specific process
       operationId: getProcessStatus
       parameters:
-        - name: name
-          in: path
-          description: Process name
-          required: true
-          schema:
-            type: string
+      - name: name
+        in: path
+        description: Process name
+        required: true
+        schema:
+          type: string
       responses:
+        "400":
+          description: Business error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Failed to retrieve process status
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "200":
           description: Successfully retrieved process status
           content:
@@ -493,91 +290,99 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/ProcessStatusRest"
-        "500":
-          description: Failed to retrieve process status
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ProcessStatusRest"
   /api/v1/events:
     get:
       tags:
-        - Event Management
+      - Event Management
       summary: Get paginated events
       description: Retrieves a paginated list of all process events with customizable
         sorting
       operationId: getEvents
       parameters:
-        - name: page
-          in: query
-          description: Page number (0-based)
-          required: false
-          schema:
-            type: integer
-            minimum: 0
-          example: 0
-        - name: size
-          in: query
-          description: Number of items per page
-          required: false
-          schema:
-            type: integer
-            maximum: 100
-            minimum: 1
-          example: 20
-        - name: sortBy
-          in: query
-          description: Field to sort by
-          required: false
-          schema:
-            type: string
-            enum:
-              - eventTime
-              - processName
-              - newStatus
-              - oldStatus
-              - pid
-          example: eventTime
-        - name: sortDirection
-          in: query
-          description: Sort direction
-          required: false
-          schema:
-            type: string
-            enum:
-              - asc
-              - desc
-          example: desc
+      - name: page
+        in: query
+        description: Page number (0-based)
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+        example: 0
+      - name: size
+        in: query
+        description: Number of items per page
+        required: false
+        schema:
+          type: integer
+          maximum: 100
+          minimum: 1
+        example: 20
+      - name: sortBy
+        in: query
+        description: Field to sort by
+        required: false
+        schema:
+          type: string
+          enum:
+          - eventTime
+          - processName
+          - newStatus
+          - oldStatus
+          - pid
+        example: eventTime
+      - name: sortDirection
+        in: query
+        description: Sort direction
+        required: false
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+        example: desc
       responses:
+        "400":
+          description: Invalid pagination or sorting parameters
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "200":
           description: Successfully retrieved events
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Page"
-        "400":
-          description: Invalid pagination or sorting parameters
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/PageProcessEventEntry"
   /api/v1/events/{id}:
     get:
       tags:
-        - Event Management
+      - Event Management
       summary: Get event by ID
       description: Retrieves detailed information about a specific process event
       operationId: getEventById
       parameters:
-        - name: id
-          in: path
-          description: Event ID
-          required: true
-          schema:
-            type: integer
-            format: int64
-          example: 123
+      - name: id
+        in: path
+        description: Event ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+        example: 123
       responses:
+        "400":
+          description: Business error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "200":
           description: Event found
           content:
@@ -593,11 +398,23 @@ paths:
   /api/v1/events/count:
     get:
       tags:
-        - Event Management
+      - Event Management
       summary: Get total event count
       description: Returns the total number of events in the system
       operationId: getTotalEventsCount
       responses:
+        "400":
+          description: Business error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "200":
           description: Successfully retrieved count
           content:
@@ -610,74 +427,76 @@ paths:
   /api/v1/events/by-status/{status}:
     get:
       tags:
-        - Event Management
+      - Event Management
       summary: Get events by status
       description: Retrieves paginated events matching a specific process status
       operationId: getEventsByStatus
       parameters:
-        - name: status
-          in: path
-          description: Process status to filter by
-          required: true
-          schema:
-            type: string
-            enum:
-              - not_started
-              - running
-              - finished
-              - unknown
-              - failed
-              - failed_to_start
-              - stopped
-              - stopping
-              - aborted
-              - starting
-              - healthy
-              - unhealthy
-          example: running
-        - name: page
-          in: query
-          description: Page number (0-based)
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 0
-          example: 0
-        - name: size
-          in: query
-          description: Number of items per page
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 20
-          example: 20
-        - name: sortBy
-          in: query
-          description: Field to sort by
-          required: false
-          schema:
-            type: string
-            default: eventTime
-          example: eventTime
-        - name: sortDirection
-          in: query
-          description: Sort direction
-          required: false
-          schema:
-            type: string
-            default: desc
-          example: desc
+      - name: status
+        in: path
+        description: Process status to filter by
+        required: true
+        schema:
+          type: string
+          enum:
+          - not_started
+          - running
+          - finished
+          - unknown
+          - failed
+          - failed_to_start
+          - stopped
+          - stopping
+          - aborted
+          - starting
+          - healthy
+          - unhealthy
+        example: running
+      - name: page
+        in: query
+        description: Page number (0-based)
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+        example: 0
+      - name: size
+        in: query
+        description: Number of items per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 20
+        example: 20
+      - name: sortBy
+        in: query
+        description: Field to sort by
+        required: false
+        schema:
+          type: string
+          default: eventTime
+        example: eventTime
+      - name: sortDirection
+        in: query
+        description: Sort direction
+        required: false
+        schema:
+          type: string
+          default: desc
+        example: desc
       responses:
-        "200":
-          description: Successfully retrieved events
+        "400":
+          description: Invalid status value
+        "500":
+          description: Internal server error
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/PageProcessEventEntry"
-        "400":
-          description: Invalid status value
+                $ref: "#/components/schemas/ErrorResponse"
+        "200":
+          description: Successfully retrieved events
           content:
             '*/*':
               schema:
@@ -685,53 +504,65 @@ paths:
   /api/v1/events/by-process/{processName}:
     get:
       tags:
-        - Event Management
+      - Event Management
       summary: Get events by process name
       description: Retrieves paginated events for a specific process
       operationId: getEventsByProcess
       parameters:
-        - name: processName
-          in: path
-          description: Process name
-          required: true
-          schema:
-            type: string
-          example: myapp
-        - name: page
-          in: query
-          description: Page number (0-based)
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 0
-          example: 0
-        - name: size
-          in: query
-          description: Number of items per page
-          required: false
-          schema:
-            type: integer
-            format: int32
-            default: 20
-          example: 20
-        - name: sortBy
-          in: query
-          description: Field to sort by
-          required: false
-          schema:
-            type: string
-            default: eventTime
-          example: eventTime
-        - name: sortDirection
-          in: query
-          description: Sort direction
-          required: false
-          schema:
-            type: string
-            default: desc
-          example: desc
+      - name: processName
+        in: path
+        description: Process name
+        required: true
+        schema:
+          type: string
+        example: myapp
+      - name: page
+        in: query
+        description: Page number (0-based)
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 0
+        example: 0
+      - name: size
+        in: query
+        description: Number of items per page
+        required: false
+        schema:
+          type: integer
+          format: int32
+          default: 20
+        example: 20
+      - name: sortBy
+        in: query
+        description: Field to sort by
+        required: false
+        schema:
+          type: string
+          default: eventTime
+        example: eventTime
+      - name: sortDirection
+        in: query
+        description: Sort direction
+        required: false
+        schema:
+          type: string
+          default: desc
+        example: desc
       responses:
+        "400":
+          description: Business error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "200":
           description: Successfully retrieved events
           content:
@@ -746,332 +577,31 @@ paths:
                 $ref: "#/components/schemas/PageProcessEventEntry"
 components:
   schemas:
-    AbstractJsonSchemaPropertyObject:
+    ErrorResponse:
       type: object
+      description: Standard error response for REST APIs.
       properties:
-        title:
-          type: string
-        readOnly:
-          type: boolean
-    Item:
-      type: object
-      properties:
-        type:
-          type: string
-        properties:
-          type: object
-          additionalProperties:
-            $ref: "#/components/schemas/AbstractJsonSchemaPropertyObject"
-        requiredProperties:
-          type: array
-          items:
-            type: string
-    JsonSchema:
-      type: object
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-        properties:
-          type: object
-          additionalProperties:
-            $ref: "#/components/schemas/AbstractJsonSchemaPropertyObject"
-        requiredProperties:
-          type: array
-          items:
-            type: string
-        definitions:
-          type: object
-          additionalProperties:
-            $ref: "#/components/schemas/Item"
-        type:
-          type: string
-        $schema:
-          type: string
-    Link:
-      type: object
-      properties:
-        rel:
-          type: string
-        href:
-          type: string
-        hreflang:
-          type: string
-        media:
-          type: string
-        title:
-          type: string
-        type:
-          type: string
-        deprecation:
-          type: string
-        profile:
-          type: string
-        name:
-          type: string
-    RepresentationModelObject:
-      type: object
-      properties:
-        links:
-          type: array
-          items:
-            $ref: "#/components/schemas/Link"
-    ProcessEventEntry:
-      type: object
-      description: Represents an event entry for process state changes and lifecycle
-        events
-      properties:
-        id:
-          type: integer
-          format: int64
-          description: Unique identifier for the process event
-          example: 1
-        pid:
-          type: integer
-          format: int64
-          description: Process ID of the running process
-          example: 12345
-        eventTime:
+        timestamp:
           type: string
           format: date-time
-          description: Timestamp when the event occurred
-          example: 2025-11-17T10:30:00
-        processName:
+          description: Timestamp when the error occurred
+          example: 2025-11-17T10:15:30Z
+        path:
           type: string
-          description: Name of the managed process
-          example: my-application
-        startTime:
+          description: Request path where the error occurred
+          example: /api/v1/processes
+        error:
           type: string
-          format: date-time
-          description: Timestamp when the process was started
-          example: 2025-11-17T10:00:00
-        endTime:
+          description: Short error identifier
+          example: BAD_REQUEST
+        message:
           type: string
-          format: date-time
-          description: "Timestamp when the process ended, null if still running"
-          example: 2025-11-17T10:15:00
-        exitCode:
-          type: integer
-          format: int32
-          description: "Exit code of the process, null if still running"
-          example: 0
-        newStatus:
+          description: Human readable error message
+          example: Invalid process ID
+        code:
           type: string
-          description: New status of the process after the event
-          enum:
-            - not_started
-            - running
-            - finished
-            - unknown
-            - failed
-            - failed_to_start
-            - stopped
-            - stopping
-            - aborted
-            - starting
-            - healthy
-            - unhealthy
-        oldStatus:
-          type: string
-          description: Previous status of the process before the event
-          enum:
-            - not_started
-            - running
-            - finished
-            - unknown
-            - failed
-            - failed_to_start
-            - stopped
-            - stopping
-            - aborted
-            - starting
-            - healthy
-            - unhealthy
-        processUptime:
-          type: string
-          description: Duration for which the process has been running
-          example: PT15M
-    EntityModelProcessEventEntry:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          description: Unique identifier for the process event
-          example: 1
-        pid:
-          type: integer
-          format: int64
-          description: Process ID of the running process
-          example: 12345
-        eventTime:
-          type: string
-          format: date-time
-          description: Timestamp when the event occurred
-          example: 2025-11-17T10:30:00
-        processName:
-          type: string
-          description: Name of the managed process
-          example: my-application
-        startTime:
-          type: string
-          format: date-time
-          description: Timestamp when the process was started
-          example: 2025-11-17T10:00:00
-        endTime:
-          type: string
-          format: date-time
-          description: "Timestamp when the process ended, null if still running"
-          example: 2025-11-17T10:15:00
-        exitCode:
-          type: integer
-          format: int32
-          description: "Exit code of the process, null if still running"
-          example: 0
-        newStatus:
-          type: string
-          description: New status of the process after the event
-          enum:
-            - not_started
-            - running
-            - finished
-            - unknown
-            - failed
-            - failed_to_start
-            - stopped
-            - stopping
-            - aborted
-            - starting
-            - healthy
-            - unhealthy
-        oldStatus:
-          type: string
-          description: Previous status of the process before the event
-          enum:
-            - not_started
-            - running
-            - finished
-            - unknown
-            - failed
-            - failed_to_start
-            - stopped
-            - stopping
-            - aborted
-            - starting
-            - healthy
-            - unhealthy
-        processUptime:
-          type: string
-          description: Duration for which the process has been running
-          example: PT15M
-        links:
-          type: array
-          items:
-            $ref: "#/components/schemas/Link"
-    PageMetadata:
-      type: object
-      properties:
-        size:
-          type: integer
-          format: int64
-        totalElements:
-          type: integer
-          format: int64
-        totalPages:
-          type: integer
-          format: int64
-        number:
-          type: integer
-          format: int64
-    PagedModelEntityModelProcessEventEntry:
-      type: object
-      properties:
-        links:
-          type: array
-          items:
-            $ref: "#/components/schemas/Link"
-        content:
-          type: array
-          items:
-            $ref: "#/components/schemas/EntityModelProcessEventEntry"
-        page:
-          $ref: "#/components/schemas/PageMetadata"
-    ProcessEventEntryRequestBody:
-      type: object
-      description: Represents an event entry for process state changes and lifecycle
-        events
-      properties:
-        id:
-          type: integer
-          format: int64
-          description: Unique identifier for the process event
-          example: 1
-        pid:
-          type: integer
-          format: int64
-          description: Process ID of the running process
-          example: 12345
-        eventTime:
-          type: string
-          format: date-time
-          description: Timestamp when the event occurred
-          example: 2025-11-17T10:30:00
-        processName:
-          type: string
-          description: Name of the managed process
-          example: my-application
-        startTime:
-          type: string
-          format: date-time
-          description: Timestamp when the process was started
-          example: 2025-11-17T10:00:00
-        endTime:
-          type: string
-          format: date-time
-          description: "Timestamp when the process ended, null if still running"
-          example: 2025-11-17T10:15:00
-        exitCode:
-          type: integer
-          format: int32
-          description: "Exit code of the process, null if still running"
-          example: 0
-        newStatus:
-          type: string
-          description: New status of the process after the event
-          enum:
-            - not_started
-            - running
-            - finished
-            - unknown
-            - failed
-            - failed_to_start
-            - stopped
-            - stopping
-            - aborted
-            - starting
-            - healthy
-            - unhealthy
-        oldStatus:
-          type: string
-          description: Previous status of the process before the event
-          enum:
-            - not_started
-            - running
-            - finished
-            - unknown
-            - failed
-            - failed_to_start
-            - stopped
-            - stopping
-            - aborted
-            - starting
-            - healthy
-            - unhealthy
-        processUptime:
-          type: string
-          description: Duration for which the process has been running
-          example: PT15M
+          description: Optional application-specific error code
+          example: JSUPERVISOR-001
     ResponseMessage:
       type: object
       properties:
@@ -1120,18 +650,18 @@ components:
           type: string
           description: "Current status of the process (e.g., running, stopped, failed)"
           enum:
-            - not_started
-            - running
-            - finished
-            - unknown
-            - failed
-            - failed_to_start
-            - stopped
-            - stopping
-            - aborted
-            - starting
-            - healthy
-            - unhealthy
+          - not_started
+          - running
+          - finished
+          - unknown
+          - failed
+          - failed_to_start
+          - stopped
+          - stopping
+          - aborted
+          - starting
+          - healthy
+          - unhealthy
         pid:
           type: integer
           format: int64
@@ -1176,12 +706,12 @@ components:
     Page:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
         first:
           type: boolean
         last:
@@ -1191,17 +721,17 @@ components:
           format: int32
         content:
           type: array
-          items: { }
+          items: {}
         number:
           type: integer
           format: int32
         sort:
           $ref: "#/components/schemas/SortObject"
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
         numberOfElements:
           type: integer
           format: int32
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
         empty:
           type: boolean
     PageableObject:
@@ -1231,15 +761,90 @@ components:
           type: boolean
         unsorted:
           type: boolean
+    ProcessEventEntry:
+      type: object
+      description: Represents an event entry for process state changes and lifecycle
+        events
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier for the process event
+          example: 1
+        pid:
+          type: integer
+          format: int64
+          description: Process ID of the running process
+          example: 12345
+        eventTime:
+          type: string
+          format: date-time
+          description: Timestamp when the event occurred
+          example: 2025-11-17T10:30:00
+        processName:
+          type: string
+          description: Name of the managed process
+          example: my-application
+        startTime:
+          type: string
+          format: date-time
+          description: Timestamp when the process was started
+          example: 2025-11-17T10:00:00
+        endTime:
+          type: string
+          format: date-time
+          description: "Timestamp when the process ended, null if still running"
+          example: 2025-11-17T10:15:00
+        exitCode:
+          type: integer
+          format: int32
+          description: "Exit code of the process, null if still running"
+          example: 0
+        newStatus:
+          type: string
+          description: New status of the process after the event
+          enum:
+          - not_started
+          - running
+          - finished
+          - unknown
+          - failed
+          - failed_to_start
+          - stopped
+          - stopping
+          - aborted
+          - starting
+          - healthy
+          - unhealthy
+        oldStatus:
+          type: string
+          description: Previous status of the process before the event
+          enum:
+          - not_started
+          - running
+          - finished
+          - unknown
+          - failed
+          - failed_to_start
+          - stopped
+          - stopping
+          - aborted
+          - starting
+          - healthy
+          - unhealthy
+        processUptime:
+          type: string
+          description: Duration for which the process has been running
+          example: PT15M
     PageProcessEventEntry:
       type: object
       properties:
-        totalPages:
-          type: integer
-          format: int32
         totalElements:
           type: integer
           format: int64
+        totalPages:
+          type: integer
+          format: int32
         first:
           type: boolean
         last:
@@ -1256,10 +861,10 @@ components:
           format: int32
         sort:
           $ref: "#/components/schemas/SortObject"
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
         numberOfElements:
           type: integer
           format: int32
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
         empty:
           type: boolean

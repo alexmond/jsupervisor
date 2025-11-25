@@ -38,7 +38,7 @@ public class ProcessController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved list of processes")
     })
     public Collection<ProcessStatusRest> getAllProcesses() {
-        return processRepository.findAllProcessStatusRest();
+        return processManager.getAllProcessStatusRest();
     }
 
     @PostMapping("/start/{name}")
@@ -89,6 +89,6 @@ public class ProcessController {
     })
     public ProcessStatusRest getProcessStatus(
             @Parameter(description = "Process name") @PathVariable String name) {
-        return processRepository.getRunningProcessRest(name);
+        return processManager.getRunningProcess(name);
     }
 }

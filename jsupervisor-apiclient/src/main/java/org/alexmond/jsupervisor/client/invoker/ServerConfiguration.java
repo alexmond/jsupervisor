@@ -1,6 +1,6 @@
 /*
  * JSupervisor REST API
- * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses.
+ * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses. 
  *
  * The version of the OpenAPI document: 0.0.2
  * Contact: alex.mondshain@gmail.com
@@ -25,9 +25,9 @@ public class ServerConfiguration {
     public Map<String, ServerVariable> variables;
 
     /**
-     * @param URL         A URL to the target host.
+     * @param URL A URL to the target host.
      * @param description A description of the host designated by the URL.
-     * @param variables   A map between a variable name and its value. The value is used for substitution in the server's URL template.
+     * @param variables A map between a variable name and its value. The value is used for substitution in the server's URL template.
      */
     public ServerConfiguration(String URL, String description, Map<String, ServerVariable> variables) {
         this.URL = URL;
@@ -45,7 +45,7 @@ public class ServerConfiguration {
         String url = this.URL;
 
         // go through variables and replace placeholders
-        for (Map.Entry<String, ServerVariable> variable : this.variables.entrySet()) {
+        for (Map.Entry<String, ServerVariable> variable: this.variables.entrySet()) {
             String name = variable.getKey();
             ServerVariable serverVariable = variable.getValue();
             String value = serverVariable.defaultValue;

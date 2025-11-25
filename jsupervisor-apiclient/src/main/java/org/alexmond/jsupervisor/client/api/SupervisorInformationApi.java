@@ -1,6 +1,6 @@
 /*
  * JSupervisor REST API
- * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses.
+ * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses. 
  *
  * The version of the OpenAPI document: 0.0.2
  * Contact: alex.mondshain@gmail.com
@@ -13,129 +13,144 @@
 package org.alexmond.jsupervisor.client.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import org.alexmond.jsupervisor.client.invoker.*;
+
+import org.alexmond.jsupervisor.client.invoker.ApiException;
+import org.alexmond.jsupervisor.client.invoker.ApiClient;
+import org.alexmond.jsupervisor.client.invoker.BaseApi;
+import org.alexmond.jsupervisor.client.invoker.Configuration;
+import org.alexmond.jsupervisor.client.invoker.Pair;
+
+import org.alexmond.jsupervisor.client.model.ErrorResponse;
 import org.alexmond.jsupervisor.client.model.SupervisorRest;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.StringJoiner;
+
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0")
 public class SupervisorInformationApi extends BaseApi {
 
-    public SupervisorInformationApi() {
-        super(Configuration.getDefaultApiClient());
-    }
+  public SupervisorInformationApi() {
+    super(Configuration.getDefaultApiClient());
+  }
 
-    public SupervisorInformationApi(ApiClient apiClient) {
-        super(apiClient);
-    }
+  public SupervisorInformationApi(ApiClient apiClient) {
+    super(apiClient);
+  }
 
-    /**
-     * Get supervisor info
-     * Retrieve basic supervisor information
-     *
-     * @return SupervisorRest
-     * @throws ApiException if fails to make API call
-     */
-    public SupervisorRest getSupervisorInfo() throws ApiException {
-        return this.getSupervisorInfo(Collections.emptyMap());
-    }
-
-
-    /**
-     * Get supervisor info
-     * Retrieve basic supervisor information
-     *
-     * @param additionalHeaders additionalHeaders for this call
-     * @return SupervisorRest
-     * @throws ApiException if fails to make API call
-     */
-    public SupervisorRest getSupervisorInfo(Map<String, String> additionalHeaders) throws ApiException {
-        Object localVarPostBody = null;
-
-        // create path and map variables
-        String localVarPath = "/api/v1/supervisor/info";
-
-        StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-        String localVarQueryParameterBaseName;
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+  /**
+   * Get supervisor info
+   * Retrieve basic supervisor information
+   * @return SupervisorRest
+   * @throws ApiException if fails to make API call
+   */
+  public SupervisorRest getSupervisorInfo() throws ApiException {
+    return this.getSupervisorInfo(Collections.emptyMap());
+  }
 
 
-        localVarHeaderParams.putAll(additionalHeaders);
+  /**
+   * Get supervisor info
+   * Retrieve basic supervisor information
+   * @param additionalHeaders additionalHeaders for this call
+   * @return SupervisorRest
+   * @throws ApiException if fails to make API call
+   */
+  public SupervisorRest getSupervisorInfo(Map<String, String> additionalHeaders) throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/api/v1/supervisor/info";
 
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    String localVarQueryParameterBaseName;
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        final String[] localVarAccepts = {
-                "*/*"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    
+    localVarHeaderParams.putAll(additionalHeaders);
 
-        final String[] localVarContentTypes = {
+    
+    
+    final String[] localVarAccepts = {
+      "*/*"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        String[] localVarAuthNames = new String[]{};
+    String[] localVarAuthNames = new String[] {  };
 
-        TypeReference<SupervisorRest> localVarReturnType = new TypeReference<SupervisorRest>() {
-        };
-        return apiClient.invokeAPI(
-                localVarPath,
-                "GET",
-                localVarQueryParams,
-                localVarCollectionQueryParams,
-                localVarQueryStringJoiner.toString(),
-                localVarPostBody,
-                localVarHeaderParams,
-                localVarCookieParams,
-                localVarFormParams,
-                localVarAccept,
-                localVarContentType,
-                localVarAuthNames,
-                localVarReturnType
-        );
-    }
+    TypeReference<SupervisorRest> localVarReturnType = new TypeReference<SupervisorRest>() {};
+    return apiClient.invokeAPI(
+        localVarPath,
+        "GET",
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        localVarPostBody,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        localVarReturnType
+    );
+  }
 
-    @Override
-    public <T> T invokeAPI(String url, String method, Object request, TypeReference<T> returnType, Map<String, String> additionalHeaders) throws ApiException {
-        String localVarPath = url.replace(apiClient.getBaseURL(), "");
-        StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
-        List<Pair> localVarQueryParams = new ArrayList<Pair>();
-        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
-        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-        Map<String, String> localVarCookieParams = new HashMap<String, String>();
-        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+  @Override
+  public <T> T invokeAPI(String url, String method, Object request, TypeReference<T> returnType, Map<String, String> additionalHeaders) throws ApiException {
+    String localVarPath = url.replace(apiClient.getBaseURL(), "");
+    StringJoiner localVarQueryStringJoiner = new StringJoiner("&");
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-        localVarHeaderParams.putAll(additionalHeaders);
+    localVarHeaderParams.putAll(additionalHeaders);
 
-        final String[] localVarAccepts = {
-                "*/*"
-        };
-        final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+    final String[] localVarAccepts = {
+      "*/*"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
 
-        final String[] localVarContentTypes = {
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-        };
-        final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+    String[] localVarAuthNames = new String[] {  };
 
-        String[] localVarAuthNames = new String[]{};
-
-        return apiClient.invokeAPI(
-                localVarPath,
-                method,
-                localVarQueryParams,
-                localVarCollectionQueryParams,
-                localVarQueryStringJoiner.toString(),
-                request,
-                localVarHeaderParams,
-                localVarCookieParams,
-                localVarFormParams,
-                localVarAccept,
-                localVarContentType,
-                localVarAuthNames,
-                returnType
-        );
-    }
+    return apiClient.invokeAPI(
+      localVarPath,
+        method,
+        localVarQueryParams,
+        localVarCollectionQueryParams,
+        localVarQueryStringJoiner.toString(),
+        request,
+        localVarHeaderParams,
+        localVarCookieParams,
+        localVarFormParams,
+        localVarAccept,
+        localVarContentType,
+        localVarAuthNames,
+        returnType
+    );
+  }
 }

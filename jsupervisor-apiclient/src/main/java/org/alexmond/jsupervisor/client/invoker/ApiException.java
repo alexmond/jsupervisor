@@ -1,6 +1,6 @@
 /*
  * JSupervisor REST API
- * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses.
+ * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses. 
  *
  * The version of the OpenAPI document: 0.0.2
  * Contact: alex.mondshain@gmail.com
@@ -13,8 +13,8 @@
 
 package org.alexmond.jsupervisor.client.invoker;
 
-import java.util.List;
 import java.util.Map;
+import java.util.List;
 
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0")
 public class ApiException extends Exception {
@@ -24,8 +24,7 @@ public class ApiException extends Exception {
     private Map<String, List<String>> responseHeaders = null;
     private String responseBody = null;
 
-    public ApiException() {
-    }
+    public ApiException() {}
 
     public ApiException(Throwable throwable) {
         super(throwable);

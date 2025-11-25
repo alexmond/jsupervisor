@@ -18,70 +18,63 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.time.OffsetDateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
- * Model tests for SupervisorRest
+ * Model tests for ErrorResponse
  */
-class SupervisorRestTest {
-    private final SupervisorRest model = new SupervisorRest();
+class ErrorResponseTest {
+    private final ErrorResponse model = new ErrorResponse();
 
     /**
-     * Model tests for SupervisorRest
+     * Model tests for ErrorResponse
      */
     @Test
-    void testSupervisorRest() {
-        // TODO: test SupervisorRest
+    void testErrorResponse() {
+        // TODO: test ErrorResponse
     }
 
     /**
-     * Test the property 'nodeName'
+     * Test the property 'timestamp'
      */
     @Test
-    void nodeNameTest() {
-        // TODO: test nodeName
+    void timestampTest() {
+        // TODO: test timestamp
     }
 
     /**
-     * Test the property 'description'
+     * Test the property 'path'
      */
     @Test
-    void descriptionTest() {
-        // TODO: test description
+    void pathTest() {
+        // TODO: test path
     }
 
     /**
-     * Test the property 'physicalMemory'
+     * Test the property 'error'
      */
     @Test
-    void physicalMemoryTest() {
-        // TODO: test physicalMemory
+    void errorTest() {
+        // TODO: test error
     }
 
     /**
-     * Test the property 'physicalCpu'
+     * Test the property 'message'
      */
     @Test
-    void physicalCpuTest() {
-        // TODO: test physicalCpu
+    void messageTest() {
+        // TODO: test message
     }
 
     /**
-     * Test the property 'operatingSystem'
+     * Test the property 'code'
      */
     @Test
-    void operatingSystemTest() {
-        // TODO: test operatingSystem
-    }
-
-    /**
-     * Test the property 'availableMemory'
-     */
-    @Test
-    void availableMemoryTest() {
-        // TODO: test availableMemory
+    void codeTest() {
+        // TODO: test code
     }
 
 }

@@ -1,6 +1,6 @@
 /*
  * JSupervisor REST API
- * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses.
+ * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses. 
  *
  * The version of the OpenAPI document: 0.0.2
  * Contact: alex.mondshain@gmail.com
@@ -13,656 +13,676 @@
 
 package org.alexmond.jsupervisor.client.model;
 
-import com.fasterxml.jackson.annotation.*;
+import java.util.Objects;
+import java.util.Arrays;
+import java.util.Locale;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
+import java.time.OffsetDateTime;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
-
+import org.hibernate.validator.constraints.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.time.OffsetDateTime;
-import java.util.Locale;
-import java.util.Objects;
 import java.util.StringJoiner;
 
 /**
  * Represents process status information
  */
 @JsonPropertyOrder({
-        ProcessStatusRest.JSON_PROPERTY_NAME,
-        ProcessStatusRest.JSON_PROPERTY_STATUS,
-        ProcessStatusRest.JSON_PROPERTY_PID,
-        ProcessStatusRest.JSON_PROPERTY_START_TIME,
-        ProcessStatusRest.JSON_PROPERTY_END_TIME,
-        ProcessStatusRest.JSON_PROPERTY_EXIT_CODE,
-        ProcessStatusRest.JSON_PROPERTY_PROCESS_RUNTIME,
-        ProcessStatusRest.JSON_PROPERTY_PROCESS_UPTIME,
-        ProcessStatusRest.JSON_PROPERTY_STDOUT_LOGFILE,
-        ProcessStatusRest.JSON_PROPERTY_STDERR_LOGFILE,
-        ProcessStatusRest.JSON_PROPERTY_FAILED_ERROR_LOG,
-        ProcessStatusRest.JSON_PROPERTY_ALIVE
+  ProcessStatusRest.JSON_PROPERTY_NAME,
+  ProcessStatusRest.JSON_PROPERTY_STATUS,
+  ProcessStatusRest.JSON_PROPERTY_PID,
+  ProcessStatusRest.JSON_PROPERTY_START_TIME,
+  ProcessStatusRest.JSON_PROPERTY_END_TIME,
+  ProcessStatusRest.JSON_PROPERTY_EXIT_CODE,
+  ProcessStatusRest.JSON_PROPERTY_PROCESS_RUNTIME,
+  ProcessStatusRest.JSON_PROPERTY_PROCESS_UPTIME,
+  ProcessStatusRest.JSON_PROPERTY_STDOUT_LOGFILE,
+  ProcessStatusRest.JSON_PROPERTY_STDERR_LOGFILE,
+  ProcessStatusRest.JSON_PROPERTY_FAILED_ERROR_LOG,
+  ProcessStatusRest.JSON_PROPERTY_ALIVE
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0")
 public class ProcessStatusRest {
-    public static final String JSON_PROPERTY_NAME = "name";
-    public static final String JSON_PROPERTY_STATUS = "status";
-    public static final String JSON_PROPERTY_PID = "pid";
-    public static final String JSON_PROPERTY_START_TIME = "startTime";
-    public static final String JSON_PROPERTY_END_TIME = "endTime";
-    public static final String JSON_PROPERTY_EXIT_CODE = "exitCode";
-    public static final String JSON_PROPERTY_PROCESS_RUNTIME = "processRuntime";
-    public static final String JSON_PROPERTY_PROCESS_UPTIME = "processUptime";
-    public static final String JSON_PROPERTY_STDOUT_LOGFILE = "stdoutLogfile";
-    public static final String JSON_PROPERTY_STDERR_LOGFILE = "stderrLogfile";
-    public static final String JSON_PROPERTY_FAILED_ERROR_LOG = "failedErrorLog";
-    public static final String JSON_PROPERTY_ALIVE = "alive";
-    @jakarta.annotation.Nullable
-    private String name;
-    @jakarta.annotation.Nullable
-    private StatusEnum status;
-    @jakarta.annotation.Nullable
-    private Long pid;
-    @jakarta.annotation.Nullable
-    private OffsetDateTime startTime;
-    @jakarta.annotation.Nullable
-    private OffsetDateTime endTime;
-    @jakarta.annotation.Nullable
-    private Integer exitCode;
-    @jakarta.annotation.Nullable
-    private String processRuntime;
-    @jakarta.annotation.Nullable
-    private String processUptime;
-    @jakarta.annotation.Nullable
-    private String stdoutLogfile;
-    @jakarta.annotation.Nullable
-    private String stderrLogfile;
-    @jakarta.annotation.Nullable
-    private String failedErrorLog;
-    @jakarta.annotation.Nullable
-    private Boolean alive;
-    public ProcessStatusRest() {
+  public static final String JSON_PROPERTY_NAME = "name";
+  @jakarta.annotation.Nullable
+  private String name;
+
+  /**
+   * Current status of the process (e.g., running, stopped, failed)
+   */
+  public enum StatusEnum {
+    NOT_STARTED(String.valueOf("not_started")),
+    
+    RUNNING(String.valueOf("running")),
+    
+    FINISHED(String.valueOf("finished")),
+    
+    UNKNOWN(String.valueOf("unknown")),
+    
+    FAILED(String.valueOf("failed")),
+    
+    FAILED_TO_START(String.valueOf("failed_to_start")),
+    
+    STOPPED(String.valueOf("stopped")),
+    
+    STOPPING(String.valueOf("stopping")),
+    
+    ABORTED(String.valueOf("aborted")),
+    
+    STARTING(String.valueOf("starting")),
+    
+    HEALTHY(String.valueOf("healthy")),
+    
+    UNHEALTHY(String.valueOf("unhealthy"));
+
+    private String value;
+
+    StatusEnum(String value) {
+      this.value = value;
     }
 
-    public ProcessStatusRest name(@jakarta.annotation.Nullable String name) {
-
-        this.name = name;
-        return this;
-    }
-
-    /**
-     * Name of the process
-     *
-     * @return name
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public String getName() {
-        return name;
-    }
-
-    @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setName(@jakarta.annotation.Nullable String name) {
-        this.name = name;
-    }
-
-    public ProcessStatusRest status(@jakarta.annotation.Nullable StatusEnum status) {
-
-        this.status = status;
-        return this;
-    }
-
-    /**
-     * Current status of the process (e.g., running, stopped, failed)
-     *
-     * @return status
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public StatusEnum getStatus() {
-        return status;
-    }
-
-    @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setStatus(@jakarta.annotation.Nullable StatusEnum status) {
-        this.status = status;
-    }
-
-    public ProcessStatusRest pid(@jakarta.annotation.Nullable Long pid) {
-
-        this.pid = pid;
-        return this;
-    }
-
-    /**
-     * Process ID assigned by the operating system
-     *
-     * @return pid
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_PID, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public Long getPid() {
-        return pid;
-    }
-
-    @JsonProperty(value = JSON_PROPERTY_PID, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setPid(@jakarta.annotation.Nullable Long pid) {
-        this.pid = pid;
-    }
-
-    public ProcessStatusRest startTime(@jakarta.annotation.Nullable OffsetDateTime startTime) {
-
-        this.startTime = startTime;
-        return this;
-    }
-
-    /**
-     * Timestamp when the process was started
-     *
-     * @return startTime
-     */
-    @jakarta.annotation.Nullable
-    @Valid
-
-    @JsonProperty(value = JSON_PROPERTY_START_TIME, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public OffsetDateTime getStartTime() {
-        return startTime;
-    }
-
-    @JsonProperty(value = JSON_PROPERTY_START_TIME, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setStartTime(@jakarta.annotation.Nullable OffsetDateTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public ProcessStatusRest endTime(@jakarta.annotation.Nullable OffsetDateTime endTime) {
-
-        this.endTime = endTime;
-        return this;
-    }
-
-    /**
-     * Timestamp when the process ended
-     *
-     * @return endTime
-     */
-    @jakarta.annotation.Nullable
-    @Valid
-
-    @JsonProperty(value = JSON_PROPERTY_END_TIME, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public OffsetDateTime getEndTime() {
-        return endTime;
-    }
-
-    @JsonProperty(value = JSON_PROPERTY_END_TIME, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setEndTime(@jakarta.annotation.Nullable OffsetDateTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public ProcessStatusRest exitCode(@jakarta.annotation.Nullable Integer exitCode) {
-
-        this.exitCode = exitCode;
-        return this;
-    }
-
-    /**
-     * Process exit code
-     *
-     * @return exitCode
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_EXIT_CODE, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public Integer getExitCode() {
-        return exitCode;
-    }
-
-    @JsonProperty(value = JSON_PROPERTY_EXIT_CODE, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setExitCode(@jakarta.annotation.Nullable Integer exitCode) {
-        this.exitCode = exitCode;
-    }
-
-    public ProcessStatusRest processRuntime(@jakarta.annotation.Nullable String processRuntime) {
-
-        this.processRuntime = processRuntime;
-        return this;
-    }
-
-    /**
-     * Process runtime duration
-     *
-     * @return processRuntime
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_PROCESS_RUNTIME, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public String getProcessRuntime() {
-        return processRuntime;
-    }
-
-    @JsonProperty(value = JSON_PROPERTY_PROCESS_RUNTIME, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setProcessRuntime(@jakarta.annotation.Nullable String processRuntime) {
-        this.processRuntime = processRuntime;
-    }
-
-    public ProcessStatusRest processUptime(@jakarta.annotation.Nullable String processUptime) {
-
-        this.processUptime = processUptime;
-        return this;
-    }
-
-    /**
-     * Formatted process uptime
-     *
-     * @return processUptime
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_PROCESS_UPTIME, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public String getProcessUptime() {
-        return processUptime;
-    }
-
-    @JsonProperty(value = JSON_PROPERTY_PROCESS_UPTIME, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setProcessUptime(@jakarta.annotation.Nullable String processUptime) {
-        this.processUptime = processUptime;
-    }
-
-    public ProcessStatusRest stdoutLogfile(@jakarta.annotation.Nullable String stdoutLogfile) {
-
-        this.stdoutLogfile = stdoutLogfile;
-        return this;
-    }
-
-    /**
-     * File path where the standard output (stdout) of the process will be logged. If not specified, stdout will be inherited from the parent process.
-     *
-     * @return stdoutLogfile
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_STDOUT_LOGFILE, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public String getStdoutLogfile() {
-        return stdoutLogfile;
-    }
-
-    @JsonProperty(value = JSON_PROPERTY_STDOUT_LOGFILE, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setStdoutLogfile(@jakarta.annotation.Nullable String stdoutLogfile) {
-        this.stdoutLogfile = stdoutLogfile;
-    }
-
-    public ProcessStatusRest stderrLogfile(@jakarta.annotation.Nullable String stderrLogfile) {
-
-        this.stderrLogfile = stderrLogfile;
-        return this;
-    }
-
-    /**
-     * File path where the standard error (stderr) of the process will be logged. If not specified, stderr will be inherited from the parent process.
-     *
-     * @return stderrLogfile
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_STDERR_LOGFILE, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public String getStderrLogfile() {
-        return stderrLogfile;
-    }
-
-    @JsonProperty(value = JSON_PROPERTY_STDERR_LOGFILE, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setStderrLogfile(@jakarta.annotation.Nullable String stderrLogfile) {
-        this.stderrLogfile = stderrLogfile;
-    }
-
-    public ProcessStatusRest failedErrorLog(@jakarta.annotation.Nullable String failedErrorLog) {
-
-        this.failedErrorLog = failedErrorLog;
-        return this;
-    }
-
-    /**
-     * Error log content when process failed to start
-     *
-     * @return failedErrorLog
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_FAILED_ERROR_LOG, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public String getFailedErrorLog() {
-        return failedErrorLog;
-    }
-
-    @JsonProperty(value = JSON_PROPERTY_FAILED_ERROR_LOG, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setFailedErrorLog(@jakarta.annotation.Nullable String failedErrorLog) {
-        this.failedErrorLog = failedErrorLog;
-    }
-
-    public ProcessStatusRest alive(@jakarta.annotation.Nullable Boolean alive) {
-
-        this.alive = alive;
-        return this;
-    }
-
-    /**
-     * Get alive
-     *
-     * @return alive
-     */
-    @jakarta.annotation.Nullable
-
-    @JsonProperty(value = JSON_PROPERTY_ALIVE, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-
-    public Boolean getAlive() {
-        return alive;
-    }
-
-    @JsonProperty(value = JSON_PROPERTY_ALIVE, required = false)
-    @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
-    public void setAlive(@jakarta.annotation.Nullable Boolean alive) {
-        this.alive = alive;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        ProcessStatusRest processStatusRest = (ProcessStatusRest) o;
-        return Objects.equals(this.name, processStatusRest.name) &&
-                Objects.equals(this.status, processStatusRest.status) &&
-                Objects.equals(this.pid, processStatusRest.pid) &&
-                Objects.equals(this.startTime, processStatusRest.startTime) &&
-                Objects.equals(this.endTime, processStatusRest.endTime) &&
-                Objects.equals(this.exitCode, processStatusRest.exitCode) &&
-                Objects.equals(this.processRuntime, processStatusRest.processRuntime) &&
-                Objects.equals(this.processUptime, processStatusRest.processUptime) &&
-                Objects.equals(this.stdoutLogfile, processStatusRest.stdoutLogfile) &&
-                Objects.equals(this.stderrLogfile, processStatusRest.stderrLogfile) &&
-                Objects.equals(this.failedErrorLog, processStatusRest.failedErrorLog) &&
-                Objects.equals(this.alive, processStatusRest.alive);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, status, pid, startTime, endTime, exitCode, processRuntime, processUptime, stdoutLogfile, stderrLogfile, failedErrorLog, alive);
+    @JsonValue
+    public String getValue() {
+      return value;
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class ProcessStatusRest {\n");
-        sb.append("    name: ").append(toIndentedString(name)).append("\n");
-        sb.append("    status: ").append(toIndentedString(status)).append("\n");
-        sb.append("    pid: ").append(toIndentedString(pid)).append("\n");
-        sb.append("    startTime: ").append(toIndentedString(startTime)).append("\n");
-        sb.append("    endTime: ").append(toIndentedString(endTime)).append("\n");
-        sb.append("    exitCode: ").append(toIndentedString(exitCode)).append("\n");
-        sb.append("    processRuntime: ").append(toIndentedString(processRuntime)).append("\n");
-        sb.append("    processUptime: ").append(toIndentedString(processUptime)).append("\n");
-        sb.append("    stdoutLogfile: ").append(toIndentedString(stdoutLogfile)).append("\n");
-        sb.append("    stderrLogfile: ").append(toIndentedString(stderrLogfile)).append("\n");
-        sb.append("    failedErrorLog: ").append(toIndentedString(failedErrorLog)).append("\n");
-        sb.append("    alive: ").append(toIndentedString(alive)).append("\n");
-        sb.append("}");
-        return sb.toString();
+      return String.valueOf(value);
     }
 
-    /**
-     * Convert the given object to string with each line indented by 4 spaces
-     * (except the first line).
-     */
-    private String toIndentedString(Object o) {
-        if (o == null) {
-            return "null";
+    @JsonCreator
+    public static StatusEnum fromValue(String value) {
+      for (StatusEnum b : StatusEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
         }
-        return o.toString().replace("\n", "\n    ");
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_STATUS = "status";
+  @jakarta.annotation.Nullable
+  private StatusEnum status;
+
+  public static final String JSON_PROPERTY_PID = "pid";
+  @jakarta.annotation.Nullable
+  private Long pid;
+
+  public static final String JSON_PROPERTY_START_TIME = "startTime";
+  @jakarta.annotation.Nullable
+  private OffsetDateTime startTime;
+
+  public static final String JSON_PROPERTY_END_TIME = "endTime";
+  @jakarta.annotation.Nullable
+  private OffsetDateTime endTime;
+
+  public static final String JSON_PROPERTY_EXIT_CODE = "exitCode";
+  @jakarta.annotation.Nullable
+  private Integer exitCode;
+
+  public static final String JSON_PROPERTY_PROCESS_RUNTIME = "processRuntime";
+  @jakarta.annotation.Nullable
+  private String processRuntime;
+
+  public static final String JSON_PROPERTY_PROCESS_UPTIME = "processUptime";
+  @jakarta.annotation.Nullable
+  private String processUptime;
+
+  public static final String JSON_PROPERTY_STDOUT_LOGFILE = "stdoutLogfile";
+  @jakarta.annotation.Nullable
+  private String stdoutLogfile;
+
+  public static final String JSON_PROPERTY_STDERR_LOGFILE = "stderrLogfile";
+  @jakarta.annotation.Nullable
+  private String stderrLogfile;
+
+  public static final String JSON_PROPERTY_FAILED_ERROR_LOG = "failedErrorLog";
+  @jakarta.annotation.Nullable
+  private String failedErrorLog;
+
+  public static final String JSON_PROPERTY_ALIVE = "alive";
+  @jakarta.annotation.Nullable
+  private Boolean alive;
+
+  public ProcessStatusRest() {
+  }
+
+  public ProcessStatusRest name(@jakarta.annotation.Nullable String name) {
+    
+    this.name = name;
+    return this;
+  }
+
+  /**
+   * Name of the process
+   * @return name
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getName() {
+    return name;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_NAME, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setName(@jakarta.annotation.Nullable String name) {
+    this.name = name;
+  }
+
+  public ProcessStatusRest status(@jakarta.annotation.Nullable StatusEnum status) {
+    
+    this.status = status;
+    return this;
+  }
+
+  /**
+   * Current status of the process (e.g., running, stopped, failed)
+   * @return status
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public StatusEnum getStatus() {
+    return status;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_STATUS, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setStatus(@jakarta.annotation.Nullable StatusEnum status) {
+    this.status = status;
+  }
+
+  public ProcessStatusRest pid(@jakarta.annotation.Nullable Long pid) {
+    
+    this.pid = pid;
+    return this;
+  }
+
+  /**
+   * Process ID assigned by the operating system
+   * @return pid
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_PID, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Long getPid() {
+    return pid;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_PID, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setPid(@jakarta.annotation.Nullable Long pid) {
+    this.pid = pid;
+  }
+
+  public ProcessStatusRest startTime(@jakarta.annotation.Nullable OffsetDateTime startTime) {
+    
+    this.startTime = startTime;
+    return this;
+  }
+
+  /**
+   * Timestamp when the process was started
+   * @return startTime
+   */
+  @jakarta.annotation.Nullable
+  @Valid
+
+  @JsonProperty(value = JSON_PROPERTY_START_TIME, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public OffsetDateTime getStartTime() {
+    return startTime;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_START_TIME, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setStartTime(@jakarta.annotation.Nullable OffsetDateTime startTime) {
+    this.startTime = startTime;
+  }
+
+  public ProcessStatusRest endTime(@jakarta.annotation.Nullable OffsetDateTime endTime) {
+    
+    this.endTime = endTime;
+    return this;
+  }
+
+  /**
+   * Timestamp when the process ended
+   * @return endTime
+   */
+  @jakarta.annotation.Nullable
+  @Valid
+
+  @JsonProperty(value = JSON_PROPERTY_END_TIME, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public OffsetDateTime getEndTime() {
+    return endTime;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_END_TIME, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setEndTime(@jakarta.annotation.Nullable OffsetDateTime endTime) {
+    this.endTime = endTime;
+  }
+
+  public ProcessStatusRest exitCode(@jakarta.annotation.Nullable Integer exitCode) {
+    
+    this.exitCode = exitCode;
+    return this;
+  }
+
+  /**
+   * Process exit code
+   * @return exitCode
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_EXIT_CODE, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Integer getExitCode() {
+    return exitCode;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_EXIT_CODE, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setExitCode(@jakarta.annotation.Nullable Integer exitCode) {
+    this.exitCode = exitCode;
+  }
+
+  public ProcessStatusRest processRuntime(@jakarta.annotation.Nullable String processRuntime) {
+    
+    this.processRuntime = processRuntime;
+    return this;
+  }
+
+  /**
+   * Process runtime duration
+   * @return processRuntime
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_PROCESS_RUNTIME, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getProcessRuntime() {
+    return processRuntime;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_PROCESS_RUNTIME, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setProcessRuntime(@jakarta.annotation.Nullable String processRuntime) {
+    this.processRuntime = processRuntime;
+  }
+
+  public ProcessStatusRest processUptime(@jakarta.annotation.Nullable String processUptime) {
+    
+    this.processUptime = processUptime;
+    return this;
+  }
+
+  /**
+   * Formatted process uptime
+   * @return processUptime
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_PROCESS_UPTIME, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getProcessUptime() {
+    return processUptime;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_PROCESS_UPTIME, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setProcessUptime(@jakarta.annotation.Nullable String processUptime) {
+    this.processUptime = processUptime;
+  }
+
+  public ProcessStatusRest stdoutLogfile(@jakarta.annotation.Nullable String stdoutLogfile) {
+    
+    this.stdoutLogfile = stdoutLogfile;
+    return this;
+  }
+
+  /**
+   * File path where the standard output (stdout) of the process will be logged. If not specified, stdout will be inherited from the parent process.
+   * @return stdoutLogfile
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_STDOUT_LOGFILE, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getStdoutLogfile() {
+    return stdoutLogfile;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_STDOUT_LOGFILE, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setStdoutLogfile(@jakarta.annotation.Nullable String stdoutLogfile) {
+    this.stdoutLogfile = stdoutLogfile;
+  }
+
+  public ProcessStatusRest stderrLogfile(@jakarta.annotation.Nullable String stderrLogfile) {
+    
+    this.stderrLogfile = stderrLogfile;
+    return this;
+  }
+
+  /**
+   * File path where the standard error (stderr) of the process will be logged. If not specified, stderr will be inherited from the parent process.
+   * @return stderrLogfile
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_STDERR_LOGFILE, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getStderrLogfile() {
+    return stderrLogfile;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_STDERR_LOGFILE, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setStderrLogfile(@jakarta.annotation.Nullable String stderrLogfile) {
+    this.stderrLogfile = stderrLogfile;
+  }
+
+  public ProcessStatusRest failedErrorLog(@jakarta.annotation.Nullable String failedErrorLog) {
+    
+    this.failedErrorLog = failedErrorLog;
+    return this;
+  }
+
+  /**
+   * Error log content when process failed to start
+   * @return failedErrorLog
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_FAILED_ERROR_LOG, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getFailedErrorLog() {
+    return failedErrorLog;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_FAILED_ERROR_LOG, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setFailedErrorLog(@jakarta.annotation.Nullable String failedErrorLog) {
+    this.failedErrorLog = failedErrorLog;
+  }
+
+  public ProcessStatusRest alive(@jakarta.annotation.Nullable Boolean alive) {
+    
+    this.alive = alive;
+    return this;
+  }
+
+  /**
+   * Get alive
+   * @return alive
+   */
+  @jakarta.annotation.Nullable
+
+  @JsonProperty(value = JSON_PROPERTY_ALIVE, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Boolean getAlive() {
+    return alive;
+  }
+
+
+  @JsonProperty(value = JSON_PROPERTY_ALIVE, required = false)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  public void setAlive(@jakarta.annotation.Nullable Boolean alive) {
+    this.alive = alive;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    ProcessStatusRest processStatusRest = (ProcessStatusRest) o;
+    return Objects.equals(this.name, processStatusRest.name) &&
+        Objects.equals(this.status, processStatusRest.status) &&
+        Objects.equals(this.pid, processStatusRest.pid) &&
+        Objects.equals(this.startTime, processStatusRest.startTime) &&
+        Objects.equals(this.endTime, processStatusRest.endTime) &&
+        Objects.equals(this.exitCode, processStatusRest.exitCode) &&
+        Objects.equals(this.processRuntime, processStatusRest.processRuntime) &&
+        Objects.equals(this.processUptime, processStatusRest.processUptime) &&
+        Objects.equals(this.stdoutLogfile, processStatusRest.stdoutLogfile) &&
+        Objects.equals(this.stderrLogfile, processStatusRest.stderrLogfile) &&
+        Objects.equals(this.failedErrorLog, processStatusRest.failedErrorLog) &&
+        Objects.equals(this.alive, processStatusRest.alive);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, status, pid, startTime, endTime, exitCode, processRuntime, processUptime, stdoutLogfile, stderrLogfile, failedErrorLog, alive);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("class ProcessStatusRest {\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    pid: ").append(toIndentedString(pid)).append("\n");
+    sb.append("    startTime: ").append(toIndentedString(startTime)).append("\n");
+    sb.append("    endTime: ").append(toIndentedString(endTime)).append("\n");
+    sb.append("    exitCode: ").append(toIndentedString(exitCode)).append("\n");
+    sb.append("    processRuntime: ").append(toIndentedString(processRuntime)).append("\n");
+    sb.append("    processUptime: ").append(toIndentedString(processUptime)).append("\n");
+    sb.append("    stdoutLogfile: ").append(toIndentedString(stdoutLogfile)).append("\n");
+    sb.append("    stderrLogfile: ").append(toIndentedString(stderrLogfile)).append("\n");
+    sb.append("    failedErrorLog: ").append(toIndentedString(failedErrorLog)).append("\n");
+    sb.append("    alive: ").append(toIndentedString(alive)).append("\n");
+    sb.append("}");
+    return sb.toString();
+  }
+
+  /**
+   * Convert the given object to string with each line indented by 4 spaces
+   * (except the first line).
+   */
+  private String toIndentedString(Object o) {
+    if (o == null) {
+      return "null";
+    }
+    return o.toString().replace("\n", "\n    ");
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @return URL query string
+   */
+  public String toUrlQueryString() {
+    return toUrlQueryString(null);
+  }
+
+  /**
+   * Convert the instance into URL query string.
+   *
+   * @param prefix prefix of the query string
+   * @return URL query string
+   */
+  public String toUrlQueryString(String prefix) {
+    String suffix = "";
+    String containerSuffix = "";
+    String containerPrefix = "";
+    if (prefix == null) {
+      // style=form, explode=true, e.g. /pet?name=cat&type=manx
+      prefix = "";
+    } else {
+      // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
+      prefix = prefix + "[";
+      suffix = "]";
+      containerSuffix = "]";
+      containerPrefix = "[";
     }
 
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @return URL query string
-     */
-    public String toUrlQueryString() {
-        return toUrlQueryString(null);
+    StringJoiner joiner = new StringJoiner("&");
+
+    // add `name` to the URL query string
+    if (getName() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%sname%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getName()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
-    /**
-     * Convert the instance into URL query string.
-     *
-     * @param prefix prefix of the query string
-     * @return URL query string
-     */
-    public String toUrlQueryString(String prefix) {
-        String suffix = "";
-        String containerSuffix = "";
-        String containerPrefix = "";
-        if (prefix == null) {
-            // style=form, explode=true, e.g. /pet?name=cat&type=manx
-            prefix = "";
-        } else {
-            // deepObject style e.g. /pet?id[name]=cat&id[type]=manx
-            prefix = prefix + "[";
-            suffix = "]";
-            containerSuffix = "]";
-            containerPrefix = "[";
-        }
-
-        StringJoiner joiner = new StringJoiner("&");
-
-        // add `name` to the URL query string
-        if (getName() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%sname%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getName()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `status` to the URL query string
-        if (getStatus() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%sstatus%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStatus()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `pid` to the URL query string
-        if (getPid() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%spid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPid()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `startTime` to the URL query string
-        if (getStartTime() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%sstartTime%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStartTime()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `endTime` to the URL query string
-        if (getEndTime() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%sendTime%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEndTime()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `exitCode` to the URL query string
-        if (getExitCode() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%sexitCode%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getExitCode()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `processRuntime` to the URL query string
-        if (getProcessRuntime() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%sprocessRuntime%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getProcessRuntime()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `processUptime` to the URL query string
-        if (getProcessUptime() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%sprocessUptime%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getProcessUptime()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `stdoutLogfile` to the URL query string
-        if (getStdoutLogfile() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%sstdoutLogfile%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStdoutLogfile()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `stderrLogfile` to the URL query string
-        if (getStderrLogfile() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%sstderrLogfile%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStderrLogfile()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `failedErrorLog` to the URL query string
-        if (getFailedErrorLog() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%sfailedErrorLog%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFailedErrorLog()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        // add `alive` to the URL query string
-        if (getAlive() != null) {
-            try {
-                joiner.add(String.format(Locale.ROOT, "%salive%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getAlive()), "UTF-8").replaceAll("\\+", "%20")));
-            } catch (UnsupportedEncodingException e) {
-                // Should never happen, UTF-8 is always supported
-                throw new RuntimeException(e);
-            }
-        }
-
-        return joiner.toString();
+    // add `status` to the URL query string
+    if (getStatus() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%sstatus%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStatus()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
 
-    /**
-     * Current status of the process (e.g., running, stopped, failed)
-     */
-    public enum StatusEnum {
-        NOT_STARTED(String.valueOf("not_started")),
-
-        RUNNING(String.valueOf("running")),
-
-        FINISHED(String.valueOf("finished")),
-
-        UNKNOWN(String.valueOf("unknown")),
-
-        FAILED(String.valueOf("failed")),
-
-        FAILED_TO_START(String.valueOf("failed_to_start")),
-
-        STOPPED(String.valueOf("stopped")),
-
-        STOPPING(String.valueOf("stopping")),
-
-        ABORTED(String.valueOf("aborted")),
-
-        STARTING(String.valueOf("starting")),
-
-        HEALTHY(String.valueOf("healthy")),
-
-        UNHEALTHY(String.valueOf("unhealthy"));
-
-        private String value;
-
-        StatusEnum(String value) {
-            this.value = value;
-        }
-
-        @JsonCreator
-        public static StatusEnum fromValue(String value) {
-            for (StatusEnum b : StatusEnum.values()) {
-                if (b.value.equals(value)) {
-                    return b;
-                }
-            }
-            throw new IllegalArgumentException("Unexpected value '" + value + "'");
-        }
-
-        @JsonValue
-        public String getValue() {
-            return value;
-        }
-
-        @Override
-        public String toString() {
-            return String.valueOf(value);
-        }
+    // add `pid` to the URL query string
+    if (getPid() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%spid%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getPid()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
     }
+
+    // add `startTime` to the URL query string
+    if (getStartTime() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%sstartTime%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStartTime()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+
+    // add `endTime` to the URL query string
+    if (getEndTime() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%sendTime%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getEndTime()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+
+    // add `exitCode` to the URL query string
+    if (getExitCode() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%sexitCode%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getExitCode()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+
+    // add `processRuntime` to the URL query string
+    if (getProcessRuntime() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%sprocessRuntime%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getProcessRuntime()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+
+    // add `processUptime` to the URL query string
+    if (getProcessUptime() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%sprocessUptime%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getProcessUptime()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+
+    // add `stdoutLogfile` to the URL query string
+    if (getStdoutLogfile() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%sstdoutLogfile%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStdoutLogfile()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+
+    // add `stderrLogfile` to the URL query string
+    if (getStderrLogfile() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%sstderrLogfile%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getStderrLogfile()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+
+    // add `failedErrorLog` to the URL query string
+    if (getFailedErrorLog() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%sfailedErrorLog%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getFailedErrorLog()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+
+    // add `alive` to the URL query string
+    if (getAlive() != null) {
+      try {
+        joiner.add(String.format(Locale.ROOT, "%salive%s=%s", prefix, suffix, URLEncoder.encode(String.valueOf(getAlive()), "UTF-8").replaceAll("\\+", "%20")));
+      } catch (UnsupportedEncodingException e) {
+        // Should never happen, UTF-8 is always supported
+        throw new RuntimeException(e);
+      }
+    }
+
+    return joiner.toString();
+  }
 
 }
 

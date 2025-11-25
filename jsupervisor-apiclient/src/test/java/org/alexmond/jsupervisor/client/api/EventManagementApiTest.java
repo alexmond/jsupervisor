@@ -1,6 +1,6 @@
 /*
  * JSupervisor REST API
- * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses.
+ * JSupervisor is a process management and monitoring service that provides comprehensive control over application processes. This API enables you to:  - Start, stop, and restart processes individually or in bulk - Monitor process status and health - Retrieve process logs and statistics - Configure process behavior and auto-start settings  The API follows RESTful principles and returns JSON responses. 
  *
  * The version of the OpenAPI document: 0.0.2
  * Contact: alex.mondshain@gmail.com
@@ -14,13 +14,23 @@
 package org.alexmond.jsupervisor.client.api;
 
 import org.alexmond.jsupervisor.client.invoker.ApiException;
+import org.alexmond.jsupervisor.client.model.ErrorResponse;
 import org.alexmond.jsupervisor.client.model.Page;
 import org.alexmond.jsupervisor.client.model.PageProcessEventEntry;
 import org.alexmond.jsupervisor.client.model.ProcessEventEntry;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import jakarta.validation.constraints.*;
+import jakarta.validation.Valid;
 
 /**
  * API tests for EventManagementApi
@@ -32,10 +42,11 @@ public class EventManagementApiTest {
 
     /**
      * Get event by ID
-     * <p>
+     *
      * Retrieves detailed information about a specific process event
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void getEventByIdTest() throws ApiException {
@@ -44,13 +55,13 @@ public class EventManagementApiTest {
 
         // TODO: test validations
     }
-
     /**
      * Get paginated events
-     * <p>
+     *
      * Retrieves a paginated list of all process events with customizable sorting
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void getEventsTest() throws ApiException {
@@ -62,13 +73,13 @@ public class EventManagementApiTest {
 
         // TODO: test validations
     }
-
     /**
      * Get events by process name
-     * <p>
+     *
      * Retrieves paginated events for a specific process
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void getEventsByProcessTest() throws ApiException {
@@ -81,13 +92,13 @@ public class EventManagementApiTest {
 
         // TODO: test validations
     }
-
     /**
      * Get events by status
-     * <p>
+     *
      * Retrieves paginated events matching a specific process status
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void getEventsByStatusTest() throws ApiException {
@@ -100,13 +111,13 @@ public class EventManagementApiTest {
 
         // TODO: test validations
     }
-
     /**
      * Get total event count
-     * <p>
+     *
      * Returns the total number of events in the system
      *
-     * @throws ApiException if the Api call fails
+     * @throws ApiException
+     *          if the Api call fails
      */
     @Test
     public void getTotalEventsCountTest() throws ApiException {

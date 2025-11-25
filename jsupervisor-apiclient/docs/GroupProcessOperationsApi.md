@@ -2,11 +2,13 @@
 
 All URIs are relative to *http://localhost:8086*
 
-| Method                                                    | HTTP request                             | Description           |
-|-----------------------------------------------------------|------------------------------------------|-----------------------|
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
 | [**restartAll**](GroupProcessOperationsApi.md#restartAll) | **POST** /api/v1/processes/group/restart | Restart all processes |
-| [**startAll**](GroupProcessOperationsApi.md#startAll)     | **POST** /api/v1/processes/group/start   | Start all processes   |
-| [**stopAll**](GroupProcessOperationsApi.md#stopAll)       | **POST** /api/v1/processes/group/stop    | Stop all processes    |
+| [**startAll**](GroupProcessOperationsApi.md#startAll) | **POST** /api/v1/processes/group/start | Start all processes |
+| [**stopAll**](GroupProcessOperationsApi.md#stopAll) | **POST** /api/v1/processes/group/stop | Stop all processes |
+
+
 
 ## restartAll
 
@@ -20,7 +22,6 @@ Restart all configured processes
 
 ```java
 // Import classes:
-
 import org.alexmond.jsupervisor.client.invoker.ApiClient;
 import org.alexmond.jsupervisor.client.invoker.ApiException;
 import org.alexmond.jsupervisor.client.invoker.Configuration;
@@ -61,14 +62,16 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: */*
+
 
 ### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Business error |  -  |
+| **500** | Error occurred while restarting processes |  -  |
+| **200** | All processes restarted successfully |  -  |
 
-| Status code | Description                               | Response headers |
-|-------------|-------------------------------------------|------------------|
-| **200**     | All processes restarted successfully      | -                |
-| **500**     | Error occurred while restarting processes | -                |
 
 ## startAll
 
@@ -82,7 +85,6 @@ Start all configured processes that are not currently running
 
 ```java
 // Import classes:
-
 import org.alexmond.jsupervisor.client.invoker.ApiClient;
 import org.alexmond.jsupervisor.client.invoker.ApiException;
 import org.alexmond.jsupervisor.client.invoker.Configuration;
@@ -123,15 +125,17 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: */*
+
 
 ### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Business error |  -  |
+| **500** | Error occurred while starting processes |  -  |
+| **200** | All processes started successfully |  -  |
+| **409** | Some processes are already running |  -  |
 
-| Status code | Description                             | Response headers |
-|-------------|-----------------------------------------|------------------|
-| **200**     | All processes started successfully      | -                |
-| **500**     | Error occurred while starting processes | -                |
-| **409**     | Some processes are already running      | -                |
 
 ## stopAll
 
@@ -145,7 +149,6 @@ Stop all currently running processes
 
 ```java
 // Import classes:
-
 import org.alexmond.jsupervisor.client.invoker.ApiClient;
 import org.alexmond.jsupervisor.client.invoker.ApiException;
 import org.alexmond.jsupervisor.client.invoker.Configuration;
@@ -186,13 +189,14 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: Not defined
+- **Accept**: */*
+
 
 ### HTTP response details
-
-| Status code | Description                             | Response headers |
-|-------------|-----------------------------------------|------------------|
-| **200**     | All processes stopped successfully      | -                |
-| **500**     | Error occurred while stopping processes | -                |
-| **404**     | No running processes found              | -                |
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Business error |  -  |
+| **500** | Error occurred while stopping processes |  -  |
+| **200** | All processes stopped successfully |  -  |
+| **404** | No running processes found |  -  |
 

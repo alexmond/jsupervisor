@@ -2,9 +2,11 @@
 
 All URIs are relative to *http://localhost:8086*
 
-| Method                                                                 | HTTP request                    | Description         |
-|------------------------------------------------------------------------|---------------------------------|---------------------|
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
 | [**getSupervisorInfo**](SupervisorInformationApi.md#getSupervisorInfo) | **GET** /api/v1/supervisor/info | Get supervisor info |
+
+
 
 ## getSupervisorInfo
 
@@ -18,7 +20,6 @@ Retrieve basic supervisor information
 
 ```java
 // Import classes:
-
 import org.alexmond.jsupervisor.client.invoker.ApiClient;
 import org.alexmond.jsupervisor.client.invoker.ApiException;
 import org.alexmond.jsupervisor.client.invoker.Configuration;
@@ -62,9 +63,11 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: */*
 
-### HTTP response details
 
+### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200**     | OK          | -                |
+| **400** | Business error |  -  |
+| **500** | Internal server error |  -  |
+| **200** | OK |  -  |
 

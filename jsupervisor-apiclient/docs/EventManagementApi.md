@@ -2,13 +2,15 @@
 
 All URIs are relative to *http://localhost:8086*
 
-| Method                                                               | HTTP request                                    | Description                |
-|----------------------------------------------------------------------|-------------------------------------------------|----------------------------|
-| [**getEventById**](EventManagementApi.md#getEventById)               | **GET** /api/v1/events/{id}                     | Get event by ID            |
-| [**getEvents**](EventManagementApi.md#getEvents)                     | **GET** /api/v1/events                          | Get paginated events       |
-| [**getEventsByProcess**](EventManagementApi.md#getEventsByProcess)   | **GET** /api/v1/events/by-process/{processName} | Get events by process name |
-| [**getEventsByStatus**](EventManagementApi.md#getEventsByStatus)     | **GET** /api/v1/events/by-status/{status}       | Get events by status       |
-| [**getTotalEventsCount**](EventManagementApi.md#getTotalEventsCount) | **GET** /api/v1/events/count                    | Get total event count      |
+| Method | HTTP request | Description |
+|------------- | ------------- | -------------|
+| [**getEventById**](EventManagementApi.md#getEventById) | **GET** /api/v1/events/{id} | Get event by ID |
+| [**getEvents**](EventManagementApi.md#getEvents) | **GET** /api/v1/events | Get paginated events |
+| [**getEventsByProcess**](EventManagementApi.md#getEventsByProcess) | **GET** /api/v1/events/by-process/{processName} | Get events by process name |
+| [**getEventsByStatus**](EventManagementApi.md#getEventsByStatus) | **GET** /api/v1/events/by-status/{status} | Get events by status |
+| [**getTotalEventsCount**](EventManagementApi.md#getTotalEventsCount) | **GET** /api/v1/events/count | Get total event count |
+
+
 
 ## getEventById
 
@@ -51,9 +53,10 @@ public class Example {
 
 ### Parameters
 
-| Name   | Type     | Description | Notes |
-|--------|----------|-------------|-------|
-| **id** | **Long** | Event ID    |       |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **id** | **Long**| Event ID | |
 
 ### Return type
 
@@ -68,12 +71,15 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: */*
 
-### HTTP response details
 
-| Status code | Description     | Response headers |
-|-------------|-----------------|------------------|
-| **200**     | Event found     | -                |
-| **404**     | Event not found | -                |
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Business error |  -  |
+| **500** | Internal server error |  -  |
+| **200** | Event found |  -  |
+| **404** | Event not found |  -  |
+
 
 ## getEvents
 
@@ -119,12 +125,13 @@ public class Example {
 
 ### Parameters
 
-| Name              | Type        | Description              | Notes                                                                |
-|-------------------|-------------|--------------------------|----------------------------------------------------------------------|
-| **page**          | **Integer** | Page number (0-based)    | [optional]                                                           |
-| **size**          | **Integer** | Number of items per page | [optional]                                                           |
-| **sortBy**        | **String**  | Field to sort by         | [optional] [enum: eventTime, processName, newStatus, oldStatus, pid] |
-| **sortDirection** | **String**  | Sort direction           | [optional] [enum: asc, desc]                                         |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **page** | **Integer**| Page number (0-based) | [optional] |
+| **size** | **Integer**| Number of items per page | [optional] |
+| **sortBy** | **String**| Field to sort by | [optional] [enum: eventTime, processName, newStatus, oldStatus, pid] |
+| **sortDirection** | **String**| Sort direction | [optional] [enum: asc, desc] |
 
 ### Return type
 
@@ -137,14 +144,16 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json, */*
+- **Accept**: */*, application/json
+
 
 ### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Invalid pagination or sorting parameters |  -  |
+| **500** | Internal server error |  -  |
+| **200** | Successfully retrieved events |  -  |
 
-| Status code | Description                              | Response headers |
-|-------------|------------------------------------------|------------------|
-| **200**     | Successfully retrieved events            | -                |
-| **400**     | Invalid pagination or sorting parameters | -                |
 
 ## getEventsByProcess
 
@@ -191,13 +200,14 @@ public class Example {
 
 ### Parameters
 
-| Name              | Type        | Description              | Notes                             |
-|-------------------|-------------|--------------------------|-----------------------------------|
-| **processName**   | **String**  | Process name             |                                   |
-| **page**          | **Integer** | Page number (0-based)    | [optional] [default to 0]         |
-| **size**          | **Integer** | Number of items per page | [optional] [default to 20]        |
-| **sortBy**        | **String**  | Field to sort by         | [optional] [default to eventTime] |
-| **sortDirection** | **String**  | Sort direction           | [optional] [default to desc]      |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **processName** | **String**| Process name | |
+| **page** | **Integer**| Page number (0-based) | [optional] [default to 0] |
+| **size** | **Integer**| Number of items per page | [optional] [default to 20] |
+| **sortBy** | **String**| Field to sort by | [optional] [default to eventTime] |
+| **sortDirection** | **String**| Sort direction | [optional] [default to desc] |
 
 ### Return type
 
@@ -212,12 +222,15 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: */*
 
-### HTTP response details
 
-| Status code | Description                   | Response headers |
-|-------------|-------------------------------|------------------|
-| **200**     | Successfully retrieved events | -                |
-| **404**     | Process not found             | -                |
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Business error |  -  |
+| **500** | Internal server error |  -  |
+| **200** | Successfully retrieved events |  -  |
+| **404** | Process not found |  -  |
+
 
 ## getEventsByStatus
 
@@ -264,13 +277,14 @@ public class Example {
 
 ### Parameters
 
-| Name              | Type        | Description                 | Notes                                                                                                                              |
-|-------------------|-------------|-----------------------------|------------------------------------------------------------------------------------------------------------------------------------|
-| **status**        | **String**  | Process status to filter by | [enum: not_started, running, finished, unknown, failed, failed_to_start, stopped, stopping, aborted, starting, healthy, unhealthy] |
-| **page**          | **Integer** | Page number (0-based)       | [optional] [default to 0]                                                                                                          |
-| **size**          | **Integer** | Number of items per page    | [optional] [default to 20]                                                                                                         |
-| **sortBy**        | **String**  | Field to sort by            | [optional] [default to eventTime]                                                                                                  |
-| **sortDirection** | **String**  | Sort direction              | [optional] [default to desc]                                                                                                       |
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **status** | **String**| Process status to filter by | [enum: not_started, running, finished, unknown, failed, failed_to_start, stopped, stopping, aborted, starting, healthy, unhealthy] |
+| **page** | **Integer**| Page number (0-based) | [optional] [default to 0] |
+| **size** | **Integer**| Number of items per page | [optional] [default to 20] |
+| **sortBy** | **String**| Field to sort by | [optional] [default to eventTime] |
+| **sortDirection** | **String**| Sort direction | [optional] [default to desc] |
 
 ### Return type
 
@@ -285,12 +299,14 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: */*
 
-### HTTP response details
 
-| Status code | Description                   | Response headers |
-|-------------|-------------------------------|------------------|
-| **200**     | Successfully retrieved events | -                |
-| **400**     | Invalid status value          | -                |
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Invalid status value |  -  |
+| **500** | Internal server error |  -  |
+| **200** | Successfully retrieved events |  -  |
+
 
 ## getTotalEventsCount
 
@@ -347,9 +363,11 @@ No authorization required
 - **Content-Type**: Not defined
 - **Accept**: */*
 
-### HTTP response details
 
-| Status code | Description                  | Response headers |
-|-------------|------------------------------|------------------|
-| **200**     | Successfully retrieved count | -                |
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **400** | Business error |  -  |
+| **500** | Internal server error |  -  |
+| **200** | Successfully retrieved count |  -  |
 
