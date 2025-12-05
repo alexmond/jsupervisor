@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.ProcessConfig;
 import org.alexmond.jsupervisor.exception.JSupervisorException;
 import org.alexmond.jsupervisor.model.ProcessStatus;
-import org.alexmond.jsupervisor.model.ProcessStatusRest;
+import org.alexmond.jsupervisor.model.ProcessStatusInfo;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
-import org.alexmond.jsupervisor.repository.RunningProcess;
+import org.alexmond.jsupervisor.model.RunningProcess;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
@@ -169,11 +169,11 @@ public class ProcessManager {
     }
 
 
-    public ProcessStatusRest getRunningProcess(String name) {
-        return new ProcessStatusRest(name, processRepository.getRunningProcess(name));
+    public ProcessStatusInfo getRunningProcessInfo(String name) {
+        return new ProcessStatusInfo(name, processRepository.getRunningProcess(name));
     }
 
-    public Collection<ProcessStatusRest> getAllProcessStatusRest() {
-        return processRepository.findAllProcessStatusRest();
+    public Collection<ProcessStatusInfo> getAllProcessStatusInfo() {
+        return processRepository.findAllProcessInfo();
     }
 }

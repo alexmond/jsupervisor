@@ -3,7 +3,7 @@ package org.alexmond.jsupervisor.healthcheck;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.HttpHealthCheckConfig;
 import org.alexmond.jsupervisor.model.ProcessStatus;
-import org.alexmond.jsupervisor.repository.RunningProcess;
+import org.alexmond.jsupervisor.model.RunningProcess;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLParameters;

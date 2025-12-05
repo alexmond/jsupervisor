@@ -2,7 +2,7 @@ package org.alexmond.jsupervisor.ui.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.alexmond.jsupervisor.model.ProcessStatusRest;
+import org.alexmond.jsupervisor.model.ProcessStatusInfo;
 import org.alexmond.jsupervisor.service.ProcessManager;
 import org.alexmond.jsupervisor.ui.model.ProcessDetailPageModel;
 import org.alexmond.jsupervisor.ui.model.ProcessesPageModel;
@@ -42,8 +42,8 @@ public class WebProcessController {
      * @return the view name to render
      */
     @GetMapping({"/", "/index"})
-    public String getAllProcesses(Model model) {
-        Collection<ProcessStatusRest> processes = processManager.getAllProcessStatusRest();
+    public String getAllProcessesInfo(Model model) {
+        Collection<ProcessStatusInfo> processes = processManager.getAllProcessStatusInfo();
         ProcessesPageModel pageModel = ProcessesPageModel.builder()
                 .title("Process List")
                 .activePage("processes")
@@ -103,7 +103,7 @@ public class WebProcessController {
      */
     @GetMapping("/details/{name}")
     public String processesDetails(@PathVariable String name, Model model) {
-        ProcessStatusRest proc = processManager.getRunningProcess(name);
+        ProcessStatusInfo proc = processManager.getRunningProcessInfo(name);
         ProcessDetailPageModel pageModel = ProcessDetailPageModel.builder()
                 .title("Process Details")
                 .activePage("processes")

@@ -4,15 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.ProcessConfig;
 import org.alexmond.jsupervisor.model.ProcessStatus;
-import org.alexmond.jsupervisor.model.ProcessStatusRest;
+import org.alexmond.jsupervisor.model.ProcessStatusInfo;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
-import org.alexmond.jsupervisor.service.ProcessManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -29,13 +29,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RestProcessManagerTest {
 
     @Autowired
-    ObjectMapper objectMapper;
+    JsonMapper objectMapper;
     private String apiprefix = "/api/v1/processes";
-    private String docprefix = "api/v1/processes";
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private ProcessManager processManager;
     @Autowired
     private ProcessRepository processRepository;
 
@@ -52,7 +49,7 @@ public class RestProcessManagerTest {
                 .andReturn();
 
         String jsonResponse = result.getResponse().getContentAsString();
-        ProcessStatusRest[] status = objectMapper.readValue(jsonResponse, ProcessStatusRest[].class);
+        ProcessStatusInfo[] status = objectMapper.readValue(jsonResponse, ProcessStatusInfo[].class);
 
     }
 
@@ -67,22 +64,22 @@ public class RestProcessManagerTest {
                 .andExpect(status().isOk());
 
         verifyProcessStatus(processName, 1, ProcessStatus.running);
-        assertEquals(ProcessStatus.running, processRepository.getRunningProcessRest(processName).getStatus());
+        assertEquals(ProcessStatus.running, processRepository.getRunningProcessInfo(processName).getStatus());
         mockMvc.perform(post(apiprefix + "/restart/{name}", processName))
                 .andExpect(status().isOk());
         verifyProcessStatus(processName, 1, ProcessStatus.running);
-        assertEquals(ProcessStatus.running, processRepository.getRunningProcessRest(processName).getStatus());
+        assertEquals(ProcessStatus.running, processRepository.getRunningProcessInfo(processName).getStatus());
         mockMvc.perform(post(apiprefix + "/stop/{name}", processName))
                 .andExpect(status().isOk());
         verifyProcessStatus(processName, 1, ProcessStatus.stopped);
-        assertEquals(ProcessStatus.stopped, processRepository.getRunningProcessRest(processName).getStatus());
+        assertEquals(ProcessStatus.stopped, processRepository.getRunningProcessInfo(processName).getStatus());
 
-        MvcResult result = mockMvc.perform(get(apiprefix + "/status/{name}", processName))
+        MvcResult result = mockMvc.perform(get(apiprefix + "/info/{name}", processName))
                 .andExpect(status().isOk())
                 .andReturn();
 
         String jsonResponse = result.getResponse().getContentAsString();
-        ProcessStatusRest status = objectMapper.readValue(jsonResponse, ProcessStatusRest.class);
+        ProcessStatusInfo status = objectMapper.readValue(jsonResponse, ProcessStatusInfo.class);
 
         assertEquals(ProcessStatus.stopped, status.getStatus());
 
@@ -98,8 +95,8 @@ public class RestProcessManagerTest {
 
     private void verifyProcessStatus(String processName, Integer minutes, ProcessStatus expectedStatus) {
         await().atMost(minutes, TimeUnit.MINUTES)
-                .until(() -> processRepository.getRunningProcessRest(processName).getStatus().equals(expectedStatus));
-        assertEquals(expectedStatus, processRepository.getRunningProcessRest(processName).getStatus());
+                .until(() -> processRepository.getRunningProcessInfo(processName).getStatus().equals(expectedStatus));
+        assertEquals(expectedStatus, processRepository.getRunningProcessInfo(processName).getStatus());
     }
 
 }

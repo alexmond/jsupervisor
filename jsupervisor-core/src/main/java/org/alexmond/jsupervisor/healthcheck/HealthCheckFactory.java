@@ -1,7 +1,7 @@
 package org.alexmond.jsupervisor.healthcheck;
 
 import org.alexmond.jsupervisor.config.ProcessConfig;
-import org.alexmond.jsupervisor.repository.RunningProcess;
+import org.alexmond.jsupervisor.model.RunningProcess;
 
 /**
  * Factory class responsible for creating appropriate HealthCheck instances based on process configuration.

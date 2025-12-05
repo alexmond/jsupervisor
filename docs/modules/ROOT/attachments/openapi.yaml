@@ -48,7 +48,7 @@ paths:
           type: string
       responses:
         "400":
-          description: Business error
+          description: Malformed request body
           content:
             '*/*':
               schema:
@@ -112,7 +112,7 @@ paths:
           type: string
       responses:
         "400":
-          description: Business error
+          description: Malformed request body
           content:
             '*/*':
               schema:
@@ -136,7 +136,7 @@ paths:
       operationId: stopAll
       responses:
         "400":
-          description: Business error
+          description: Malformed request body
           content:
             '*/*':
               schema:
@@ -160,7 +160,7 @@ paths:
       operationId: startAll
       responses:
         "400":
-          description: Business error
+          description: Malformed request body
           content:
             '*/*':
               schema:
@@ -184,7 +184,7 @@ paths:
       operationId: restartAll
       responses:
         "400":
-          description: Business error
+          description: Malformed request body
           content:
             '*/*':
               schema:
@@ -206,7 +206,7 @@ paths:
       operationId: getSupervisorInfo
       responses:
         "400":
-          description: Business error
+          description: Malformed request body
           content:
             '*/*':
               schema:
@@ -222,17 +222,17 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/SupervisorRest"
+                $ref: "#/components/schemas/SupervisorInfo"
   /api/v1/processes:
     get:
       tags:
       - Process Management
       summary: List all processes
       description: Retrieve status information for all configured processes
-      operationId: getAllProcesses
+      operationId: getAllProcessesInfo
       responses:
         "400":
-          description: Business error
+          description: Malformed request body
           content:
             '*/*':
               schema:
@@ -250,8 +250,8 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/ProcessStatusRest"
-  /api/v1/processes/status/{name}:
+                  $ref: "#/components/schemas/ProcessStatusInfo"
+  /api/v1/processes/info/{name}:
     get:
       tags:
       - Process Management
@@ -267,7 +267,7 @@ paths:
           type: string
       responses:
         "400":
-          description: Business error
+          description: Malformed request body
           content:
             '*/*':
               schema:
@@ -283,13 +283,13 @@ paths:
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/ProcessStatusRest"
+                $ref: "#/components/schemas/ProcessStatusInfo"
         "404":
           description: Process not found
           content:
             '*/*':
               schema:
-                $ref: "#/components/schemas/ProcessStatusRest"
+                $ref: "#/components/schemas/ProcessStatusInfo"
   /api/v1/events:
     get:
       tags:
@@ -372,7 +372,7 @@ paths:
         example: 123
       responses:
         "400":
-          description: Business error
+          description: Malformed request body
           content:
             '*/*':
               schema:
@@ -404,7 +404,7 @@ paths:
       operationId: getTotalEventsCount
       responses:
         "400":
-          description: Business error
+          description: Malformed request body
           content:
             '*/*':
               schema:
@@ -552,7 +552,7 @@ paths:
         example: desc
       responses:
         "400":
-          description: Business error
+          description: Malformed request body
           content:
             '*/*':
               schema:
@@ -609,7 +609,7 @@ components:
           type: string
         error:
           type: string
-    SupervisorRest:
+    SupervisorInfo:
       type: object
       description: Supervisor system information including hardware and OS details
       properties:
@@ -638,7 +638,7 @@ components:
           type: string
           description: Currently available memory in the system
           example: 8.5
-    ProcessStatusRest:
+    ProcessStatusInfo:
       type: object
       description: Represents process status information
       properties:
@@ -701,17 +701,15 @@ components:
         failedErrorLog:
           type: string
           description: Error log content when process failed to start
-        alive:
-          type: boolean
     Page:
       type: object
       properties:
-        totalElements:
-          type: integer
-          format: int64
         totalPages:
           type: integer
           format: int32
+        totalElements:
+          type: integer
+          format: int64
         first:
           type: boolean
         last:
@@ -727,11 +725,11 @@ components:
           format: int32
         sort:
           $ref: "#/components/schemas/SortObject"
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
         empty:
           type: boolean
     PageableObject:
@@ -839,12 +837,12 @@ components:
     PageProcessEventEntry:
       type: object
       properties:
-        totalElements:
-          type: integer
-          format: int64
         totalPages:
           type: integer
           format: int32
+        totalElements:
+          type: integer
+          format: int64
         first:
           type: boolean
         last:
@@ -861,10 +859,10 @@ components:
           format: int32
         sort:
           $ref: "#/components/schemas/SortObject"
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
         numberOfElements:
           type: integer
           format: int32
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
         empty:
           type: boolean

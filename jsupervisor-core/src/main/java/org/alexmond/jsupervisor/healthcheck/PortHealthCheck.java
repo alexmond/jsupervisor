@@ -3,7 +3,7 @@ package org.alexmond.jsupervisor.healthcheck;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.PortHealthCheckConfig;
 import org.alexmond.jsupervisor.model.ProcessStatus;
-import org.alexmond.jsupervisor.repository.RunningProcess;
+import org.alexmond.jsupervisor.model.RunningProcess;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

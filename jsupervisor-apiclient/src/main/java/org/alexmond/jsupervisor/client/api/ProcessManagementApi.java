@@ -21,7 +21,7 @@ import org.alexmond.jsupervisor.client.invoker.Configuration;
 import org.alexmond.jsupervisor.client.invoker.Pair;
 
 import org.alexmond.jsupervisor.client.model.ErrorResponse;
-import org.alexmond.jsupervisor.client.model.ProcessStatusRest;
+import org.alexmond.jsupervisor.client.model.ProcessStatusInfo;
 import org.alexmond.jsupervisor.client.model.ResponseMessage;
 
 
@@ -50,22 +50,22 @@ public class ProcessManagementApi extends BaseApi {
   /**
    * List all processes
    * Retrieve status information for all configured processes
-   * @return List&lt;ProcessStatusRest&gt;
+   * @return List&lt;ProcessStatusInfo&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<ProcessStatusRest> getAllProcesses() throws ApiException {
-    return this.getAllProcesses(Collections.emptyMap());
-  }
+//  public List<ProcessStatusInfo> getAllProcesses() throws ApiException {
+//    return this.getAllProcessesInfo(Collections.emptyMap());
+//  }
 
 
   /**
    * List all processes
    * Retrieve status information for all configured processes
    * @param additionalHeaders additionalHeaders for this call
-   * @return List&lt;ProcessStatusRest&gt;
+   * @return List&lt;ProcessStatusInfo&gt;
    * @throws ApiException if fails to make API call
    */
-  public List<ProcessStatusRest> getAllProcesses(Map<String, String> additionalHeaders) throws ApiException {
+  public List<ProcessStatusInfo> getAllProcessesInfo(Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -96,7 +96,7 @@ public class ProcessManagementApi extends BaseApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-    TypeReference<List<ProcessStatusRest>> localVarReturnType = new TypeReference<List<ProcessStatusRest>>() {};
+    TypeReference<List<ProcessStatusInfo>> localVarReturnType = new TypeReference<List<ProcessStatusInfo>>() {};
     return apiClient.invokeAPI(
         localVarPath,
         "GET",
@@ -118,10 +118,10 @@ public class ProcessManagementApi extends BaseApi {
    * Get process status
    * Get the current status of a specific process
    * @param name Process name (required)
-   * @return ProcessStatusRest
+   * @return ProcessStatusInfo
    * @throws ApiException if fails to make API call
    */
-  public ProcessStatusRest getProcessStatus(@jakarta.annotation.Nonnull String name) throws ApiException {
+  public ProcessStatusInfo getProcessInfo(@jakarta.annotation.Nonnull String name) throws ApiException {
     return this.getProcessStatus(name, Collections.emptyMap());
   }
 
@@ -131,10 +131,10 @@ public class ProcessManagementApi extends BaseApi {
    * Get the current status of a specific process
    * @param name Process name (required)
    * @param additionalHeaders additionalHeaders for this call
-   * @return ProcessStatusRest
+   * @return ProcessStatusInfo
    * @throws ApiException if fails to make API call
    */
-  public ProcessStatusRest getProcessStatus(@jakarta.annotation.Nonnull String name, Map<String, String> additionalHeaders) throws ApiException {
+  public ProcessStatusInfo getProcessStatus(@jakarta.annotation.Nonnull String name, Map<String, String> additionalHeaders) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'name' is set
@@ -171,7 +171,7 @@ public class ProcessManagementApi extends BaseApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-    TypeReference<ProcessStatusRest> localVarReturnType = new TypeReference<ProcessStatusRest>() {};
+    TypeReference<ProcessStatusInfo> localVarReturnType = new TypeReference<ProcessStatusInfo>() {};
     return apiClient.invokeAPI(
         localVarPath,
         "GET",

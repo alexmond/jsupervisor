@@ -39,21 +39,21 @@ public class ProcessGroupManagerTest {
     private EventRepository eventRepository;
 
     @Test
-    void testRestartAllInvokesStopAllAndStartAll() throws InterruptedException {
+    void testRestartGroupAllInvokesStopGroupAllAndStartGroupAll() throws InterruptedException {
 
         processGroupManager.startAll();
         Thread.sleep(100);
-        processRepository.findAllProcessStatusRest().forEach(process -> {
+        processRepository.findAllProcessInfo().forEach(process -> {
             assertEquals(ProcessStatus.running, process.getStatus());
         });
         processGroupManager.stopAll();
         Thread.sleep(100);
-        processRepository.findAllProcessStatusRest().forEach(process -> {
+        processRepository.findAllProcessInfo().forEach(process -> {
             assertEquals(ProcessStatus.stopped, process.getStatus());
         });
         processGroupManager.restartAll();
         Thread.sleep(1000);
-        processRepository.findAllProcessStatusRest().forEach(process -> {
+        processRepository.findAllProcessInfo().forEach(process -> {
             assertEquals(ProcessStatus.running, process.getStatus());
         });
     }
@@ -72,9 +72,9 @@ public class ProcessGroupManagerTest {
         processRepository.addProcess("acTest3", processConfig3);
         processGroupManager.startAll();
         verifyProcessStatus("acTest3", 5, ProcessStatus.running);
-        var acTest1Status = processRepository.getRunningProcessRest("acTest1").getStartTime();
-        var acTest2Status = processRepository.getRunningProcessRest("acTest2").getStartTime();
-        var acTest3Status = processRepository.getRunningProcessRest("acTest3").getStartTime();
+        var acTest1Status = processRepository.getRunningProcessInfo("acTest1").getStartTime();
+        var acTest2Status = processRepository.getRunningProcessInfo("acTest2").getStartTime();
+        var acTest3Status = processRepository.getRunningProcessInfo("acTest3").getStartTime();
         log.info("Process start times - acTest1: {}, acTest2: {}, acTest3: {}", acTest1Status, acTest2Status, acTest3Status);
         assertTrue(Duration.between(acTest1Status, acTest2Status).toSeconds() >= 8);
         assertTrue(Duration.between(acTest2Status, acTest3Status).toSeconds() >= 8);
@@ -102,9 +102,9 @@ public class ProcessGroupManagerTest {
         processRepository.addProcess("acTest3", processConfig3);
         processGroupManager.autoStartAll();
         verifyProcessStatus("acTest3", 5, ProcessStatus.running);
-        assertEquals(ProcessStatus.not_started, processRepository.getRunningProcessRest("acTest2").getStatus());
-        var acTest1Status = processRepository.getRunningProcessRest("acTest1").getStartTime();
-        var acTest3Status = processRepository.getRunningProcessRest("acTest3").getStartTime();
+        assertEquals(ProcessStatus.not_started, processRepository.getRunningProcessInfo("acTest2").getStatus());
+        var acTest1Status = processRepository.getRunningProcessInfo("acTest1").getStartTime();
+        var acTest3Status = processRepository.getRunningProcessInfo("acTest3").getStartTime();
         log.info("Process start times - acTest1: {}, acTest3: {}", acTest1Status, acTest3Status);
         assertTrue(Duration.between(acTest1Status, acTest3Status).toSeconds() >= 8);
         processGroupManager.stopAll();
@@ -115,7 +115,7 @@ public class ProcessGroupManagerTest {
     }
 
     @Test
-    void testRestartAllHandlesErrors() {
+    void testRestartGroupAllHandlesErrors() {
         // Arrange
         ProcessRepository processRepository = mock(ProcessRepository.class);
         ProcessManager processManager = mock(ProcessManager.class);
@@ -148,7 +148,7 @@ public class ProcessGroupManagerTest {
 
     private void verifyProcessStatus(String processName, Integer minutes, ProcessStatus expectedStatus) {
         await().atMost(minutes, TimeUnit.MINUTES)
-                .until(() -> processRepository.getRunningProcessRest(processName).getStatus().equals(expectedStatus));
-        assertEquals(expectedStatus, processRepository.getRunningProcessRest(processName).getStatus());
+                .until(() -> processRepository.getRunningProcessInfo(processName).getStatus().equals(expectedStatus));
+        assertEquals(expectedStatus, processRepository.getRunningProcessInfo(processName).getStatus());
     }
 }

@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.ProcessConfig;
 import org.alexmond.jsupervisor.model.ProcessStatus;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
-import org.alexmond.jsupervisor.repository.RunningProcess;
+import org.alexmond.jsupervisor.model.RunningProcess;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 

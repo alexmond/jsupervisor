@@ -5,7 +5,6 @@ package org.alexmond.jsupervisor.model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.alexmond.jsupervisor.repository.RunningProcess;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.keyvalue.annotation.KeySpace;
 

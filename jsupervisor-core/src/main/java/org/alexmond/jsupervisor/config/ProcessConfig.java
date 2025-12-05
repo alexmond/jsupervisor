@@ -1,14 +1,13 @@
 package org.alexmond.jsupervisor.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;
 import org.springframework.validation.annotation.Validated;
+import tools.jackson.databind.ObjectMapper;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -117,6 +116,13 @@ public class ProcessConfig {
 //    startretries=3
 
     /**
+     * Groups that this process belongs to.
+     * Used for organizing and managing processes collectively.
+     * Each process can belong to multiple groups.
+     */
+    @Schema(description = "Groups that this process belongs to. Used for organizing and managing processes collectively.", example = "['backend', 'critical']")
+    private String[] groups;
+    /**
      * The maximum time to wait for the process to shut down gracefully.
      * After this duration, the process will be forcefully terminated if still running.
      * Defaults to 5 seconds.
@@ -186,7 +192,7 @@ public class ProcessConfig {
 
     public Map<String, Object> toMap() {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
+//        objectMapper.registerModule(new JavaTimeModule());
         return objectMapper.convertValue(this, Map.class);
     }
 }

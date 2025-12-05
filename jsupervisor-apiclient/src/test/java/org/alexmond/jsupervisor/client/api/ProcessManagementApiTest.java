@@ -14,22 +14,12 @@
 package org.alexmond.jsupervisor.client.api;
 
 import org.alexmond.jsupervisor.client.invoker.ApiException;
-import org.alexmond.jsupervisor.client.model.ErrorResponse;
-import org.alexmond.jsupervisor.client.model.ProcessStatusRest;
+import org.alexmond.jsupervisor.client.model.ProcessStatusInfo;
 import org.alexmond.jsupervisor.client.model.ResponseMessage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import jakarta.validation.constraints.*;
-import jakarta.validation.Valid;
 
 /**
  * API tests for ProcessManagementApi
@@ -47,12 +37,12 @@ public class ProcessManagementApiTest {
      * @throws ApiException
      *          if the Api call fails
      */
-    @Test
-    public void getAllProcessesTest() throws ApiException {
-        List<ProcessStatusRest> response = api.getAllProcesses();
-
-        // TODO: test validations
-    }
+//    @Test
+//    public void getAllProcessesTest() throws ApiException {
+//        List<ProcessStatusInfo> response = api.getAllProcessesInfo();
+//
+//        // TODO: test validations
+//    }
     /**
      * Get process status
      *
@@ -64,7 +54,7 @@ public class ProcessManagementApiTest {
     @Test
     public void getProcessStatusTest() throws ApiException {
         String name = null;
-        ProcessStatusRest response = api.getProcessStatus(name);
+        ProcessStatusInfo response = api.getProcessInfo(name);
 
         // TODO: test validations
     }

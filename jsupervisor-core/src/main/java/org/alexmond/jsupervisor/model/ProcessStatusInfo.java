@@ -1,16 +1,13 @@
 package org.alexmond.jsupervisor.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.alexmond.jsupervisor.config.ProcessConfig;
-import org.alexmond.jsupervisor.repository.RunningProcess;
+import tools.jackson.databind.ObjectMapper;
+
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -28,7 +25,7 @@ import java.util.Map;
 @Schema(description = "Represents process status information")
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProcessStatusRest {
+public class ProcessStatusInfo {
 
     /**
      * The name identifier of the process
@@ -109,7 +106,7 @@ public class ProcessStatusRest {
      * @param name           The name identifier of the process
      * @param runningProcess The running process instance containing detailed status information
      */
-    public ProcessStatusRest(String name, RunningProcess runningProcess) {
+    public ProcessStatusInfo(String name, RunningProcess runningProcess) {
         this.name = name;
         this.startTime = runningProcess.getStartTime();
         this.endTime = runningProcess.getEndTime();
@@ -132,6 +129,7 @@ public class ProcessStatusRest {
      *
      * @return true if the process has a valid PID, false otherwise
      */
+    @JsonIgnore
     public boolean isAlive() {
         return pid != null;
     }
@@ -144,10 +142,10 @@ public class ProcessStatusRest {
      */
     public Map<String, Object> toMap() {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        objectMapper.configOverride(LocalDateTime.class)
-                .setFormat(JsonFormat.Value.forPattern("yyyy-MM-dd'T'HH:mm"));
+//        objectMapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
+//        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+//        objectMapper.configOverride(LocalDateTime.class)
+//                .setFormat(JsonFormat.Value.forPattern("yyyy-MM-dd'T'HH:mm"));
         return objectMapper.convertValue(this, Map.class);
     }
 }

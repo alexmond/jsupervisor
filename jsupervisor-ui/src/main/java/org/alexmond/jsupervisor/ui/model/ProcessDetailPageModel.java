@@ -3,7 +3,7 @@ package org.alexmond.jsupervisor.ui.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
-import org.alexmond.jsupervisor.model.ProcessStatusRest;
+import org.alexmond.jsupervisor.model.ProcessStatusInfo;
 
 import java.util.Map;
 
@@ -22,6 +22,6 @@ public class ProcessDetailPageModel extends BaseModel {
      * Process status information containing details about the managed process,
      * including its current state and runtime information.
      */
-    private ProcessStatusRest proc;
+    private ProcessStatusInfo proc;
 
 }

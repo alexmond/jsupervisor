@@ -37,13 +37,13 @@ public class ProcessManagerTest {
 
         processManager.startProcess(processName);
         verifyProcessStatus(processName, 1, ProcessStatus.running);
-        assertEquals(ProcessStatus.running, processRepository.getRunningProcessRest(processName).getStatus());
+        assertEquals(ProcessStatus.running, processRepository.getRunningProcessInfo(processName).getStatus());
         processManager.restartProcess(processName);
         verifyProcessStatus(processName, 1, ProcessStatus.running);
-        assertEquals(ProcessStatus.running, processRepository.getRunningProcessRest(processName).getStatus());
+        assertEquals(ProcessStatus.running, processRepository.getRunningProcessInfo(processName).getStatus());
         processManager.stopProcess(processName);
         verifyProcessStatus(processName, 1, ProcessStatus.stopped);
-        assertEquals(ProcessStatus.stopped, processRepository.getRunningProcessRest(processName).getStatus());
+        assertEquals(ProcessStatus.stopped, processRepository.getRunningProcessInfo(processName).getStatus());
     }
 
     private ProcessConfig createBaseProcessConfig() {
@@ -56,8 +56,8 @@ public class ProcessManagerTest {
 
     private void verifyProcessStatus(String processName, Integer minutes, ProcessStatus expectedStatus) {
         await().atMost(minutes, TimeUnit.MINUTES)
-                .until(() -> processRepository.getRunningProcessRest(processName).getStatus().equals(expectedStatus));
-        assertEquals(expectedStatus, processRepository.getRunningProcessRest(processName).getStatus());
+                .until(() -> processRepository.getRunningProcessInfo(processName).getStatus().equals(expectedStatus));
+        assertEquals(expectedStatus, processRepository.getRunningProcessInfo(processName).getStatus());
     }
 
 }

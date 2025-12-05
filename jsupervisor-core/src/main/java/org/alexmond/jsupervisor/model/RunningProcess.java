@@ -1,15 +1,13 @@
-package org.alexmond.jsupervisor.repository;
+package org.alexmond.jsupervisor.model;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.Synchronized;
+import lombok.experimental.Delegate;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.ProcessConfig;
 import org.alexmond.jsupervisor.healthcheck.HealthCheck;
 import org.alexmond.jsupervisor.healthcheck.HealthCheckFactory;
-import org.alexmond.jsupervisor.model.ProcessEvent;
-import org.alexmond.jsupervisor.model.ProcessEventEntry;
-import org.alexmond.jsupervisor.model.ProcessStatus;
 import org.springframework.context.ApplicationEventPublisher;
 
 import java.io.File;
@@ -41,6 +39,7 @@ public class RunningProcess {
     /**
      * Configuration settings for the process
      */
+    @Delegate
     private final ProcessConfig processConfig;
 
     /**

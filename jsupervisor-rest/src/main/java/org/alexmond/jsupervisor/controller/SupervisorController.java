@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
-import org.alexmond.jsupervisor.model.SupervisorRest;
+import org.alexmond.jsupervisor.model.SupervisorInfo;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +27,7 @@ public class SupervisorController {
 
     @GetMapping("/info")
     @Operation(summary = "Get supervisor info", description = "Retrieve basic supervisor information")
-    public SupervisorRest getSupervisorInfo() {
-        return new SupervisorRest(supervisorConfig);
+    public SupervisorInfo getSupervisorInfo() {
+        return new SupervisorInfo(supervisorConfig);
     }
 }

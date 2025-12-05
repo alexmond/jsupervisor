@@ -39,7 +39,7 @@ public class RestProcessGroupManagerTest {
 
 
     @Test
-    void testStartRestartStop() throws Exception {
+    void testStartGroupRestartGroupStopGroup() throws Exception {
 
         String processName1 = "sleepTestProcess";
         String processName2 = "sleepTestProcess2";
@@ -51,19 +51,19 @@ public class RestProcessGroupManagerTest {
         mockMvc.perform(post(apiprefix + "/start"))
                 .andExpect(status().isOk());
         Thread.sleep(100);
-        processRepository.findAllProcessStatusRest().forEach(process -> {
+        processRepository.findAllProcessInfo().forEach(process -> {
             assertEquals(ProcessStatus.running, process.getStatus());
         });
         mockMvc.perform(post(apiprefix + "/stop"))
                 .andExpect(status().isOk());
         Thread.sleep(100);
-        processRepository.findAllProcessStatusRest().forEach(process -> {
+        processRepository.findAllProcessInfo().forEach(process -> {
             assertEquals(ProcessStatus.stopped, process.getStatus());
         });
         mockMvc.perform(post(apiprefix + "/restart"))
                 .andExpect(status().isOk());
         Thread.sleep(1000);
-        processRepository.findAllProcessStatusRest().forEach(process -> {
+        processRepository.findAllProcessInfo().forEach(process -> {
             assertEquals(ProcessStatus.running, process.getStatus());
         });
     }
@@ -79,7 +79,7 @@ public class RestProcessGroupManagerTest {
 
     private void verifyProcessStatus(String processName, Integer minutes, ProcessStatus expectedStatus) {
         await().atMost(minutes, TimeUnit.MINUTES)
-                .until(() -> processRepository.getRunningProcessRest(processName).getStatus().equals(expectedStatus));
-        assertEquals(expectedStatus, processRepository.getRunningProcessRest(processName).getStatus());
+                .until(() -> processRepository.getRunningProcessInfo(processName).getStatus().equals(expectedStatus));
+        assertEquals(expectedStatus, processRepository.getRunningProcessInfo(processName).getStatus());
     }
 }

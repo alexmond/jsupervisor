@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.alexmond</groupId>
-        <artifactId>jsupervisor-parent</artifactId>
+        <artifactId>jsupervisor-examples</artifactId>
         <version>0.0.3-SNAPSHOT</version>
     </parent>
     <artifactId>spring-boot-test-app</artifactId>

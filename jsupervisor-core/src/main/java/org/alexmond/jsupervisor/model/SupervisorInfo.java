@@ -28,7 +28,7 @@ import java.util.Map;
 @Slf4j
 @NoArgsConstructor
 @AllArgsConstructor
-public class SupervisorRest {
+public class SupervisorInfo {
 
     /**
      * The name of the node in the supervisor system
@@ -67,7 +67,7 @@ public class SupervisorRest {
      *
      * @param supervisorConfig the configuration for the supervisor system
      */
-    public SupervisorRest(SupervisorConfig supervisorConfig) {
+    public SupervisorInfo(SupervisorConfig supervisorConfig) {
         nodeName = supervisorConfig.getNodeName();
         description = supervisorConfig.getDescription();
 

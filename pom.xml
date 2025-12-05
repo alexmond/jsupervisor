@@ -205,7 +205,7 @@
         <profile>
             <id>default</id>
             <modules>
-                <module>spring-boot-test-app</module>
+                <module>jsupervisor-examples</module>
                 <module>jsupervisor-apicdoc-gen</module>
             </modules>
         </profile>

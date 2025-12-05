@@ -3,7 +3,7 @@ package org.alexmond.jsupervisor.ui.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.SuperBuilder;
-import org.alexmond.jsupervisor.model.ProcessStatusRest;
+import org.alexmond.jsupervisor.model.ProcessStatusInfo;
 
 /**
  * Model class representing a page that displays process log information.
@@ -17,7 +17,7 @@ public class ProcessLogPageModel extends BaseModel {
     /**
      * Associated process status information
      */
-    ProcessStatusRest pr;
+    ProcessStatusInfo pr;
     /**
      * Type of log stream (stdout or stderr)
      */

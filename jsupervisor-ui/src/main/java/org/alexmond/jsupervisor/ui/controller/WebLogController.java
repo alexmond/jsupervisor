@@ -2,9 +2,9 @@ package org.alexmond.jsupervisor.ui.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.alexmond.jsupervisor.model.ProcessStatusRest;
+import org.alexmond.jsupervisor.model.ProcessStatusInfo;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
-import org.alexmond.jsupervisor.repository.RunningProcess;
+import org.alexmond.jsupervisor.model.RunningProcess;
 import org.alexmond.jsupervisor.ui.model.ProcessLogPageModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +23,7 @@ import java.nio.file.Files;
  */
 @Slf4j
 @Controller
-@RequestMapping("/")
+@RequestMapping("/log")
 @RequiredArgsConstructor
 public class WebLogController {
 
@@ -48,7 +48,7 @@ public class WebLogController {
      * @return the view name to render
      * @throws IOException if there is an error reading the log file
      */
-    @GetMapping("/log/{name}")
+    @GetMapping("/{name}")
     public String processLog(@PathVariable String name,
                              @RequestParam(defaultValue = "stdout") String type,
                              @RequestParam(defaultValue = "100") int lines,
@@ -73,7 +73,7 @@ public class WebLogController {
             log.error("Error reading log file", e);
             logContent = "Error reading log file: " + e.toString();
         }
-        ProcessStatusRest proc = new ProcessStatusRest(name, processRepository.getRunningProcess(name));
+        ProcessStatusInfo proc = new ProcessStatusInfo(name, processRepository.getRunningProcess(name));
 
         ProcessLogPageModel pageModel = ProcessLogPageModel.builder()
                 .title("Process Log")

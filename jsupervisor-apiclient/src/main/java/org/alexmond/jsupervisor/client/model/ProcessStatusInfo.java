@@ -14,19 +14,15 @@
 package org.alexmond.jsupervisor.client.model;
 
 import java.util.Objects;
-import java.util.Arrays;
 import java.util.Locale;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.annotation.JsonTypeName;
-import jakarta.validation.constraints.*;
 import jakarta.validation.Valid;
-import org.hibernate.validator.constraints.*;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.StringJoiner;
@@ -35,21 +31,21 @@ import java.util.StringJoiner;
  * Represents process status information
  */
 @JsonPropertyOrder({
-  ProcessStatusRest.JSON_PROPERTY_NAME,
-  ProcessStatusRest.JSON_PROPERTY_STATUS,
-  ProcessStatusRest.JSON_PROPERTY_PID,
-  ProcessStatusRest.JSON_PROPERTY_START_TIME,
-  ProcessStatusRest.JSON_PROPERTY_END_TIME,
-  ProcessStatusRest.JSON_PROPERTY_EXIT_CODE,
-  ProcessStatusRest.JSON_PROPERTY_PROCESS_RUNTIME,
-  ProcessStatusRest.JSON_PROPERTY_PROCESS_UPTIME,
-  ProcessStatusRest.JSON_PROPERTY_STDOUT_LOGFILE,
-  ProcessStatusRest.JSON_PROPERTY_STDERR_LOGFILE,
-  ProcessStatusRest.JSON_PROPERTY_FAILED_ERROR_LOG,
-  ProcessStatusRest.JSON_PROPERTY_ALIVE
+  ProcessStatusInfo.JSON_PROPERTY_NAME,
+  ProcessStatusInfo.JSON_PROPERTY_STATUS,
+  ProcessStatusInfo.JSON_PROPERTY_PID,
+  ProcessStatusInfo.JSON_PROPERTY_START_TIME,
+  ProcessStatusInfo.JSON_PROPERTY_END_TIME,
+  ProcessStatusInfo.JSON_PROPERTY_EXIT_CODE,
+  ProcessStatusInfo.JSON_PROPERTY_PROCESS_RUNTIME,
+  ProcessStatusInfo.JSON_PROPERTY_PROCESS_UPTIME,
+  ProcessStatusInfo.JSON_PROPERTY_STDOUT_LOGFILE,
+  ProcessStatusInfo.JSON_PROPERTY_STDERR_LOGFILE,
+  ProcessStatusInfo.JSON_PROPERTY_FAILED_ERROR_LOG,
+  ProcessStatusInfo.JSON_PROPERTY_ALIVE
 })
 @jakarta.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", comments = "Generator version: 7.17.0")
-public class ProcessStatusRest {
+public class ProcessStatusInfo {
   public static final String JSON_PROPERTY_NAME = "name";
   @jakarta.annotation.Nullable
   private String name;
@@ -153,10 +149,10 @@ public class ProcessStatusRest {
   @jakarta.annotation.Nullable
   private Boolean alive;
 
-  public ProcessStatusRest() {
+  public ProcessStatusInfo() {
   }
 
-  public ProcessStatusRest name(@jakarta.annotation.Nullable String name) {
+  public ProcessStatusInfo name(@jakarta.annotation.Nullable String name) {
     
     this.name = name;
     return this;
@@ -182,7 +178,7 @@ public class ProcessStatusRest {
     this.name = name;
   }
 
-  public ProcessStatusRest status(@jakarta.annotation.Nullable StatusEnum status) {
+  public ProcessStatusInfo status(@jakarta.annotation.Nullable StatusEnum status) {
     
     this.status = status;
     return this;
@@ -208,7 +204,7 @@ public class ProcessStatusRest {
     this.status = status;
   }
 
-  public ProcessStatusRest pid(@jakarta.annotation.Nullable Long pid) {
+  public ProcessStatusInfo pid(@jakarta.annotation.Nullable Long pid) {
     
     this.pid = pid;
     return this;
@@ -234,7 +230,7 @@ public class ProcessStatusRest {
     this.pid = pid;
   }
 
-  public ProcessStatusRest startTime(@jakarta.annotation.Nullable OffsetDateTime startTime) {
+  public ProcessStatusInfo startTime(@jakarta.annotation.Nullable OffsetDateTime startTime) {
     
     this.startTime = startTime;
     return this;
@@ -261,7 +257,7 @@ public class ProcessStatusRest {
     this.startTime = startTime;
   }
 
-  public ProcessStatusRest endTime(@jakarta.annotation.Nullable OffsetDateTime endTime) {
+  public ProcessStatusInfo endTime(@jakarta.annotation.Nullable OffsetDateTime endTime) {
     
     this.endTime = endTime;
     return this;
@@ -288,7 +284,7 @@ public class ProcessStatusRest {
     this.endTime = endTime;
   }
 
-  public ProcessStatusRest exitCode(@jakarta.annotation.Nullable Integer exitCode) {
+  public ProcessStatusInfo exitCode(@jakarta.annotation.Nullable Integer exitCode) {
     
     this.exitCode = exitCode;
     return this;
@@ -314,7 +310,7 @@ public class ProcessStatusRest {
     this.exitCode = exitCode;
   }
 
-  public ProcessStatusRest processRuntime(@jakarta.annotation.Nullable String processRuntime) {
+  public ProcessStatusInfo processRuntime(@jakarta.annotation.Nullable String processRuntime) {
     
     this.processRuntime = processRuntime;
     return this;
@@ -340,7 +336,7 @@ public class ProcessStatusRest {
     this.processRuntime = processRuntime;
   }
 
-  public ProcessStatusRest processUptime(@jakarta.annotation.Nullable String processUptime) {
+  public ProcessStatusInfo processUptime(@jakarta.annotation.Nullable String processUptime) {
     
     this.processUptime = processUptime;
     return this;
@@ -366,7 +362,7 @@ public class ProcessStatusRest {
     this.processUptime = processUptime;
   }
 
-  public ProcessStatusRest stdoutLogfile(@jakarta.annotation.Nullable String stdoutLogfile) {
+  public ProcessStatusInfo stdoutLogfile(@jakarta.annotation.Nullable String stdoutLogfile) {
     
     this.stdoutLogfile = stdoutLogfile;
     return this;
@@ -392,7 +388,7 @@ public class ProcessStatusRest {
     this.stdoutLogfile = stdoutLogfile;
   }
 
-  public ProcessStatusRest stderrLogfile(@jakarta.annotation.Nullable String stderrLogfile) {
+  public ProcessStatusInfo stderrLogfile(@jakarta.annotation.Nullable String stderrLogfile) {
     
     this.stderrLogfile = stderrLogfile;
     return this;
@@ -418,7 +414,7 @@ public class ProcessStatusRest {
     this.stderrLogfile = stderrLogfile;
   }
 
-  public ProcessStatusRest failedErrorLog(@jakarta.annotation.Nullable String failedErrorLog) {
+  public ProcessStatusInfo failedErrorLog(@jakarta.annotation.Nullable String failedErrorLog) {
     
     this.failedErrorLog = failedErrorLog;
     return this;
@@ -444,7 +440,7 @@ public class ProcessStatusRest {
     this.failedErrorLog = failedErrorLog;
   }
 
-  public ProcessStatusRest alive(@jakarta.annotation.Nullable Boolean alive) {
+  public ProcessStatusInfo alive(@jakarta.annotation.Nullable Boolean alive) {
     
     this.alive = alive;
     return this;
@@ -478,19 +474,19 @@ public class ProcessStatusRest {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ProcessStatusRest processStatusRest = (ProcessStatusRest) o;
-    return Objects.equals(this.name, processStatusRest.name) &&
-        Objects.equals(this.status, processStatusRest.status) &&
-        Objects.equals(this.pid, processStatusRest.pid) &&
-        Objects.equals(this.startTime, processStatusRest.startTime) &&
-        Objects.equals(this.endTime, processStatusRest.endTime) &&
-        Objects.equals(this.exitCode, processStatusRest.exitCode) &&
-        Objects.equals(this.processRuntime, processStatusRest.processRuntime) &&
-        Objects.equals(this.processUptime, processStatusRest.processUptime) &&
-        Objects.equals(this.stdoutLogfile, processStatusRest.stdoutLogfile) &&
-        Objects.equals(this.stderrLogfile, processStatusRest.stderrLogfile) &&
-        Objects.equals(this.failedErrorLog, processStatusRest.failedErrorLog) &&
-        Objects.equals(this.alive, processStatusRest.alive);
+    ProcessStatusInfo processStatusInfo = (ProcessStatusInfo) o;
+    return Objects.equals(this.name, processStatusInfo.name) &&
+        Objects.equals(this.status, processStatusInfo.status) &&
+        Objects.equals(this.pid, processStatusInfo.pid) &&
+        Objects.equals(this.startTime, processStatusInfo.startTime) &&
+        Objects.equals(this.endTime, processStatusInfo.endTime) &&
+        Objects.equals(this.exitCode, processStatusInfo.exitCode) &&
+        Objects.equals(this.processRuntime, processStatusInfo.processRuntime) &&
+        Objects.equals(this.processUptime, processStatusInfo.processUptime) &&
+        Objects.equals(this.stdoutLogfile, processStatusInfo.stdoutLogfile) &&
+        Objects.equals(this.stderrLogfile, processStatusInfo.stderrLogfile) &&
+        Objects.equals(this.failedErrorLog, processStatusInfo.failedErrorLog) &&
+        Objects.equals(this.alive, processStatusInfo.alive);
   }
 
   @Override
@@ -501,7 +497,7 @@ public class ProcessStatusRest {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ProcessStatusRest {\n");
+    sb.append("class ProcessStatusInfo {\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    pid: ").append(toIndentedString(pid)).append("\n");

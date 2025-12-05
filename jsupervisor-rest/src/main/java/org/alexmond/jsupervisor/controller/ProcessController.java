@@ -8,8 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.controller.model.ResponseMessage;
-import org.alexmond.jsupervisor.model.ProcessStatusRest;
-import org.alexmond.jsupervisor.repository.ProcessRepository;
+import org.alexmond.jsupervisor.model.ProcessStatusInfo;
 import org.alexmond.jsupervisor.service.ProcessManager;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
@@ -30,15 +29,14 @@ import java.util.Collection;
 public class ProcessController {
 
     private final ProcessManager processManager;
-    private final ProcessRepository processRepository;
 
     @GetMapping
     @Operation(summary = "List all processes", description = "Retrieve status information for all configured processes")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved list of processes")
     })
-    public Collection<ProcessStatusRest> getAllProcesses() {
-        return processManager.getAllProcessStatusRest();
+    public Collection<ProcessStatusInfo> getAllProcessesInfo() {
+        return processManager.getAllProcessStatusInfo();
     }
 
     @PostMapping("/start/{name}")
@@ -80,15 +78,15 @@ public class ProcessController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/status/{name}")
+    @GetMapping("/info/{name}")
     @Operation(summary = "Get process status", description = "Get the current status of a specific process")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved process status"),
             @ApiResponse(responseCode = "404", description = "Process not found"),
             @ApiResponse(responseCode = "500", description = "Failed to retrieve process status")
     })
-    public ProcessStatusRest getProcessStatus(
+    public ProcessStatusInfo getProcessStatus(
             @Parameter(description = "Process name") @PathVariable String name) {
-        return processManager.getRunningProcess(name);
+        return processManager.getRunningProcessInfo(name);
     }
 }

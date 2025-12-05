@@ -49,7 +49,7 @@
         } ],
         "responses" : {
           "400" : {
-            "description" : "Business error",
+            "description" : "Malformed request body",
             "content" : {
               "*/*" : {
                 "schema" : {
@@ -143,7 +143,7 @@
         } ],
         "responses" : {
           "400" : {
-            "description" : "Business error",
+            "description" : "Malformed request body",
             "content" : {
               "*/*" : {
                 "schema" : {
@@ -179,7 +179,7 @@
         "operationId" : "stopAll",
         "responses" : {
           "400" : {
-            "description" : "Business error",
+            "description" : "Malformed request body",
             "content" : {
               "*/*" : {
                 "schema" : {
@@ -215,7 +215,7 @@
         "operationId" : "startAll",
         "responses" : {
           "400" : {
-            "description" : "Business error",
+            "description" : "Malformed request body",
             "content" : {
               "*/*" : {
                 "schema" : {
@@ -251,7 +251,7 @@
         "operationId" : "restartAll",
         "responses" : {
           "400" : {
-            "description" : "Business error",
+            "description" : "Malformed request body",
             "content" : {
               "*/*" : {
                 "schema" : {
@@ -284,7 +284,7 @@
         "operationId" : "getSupervisorInfo",
         "responses" : {
           "400" : {
-            "description" : "Business error",
+            "description" : "Malformed request body",
             "content" : {
               "*/*" : {
                 "schema" : {
@@ -308,7 +308,7 @@
             "content" : {
               "*/*" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/SupervisorRest"
+                  "$ref" : "#/components/schemas/SupervisorInfo"
                 }
               }
             }
@@ -321,10 +321,10 @@
         "tags" : [ "Process Management" ],
         "summary" : "List all processes",
         "description" : "Retrieve status information for all configured processes",
-        "operationId" : "getAllProcesses",
+        "operationId" : "getAllProcessesInfo",
         "responses" : {
           "400" : {
-            "description" : "Business error",
+            "description" : "Malformed request body",
             "content" : {
               "*/*" : {
                 "schema" : {
@@ -350,7 +350,7 @@
                 "schema" : {
                   "type" : "array",
                   "items" : {
-                    "$ref" : "#/components/schemas/ProcessStatusRest"
+                    "$ref" : "#/components/schemas/ProcessStatusInfo"
                   }
                 }
               }
@@ -359,7 +359,7 @@
         }
       }
     },
-    "/api/v1/processes/status/{name}" : {
+    "/api/v1/processes/info/{name}" : {
       "get" : {
         "tags" : [ "Process Management" ],
         "summary" : "Get process status",
@@ -376,7 +376,7 @@
         } ],
         "responses" : {
           "400" : {
-            "description" : "Business error",
+            "description" : "Malformed request body",
             "content" : {
               "*/*" : {
                 "schema" : {
@@ -400,7 +400,7 @@
             "content" : {
               "*/*" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProcessStatusRest"
+                  "$ref" : "#/components/schemas/ProcessStatusInfo"
                 }
               }
             }
@@ -410,7 +410,7 @@
             "content" : {
               "*/*" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/ProcessStatusRest"
+                  "$ref" : "#/components/schemas/ProcessStatusInfo"
                 }
               }
             }
@@ -512,7 +512,7 @@
         } ],
         "responses" : {
           "400" : {
-            "description" : "Business error",
+            "description" : "Malformed request body",
             "content" : {
               "*/*" : {
                 "schema" : {
@@ -562,7 +562,7 @@
         "operationId" : "getTotalEventsCount",
         "responses" : {
           "400" : {
-            "description" : "Business error",
+            "description" : "Malformed request body",
             "content" : {
               "*/*" : {
                 "schema" : {
@@ -744,7 +744,7 @@
         } ],
         "responses" : {
           "400" : {
-            "description" : "Business error",
+            "description" : "Malformed request body",
             "content" : {
               "*/*" : {
                 "schema" : {
@@ -832,7 +832,7 @@
           }
         }
       },
-      "SupervisorRest" : {
+      "SupervisorInfo" : {
         "type" : "object",
         "description" : "Supervisor system information including hardware and OS details",
         "properties" : {
@@ -869,7 +869,7 @@
           }
         }
       },
-      "ProcessStatusRest" : {
+      "ProcessStatusInfo" : {
         "type" : "object",
         "description" : "Represents process status information",
         "properties" : {
@@ -926,22 +926,19 @@
           "failedErrorLog" : {
             "type" : "string",
             "description" : "Error log content when process failed to start"
-          },
-          "alive" : {
-            "type" : "boolean"
           }
         }
       },
       "Page" : {
         "type" : "object",
         "properties" : {
-          "totalElements" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
           "totalPages" : {
             "type" : "integer",
             "format" : "int32"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
           },
           "first" : {
             "type" : "boolean"
@@ -964,12 +961,12 @@
           "sort" : {
             "$ref" : "#/components/schemas/SortObject"
           },
+          "pageable" : {
+            "$ref" : "#/components/schemas/PageableObject"
+          },
           "numberOfElements" : {
             "type" : "integer",
             "format" : "int32"
-          },
-          "pageable" : {
-            "$ref" : "#/components/schemas/PageableObject"
           },
           "empty" : {
             "type" : "boolean"
@@ -1081,13 +1078,13 @@
       "PageProcessEventEntry" : {
         "type" : "object",
         "properties" : {
-          "totalElements" : {
-            "type" : "integer",
-            "format" : "int64"
-          },
           "totalPages" : {
             "type" : "integer",
             "format" : "int32"
+          },
+          "totalElements" : {
+            "type" : "integer",
+            "format" : "int64"
           },
           "first" : {
             "type" : "boolean"
@@ -1112,12 +1109,12 @@
           "sort" : {
             "$ref" : "#/components/schemas/SortObject"
           },
+          "pageable" : {
+            "$ref" : "#/components/schemas/PageableObject"
+          },
           "numberOfElements" : {
             "type" : "integer",
             "format" : "int32"
-          },
-          "pageable" : {
-            "$ref" : "#/components/schemas/PageableObject"
           },
           "empty" : {
             "type" : "boolean"

@@ -34,14 +34,14 @@ public class HealthCheckTest {
 
     private void verifyProcessHealth(String processName, ProcessStatus expectedStatus) {
         await().atMost(1, TimeUnit.MINUTES)
-                .until(() -> processRepository.getRunningProcessRest(processName).getStatus().equals(expectedStatus));
-        assertEquals(expectedStatus, processRepository.getRunningProcessRest(processName).getStatus());
+                .until(() -> processRepository.getRunningProcessInfo(processName).getStatus().equals(expectedStatus));
+        assertEquals(expectedStatus, processRepository.getRunningProcessInfo(processName).getStatus());
     }
 
     private void cleanupProcess(String processName) {
         processManager.stopProcess(processName);
         await().atMost(1, TimeUnit.MINUTES)
-                .until(() -> !processRepository.getRunningProcessRest(processName).isAlive());
+                .until(() -> !processRepository.getRunningProcessInfo(processName).isAlive());
         processRepository.removeProcess(processName);
     }
 

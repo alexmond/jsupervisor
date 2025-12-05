@@ -4,9 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
 import org.alexmond.jsupervisor.repository.ProcessRepository;
+import org.alexmond.jsupervisor.model.RunningProcess;
+import org.apache.commons.io.ThreadUtils;
 import org.springframework.scheduling.annotation.Async;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
@@ -40,15 +44,7 @@ public class ProcessGroupManager {
      */
     @Async
     public void startAll() {
-        processRepository.getProcessOrders().forEach((key, value) -> {
-            log.info("Starting for Order {} and {} process(es)", key, value);
-            value.forEach(processManager::startProcess);
-            try {
-                Thread.sleep(config.getAutoStartDelay().toMillis());
-            } catch (InterruptedException e) {
-                log.error("Thread.sleep interrupted {}", e.getMessage());
-            }
-        });
+        orderedStart(processRepository.getProcessOrders());
     }
 
     /**
@@ -57,19 +53,7 @@ public class ProcessGroupManager {
      */
     @Async
     public void autoStartAll() {
-        processRepository.getProcessOrders().forEach((key, value) -> {
-            log.info("Auto-start initiated for Order {} and {} process(es)", key, value);
-            value.forEach(process -> {
-                if (processRepository.getRunningProcess(process).getProcessConfig().isAutoStart()) {
-                    processManager.startProcess(process);
-                }
-            });
-            try {
-                Thread.sleep(config.getAutoStartDelay().toMillis());
-            } catch (InterruptedException e) {
-                log.error("Thread.sleep interrupted {}", e.getMessage(), e);
-            }
-        });
+        orderedStart(processRepository.getAutostartProcessOrders());
     }
 
     /**
@@ -78,8 +62,11 @@ public class ProcessGroupManager {
      */
     @Async
     public void stopAll() {
-        processRepository.findAll().entrySet().stream()
-                .filter(e -> e.getValue().isProcessRunning())
+        // Create a snapshot to avoid ConcurrentModificationException
+        Map<String, ?> allProcessesSnapshot = new HashMap<>(processRepository.findAll());
+        
+        allProcessesSnapshot.entrySet().stream()
+                .filter(e -> ((RunningProcess) e.getValue()).isProcessRunning())
                 .forEach(e -> processManager.stopProcess(e.getKey()));
     }
 
@@ -99,4 +86,60 @@ public class ProcessGroupManager {
     }
 
 
+    @Async
+    public void startGroup(String groupName) {
+        orderedStart(processRepository.getProcessGroupOrders(groupName));
+    }
+
+    @Async
+    public void stopGroup(String groupName) {
+        var processList = processRepository.getProcessGroups().get(groupName);
+        if (processList == null) {
+            log.warn("No processes found for group '{}'", groupName);
+            return;
+        }
+
+        log.info("Stopping processes for group '{}'", groupName);
+        List<String> processesCopy = new ArrayList<>(processList);
+
+        processesCopy.forEach(processName -> {
+            var runningProcess = processRepository.getRunningProcess(processName);
+            if (runningProcess.isProcessRunning()) {
+                processManager.stopProcess(processName);
+            } else {
+                log.info("Process '{}' is not running, skipping stop", processName);
+            }
+        });
+    }
+
+    @Async
+    public void restartGroup(String groupName) {
+        stopGroup(groupName);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            log.error("Thread.sleep interrupted {}", e.getMessage(), e);
+        }
+        startGroup(groupName);
+    }
+
+    private void orderedStart(Map<Integer, List<String>> processOrders) {
+        processOrders.forEach((order, processes) -> {
+            log.info("Starting for Order {} and {} process(es)", order, processes);
+            processes.forEach(processName -> {
+                var runningProcess = processRepository.getRunningProcess(processName);
+                if (runningProcess.getProcess() == null) {
+                    processManager.startProcess(processName);
+                } else {
+                    log.info("Process '{}' is already running with PID: {}, skipping start",
+                            processName, runningProcess.getProcess().pid());
+                }
+            });
+            try {
+                ThreadUtils.sleep(config.getAutoStartDelay());
+            } catch (InterruptedException e) {
+                log.error("Thread.sleep interrupted {}", e.getMessage());
+            }
+        });
+    }
 }

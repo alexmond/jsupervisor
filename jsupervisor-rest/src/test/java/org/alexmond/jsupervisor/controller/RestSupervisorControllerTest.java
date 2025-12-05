@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.alexmond.jsupervisor.config.ProcessConfig;
 import org.alexmond.jsupervisor.config.SupervisorConfig;
-import org.alexmond.jsupervisor.model.SupervisorRest;
+import org.alexmond.jsupervisor.model.SupervisorInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,6 +12,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.context.WebApplicationContext;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.Map;
 
@@ -26,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class RestSupervisorControllerTest {
 
     @Autowired
-    ObjectMapper objectMapper;
+    JsonMapper objectMapper;
     @Autowired
     private WebApplicationContext webApplicationContext;
     @Autowired
@@ -46,7 +47,7 @@ class RestSupervisorControllerTest {
                 .andReturn();
 
         String jsonResponse = result.getResponse().getContentAsString();
-        SupervisorRest info = objectMapper.readValue(jsonResponse, SupervisorRest.class);
+        SupervisorInfo info = objectMapper.readValue(jsonResponse, SupervisorInfo.class);
 
         assertEquals("TestNode", info.getNodeName());
         assertEquals("Test Description", info.getDescription());
