@@ -33,6 +33,7 @@ jsupervisor:
   node-name: local
   process:
     test:
+      groups: gr1
       command: "java"
       working-directory: "../work"
       stdout-logfile: test-stdout.log
@@ -41,6 +42,7 @@ jsupervisor:
         - "-version"
       shutdown-timeout: 1m
     sleep:
+      groups: gr1
       command: "sleep"
       working-directory: "../work"
       stdout-logfile: sleep-stdout.log
@@ -48,6 +50,7 @@ jsupervisor:
       args:
         - "10"
     testapp1:
+      groups: gr2
       health-check-type: http
       working-directory: "../work"
       application-log: "../work/srv1.log"
@@ -64,6 +67,7 @@ jsupervisor:
         - "-jar"
         - ../spring-boot-test-app/target/spring-boot-test-app-0.0.3-SNAPSHOT.jar
     testapp2:
+      groups: gr2
       health-check-type: actuator
       actuator-health-check:
         actuator-health-url: http://localhost:8082/actuator/health

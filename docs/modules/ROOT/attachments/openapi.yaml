@@ -48,7 +48,7 @@ paths:
           type: string
       responses:
         "400":
-          description: Malformed request body
+          description: Business error
           content:
             '*/*':
               schema:
@@ -112,7 +112,7 @@ paths:
           type: string
       responses:
         "400":
-          description: Malformed request body
+          description: Business error
           content:
             '*/*':
               schema:
@@ -136,7 +136,7 @@ paths:
       operationId: stopAll
       responses:
         "400":
-          description: Malformed request body
+          description: Business error
           content:
             '*/*':
               schema:
@@ -160,7 +160,7 @@ paths:
       operationId: startAll
       responses:
         "400":
-          description: Malformed request body
+          description: Business error
           content:
             '*/*':
               schema:
@@ -184,7 +184,7 @@ paths:
       operationId: restartAll
       responses:
         "400":
-          description: Malformed request body
+          description: Business error
           content:
             '*/*':
               schema:
@@ -206,7 +206,7 @@ paths:
       operationId: getSupervisorInfo
       responses:
         "400":
-          description: Malformed request body
+          description: Business error
           content:
             '*/*':
               schema:
@@ -232,7 +232,7 @@ paths:
       operationId: getAllProcessesInfo
       responses:
         "400":
-          description: Malformed request body
+          description: Business error
           content:
             '*/*':
               schema:
@@ -267,7 +267,7 @@ paths:
           type: string
       responses:
         "400":
-          description: Malformed request body
+          description: Business error
           content:
             '*/*':
               schema:
@@ -372,7 +372,7 @@ paths:
         example: 123
       responses:
         "400":
-          description: Malformed request body
+          description: Business error
           content:
             '*/*':
               schema:
@@ -404,7 +404,7 @@ paths:
       operationId: getTotalEventsCount
       responses:
         "400":
-          description: Malformed request body
+          description: Business error
           content:
             '*/*':
               schema:
@@ -552,7 +552,7 @@ paths:
         example: desc
       responses:
         "400":
-          description: Malformed request body
+          description: Business error
           content:
             '*/*':
               schema:
@@ -714,6 +714,11 @@ components:
           type: boolean
         last:
           type: boolean
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        numberOfElements:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -725,39 +730,34 @@ components:
           format: int32
         sort:
           $ref: "#/components/schemas/SortObject"
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
-        numberOfElements:
-          type: integer
-          format: int32
         empty:
           type: boolean
     PageableObject:
       type: object
       properties:
+        pageSize:
+          type: integer
+          format: int32
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
         offset:
           type: integer
           format: int64
         sort:
           $ref: "#/components/schemas/SortObject"
-        pageNumber:
-          type: integer
-          format: int32
-        pageSize:
-          type: integer
-          format: int32
-        unpaged:
-          type: boolean
-        paged:
-          type: boolean
     SortObject:
       type: object
       properties:
-        empty:
+        unsorted:
           type: boolean
         sorted:
           type: boolean
-        unsorted:
+        empty:
           type: boolean
     ProcessEventEntry:
       type: object
@@ -847,6 +847,11 @@ components:
           type: boolean
         last:
           type: boolean
+        pageable:
+          $ref: "#/components/schemas/PageableObject"
+        numberOfElements:
+          type: integer
+          format: int32
         size:
           type: integer
           format: int32
@@ -859,10 +864,5 @@ components:
           format: int32
         sort:
           $ref: "#/components/schemas/SortObject"
-        pageable:
-          $ref: "#/components/schemas/PageableObject"
-        numberOfElements:
-          type: integer
-          format: int32
         empty:
           type: boolean

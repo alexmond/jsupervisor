@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
  */
 @Data
 @SuperBuilder
+@lombok.NoArgsConstructor
 public class BaseModel {
     /**
      * The title displayed in the UI, e.g., "Process Details"

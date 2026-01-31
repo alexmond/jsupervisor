@@ -1,0 +1,2 @@
+2025-12-12T15:55:09.469-05:00  INFO 96483 --- [testapp1] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-12T15:55:11.548-05:00  INFO 96483 --- [testapp1] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete

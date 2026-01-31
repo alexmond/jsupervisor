@@ -6,8 +6,9 @@
             <h1 class="mb-4" th:text="${pageModel.title}">Process Details</h1>
 
             <div class="mb-3">
-                <a class="btn btn-secondary" href="/">
-                    <i class="fas fa-arrow-left"></i> Back to Processes
+                <a class="btn btn-secondary" th:href="${pageModel.backUrl}">
+                    <i class="fas fa-arrow-left"></i>
+                    <span th:text="${pageModel.backUrl == '/group/list' ? 'Back to Groups' : 'Back to Processes'}">Back to Processes</span>
                 </a>
                 <!--                    <a th:href="@{/edit/{name}(name=${pageModel.proc.name})}" class="btn btn-warning">-->
                 <!--                        <i class="fas fa-edit"></i> Edit Process Configuration-->
@@ -89,10 +90,8 @@
         </div>
     </div>
 </div>
-</div>
 
 <th:block th:fragment="scripts">
     <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 </th:block>
-</body>
 </html>

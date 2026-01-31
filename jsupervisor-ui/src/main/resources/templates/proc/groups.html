@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4" th:text="${pageModel.title}">Process Groups</h1>
+
+            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${successMessage != null}">
+                <i class="fas fa-check-circle"></i> <span th:text="${successMessage}"></span>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
+            </div>
+
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${errorMessage != null}">
+                <i class="fas fa-exclamation-circle"></i> <span th:text="${errorMessage}"></span>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="alert" type="button"></button>
+            </div>
+
+            <div class="mb-3">
+                <button class="btn btn-outline-primary" onclick="location.reload()">
+                    <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                </button>
+                <a class="btn btn-success" href="/group/start-all">
+                    Start All Processes
+                </a>
+                <a class="btn btn-danger" href="/group/stop-all">
+                    Stop All Processes
+                </a>
+                <a class="btn btn-danger" href="/group/restart-all">
+                    Restart All Processes
+                </a>
+            </div>
+
+            <div class="accordion" id="groupsAccordion">
+                <div class="accordion-item mb-3 border rounded" th:each="entry, iterStat : ${pageModel.groups}">
+                    <h2 class="accordion-header" th:id="'heading' + ${iterStat.index}">
+                        <div class="d-flex align-items-center p-2">
+                            <button class="accordion-button collapsed flex-grow-1 border-0 shadow-none fw-bold" 
+                                    type="button" 
+                                    data-bs-toggle="collapse" 
+                                    th:data-bs-target="'#collapse' + ${iterStat.index}" 
+                                    aria-expanded="false" 
+                                    th:aria-controls="'collapse' + ${iterStat.index}">
+                                <span th:text="${entry.key}">Group Name</span>
+                                <span class="badge bg-secondary ms-2" th:text="${#lists.size(entry.value)}">0</span>
+                            </button>
+                            <div class="me-3 d-flex gap-1">
+                                <a class="btn btn-success btn-sm text-nowrap" th:href="@{/group/start/{name}(name=${entry.key})}">Start Group</a>
+                                <a class="btn btn-danger btn-sm text-nowrap" th:href="@{/group/stop/{name}(name=${entry.key})}">Stop Group</a>
+                                <a class="btn btn-danger btn-sm text-nowrap" th:href="@{/group/restart/{name}(name=${entry.key})}">Restart Group</a>
+                            </div>
+                        </div>
+                    </h2>
+                    <div th:id="'collapse' + ${iterStat.index}" 
+                         class="accordion-collapse collapse" 
+                         th:aria-labelledby="'heading' + ${iterStat.index}" 
+                         data-bs-parent="#groupsAccordion">
+                        <div class="accordion-body p-0">
+                            <table class="table table-striped mb-0">
+                                <thead>
+                                <tr>
+                                    <th class="ps-3">Name</th>
+                                    <th>Status</th>
+                                    <th>URL</th>
+                                    <th>Process ID</th>
+                                    <th>Up time</th>
+                                    <th>Exit code</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="pr : ${entry.value}">
+                                    <td class="ps-3" th:text="${pr.name}">WEB-TEST</td>
+                                    <td>
+                                        <span class="badge"
+                                              th:classappend="${@uiconfig.uiStatusClass.get(pr.status)}"
+                                              th:text="${pr.status}">WEB-TEST</span>
+                                    </td>
+                                    <td>
+                                        <a target="_blank"
+                                           th:href="${pr.getProcessConfig().getUrl()}"
+                                           th:if="${!#strings.isEmpty(pr.getProcessConfig().getUrl())}"
+                                           th:text="${pr.getProcessConfig().getUrl()}">WEB-TEST</a>
+                                        <span th:if="${#strings.isEmpty(pr.getProcessConfig().getUrl())}">-</span>
+                                    </td>
+                                    <td th:text="${pr.pid}">WEB-TEST</td>
+                                    <td th:text="${pr.processUptime}">WEB-TEST</td>
+                                    <td th:text="${pr.exitCode}">WEB-TEST</td>
+                                    <td>
+                                        <a class="btn btn-success btn-sm" th:href="@{/start/{id}(id=${pr.name})}"
+                                           th:unless="${pr.isAlive()}">Start</a>
+                                        <a class="btn btn-danger btn-sm" th:href="@{/stop/{id}(id=${pr.name})}"
+                                           th:if="${pr.isAlive()}">Stop</a>
+                                        <a class="btn btn-danger btn-sm" th:href="@{/restart/{id}(id=${pr.name})}"
+                                           th:if="${pr.isAlive()}">Restart</a>
+                                        <a class="btn btn-primary btn-sm" th:href="@{/log/{id}(id=${pr.name})}">Log</a>
+                                        <a class="btn btn-primary btn-sm"
+                                           th:href="@{/details/{id}(id=${pr.name})}">Details</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-info mt-3" th:if="${#maps.isEmpty(pageModel.groups)}">
+                <i class="fas fa-info-circle"></i> No process groups found.
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:fragment="scripts">
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+</th:block>
+</body>
+</html>

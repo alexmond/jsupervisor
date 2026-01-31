@@ -1,0 +1,6 @@
+jsupervisor:
+  process:
+    myapp:
+      command: "echo hello"
+    anotherapp:
+      command: "echo world"

@@ -15,9 +15,11 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
+@lombok.NoArgsConstructor
 public class ProcessDetailPageModel extends BaseModel {
     Map<String, Object> processConfig;
     Map<String, Object> process;
+    private String backUrl;
     /**
      * Process status information containing details about the managed process,
      * including its current state and runtime information.

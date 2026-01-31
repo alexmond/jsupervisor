@@ -1,13 +1,30 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-dark" th:fragment="navbar">
-    <a class="navbar-brand" href="/">
-        <i class="bi bi-gear-wide-connected"></i> JSuprvisor
-    </a>
-    <div class="navbar-nav">
-        <a class="nav-item nav-link"
-           href="/"
-           th:classappend="${pageModel.activePage == 'processes'} ? 'active' : ''">Processes</a>
-        <a class="nav-item nav-link"
-           href="/events"
-           th:classappend="${pageModel.activePage == 'events'} ? 'active' : ''">Events</a>
+<nav class="navbar navbar-expand-sm border-bottom mb-3" th:fragment="navbar">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <i class="bi bi-gear-wide-connected"></i> JSuprvisor
+        </a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="navbar-nav me-auto">
+                <a class="nav-item nav-link"
+                   href="/"
+                   th:classappend="${pageModel.activePage == 'processes'} ? 'active' : ''">Processes</a>
+                <a class="nav-item nav-link"
+                   href="/group/list"
+                   th:classappend="${pageModel.activePage == 'groups'} ? 'active' : ''">Groups</a>
+                <a class="nav-item nav-link"
+                   href="/events"
+                   th:classappend="${pageModel.activePage == 'events'} ? 'active' : ''">Events</a>
+            </div>
+            <div class="navbar-nav">
+                <div class="nav-item">
+                    <div class="form-check form-switch mt-2">
+                        <input class="form-check-input" type="checkbox" id="themeSwitch" style="cursor: pointer;">
+                        <label class="form-check-label text-secondary" for="themeSwitch">
+                            <i class="bi bi-sun-fill" id="themeIcon"></i>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </nav>
