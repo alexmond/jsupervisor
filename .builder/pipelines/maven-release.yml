@@ -1,0 +1,42 @@
+name: Maven Release
+
+on: [manual]
+
+inputs:
+  releaseVersion:
+    type: string
+    description: "Release version"
+    required: true
+  nextVersion:
+    type: string
+    description: "Next development version (with -SNAPSHOT suffix)"
+    required: true
+
+jobs:
+  release:
+    image: maven:3.9-eclipse-temurin-21
+    cache:
+      key: m2-jsupervisor
+      paths: [.m2/repository]
+    secrets: [OSSRH_USERNAME, OSSRH_PASSWORD, GPG_PRIVATE_KEY, GPG_PASSPHRASE]
+    steps:
+      - name: Checkout
+        run: git clone https://github.com/alexmond/jsupervisor.git .
+      - name: Configure Git User
+        run: |
+          git config user.name "Builder CI"
+          git config user.email "ci@example.com"
+      - name: Prepare release
+        run: |
+          mvn versions:set -DnewVersion=$releaseVersion -Pdefault --no-transfer-progress -Dmaven.repo.local=.m2/repository
+          git commit -am "Prepare release $releaseVersion"
+          git tag -a "$releaseVersion" -m "Release $releaseVersion"
+      - name: Deploy to Maven Central
+        run: |
+          mkdir -p ~/.m2
+          cp .github/settings.xml ~/.m2/settings.xml
+          mvn --batch-mode -Dgpg.passphrase="$GPG_PASSPHRASE" clean deploy -Prelease --no-transfer-progress -Dmaven.repo.local=.m2/repository
+      - name: Prepare next development version
+        run: |
+          mvn versions:set -DnewVersion=$nextVersion -Pdefault --no-transfer-progress -Dmaven.repo.local=.m2/repository
+          git commit -am "Prepare for next development iteration: $nextVersion"
