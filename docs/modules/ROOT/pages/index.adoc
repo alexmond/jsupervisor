@@ -1,5 +1,5 @@
 = JSupervisor Documentation
-:description: Process management and supervision system documentation for monitoring and controlling applications
+:description: A Spring Boot port of supervisord for the JVM — supervise and control long-running processes with a web UI, REST API, and CLI.
 :keywords: process management, supervision, monitoring, control, JSupervisor, Java
 :author: Alex Mondshain
 :email: alex.mondshain@gmail.com
