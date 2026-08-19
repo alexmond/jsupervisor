@@ -6,8 +6,11 @@ image:https://img.shields.io/badge/License-Apache%202.0-blue.svg[License,link=LI
 image:https://img.shields.io/github/actions/workflow/status/alexmond/jsupervisor/maven.yml[Build Status,link=https://github.com/alexmond/jsupervisor/actions]
 image:https://img.shields.io/badge/Java-17%2B-blue.svg[Java 17+,link=https://openjdk.org/]
 image:https://codecov.io/gh/alexmond/jsupervisor/graph/badge.svg?token=NTBMWTYIBU[Code Coverage,link=https://codecov.io/gh/alexmond/jsupervisor]
+image:https://img.shields.io/badge/docs-alexmond.org-blue[Documentation,link=https://www.alexmond.org/jsupervisor/current/]
 
 A Spring Boot implementation of a process supervisor system that allows monitoring and managing multiple processes in a Java environment.
+
+📖 *Documentation:* https://www.alexmond.org/jsupervisor/current/
 
 == Overview
 
